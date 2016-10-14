@@ -1,5 +1,5 @@
 name: Computer_Science_Project
-description:
+description: Rory Claasen's A Level Computer Science project.
 version: 0.0.1
 homepage: https://github.com/GOGO98901/computing-project
 environment:
@@ -10,9 +10,12 @@ dependencies:
   dart_to_js_script_rewriter: "^1.0.1"
   browser: any
   yaml: any
+  sass: any
 
 transformers:
 - dart_to_js_script_rewriter
 - $dart2js:
     minify: true
     commandLineOptions: [--enable-experimental-mirrors]
+- sass:
+   style: compressed
