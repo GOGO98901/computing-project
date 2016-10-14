@@ -8,25 +8,48 @@
 
 	<title>Computer Science Project by Rory Claasen</title>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="scss/style.min.css">
 </head>
 <body>
-	<header>
-		<div class="container">
-			<span class="title">Prototype</span>
-			<span class="title sub">By Rory Claasen</span>
-			<ul>
-				<li><a href="https://github.com/GOGO98901/computing-project">Source Code</a></li>
-				<li><a href="https://github.com/GOGO98901/computing-project#readme">Readme</a></li>
-			</ul>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand">Prototype</a>
+			</div>
+
+			<div class="collapse navbar-collapse navbar-right" id="navbar">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">Mannage users</a></li>
+							<li><a href="#">Class Progress</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="https://github.com/GOGO98901/computing-project">Source Code on Github</a></li>
+				</ul>
+			</div>
 		</div>
-	</header>
-	<canvas id="gameContainer">
-	</canvas>
+	</nav>
+	<div class="container">
+		<canvas id="gameContainer">
+		</canvas>
+	</div>
 </body>
 <script type="application/dart" src="script/dart/app.dart"></script>
 </html>

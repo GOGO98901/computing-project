@@ -1,0 +1,12 @@
+nav.navbar {
+	width: 100%;
+	margin: auto;
+	@include MQ(L) {
+		width: 1170px;
+		margin-top: 1.5em;
+	}
+	@include MQ(M) {
+		width: 970px;
+		margin-top: 1.5em;
+	}
+}
