@@ -1,6 +1,6 @@
-$S:     768px;
-$M:     992px;
-$L:     1200px;
+$S: $screen-lg;
+$M: $screen-md-min;
+$L: $screen-lg-min;
 
 @mixin MQ($canvas) {
 	@if $canvas == S {
