@@ -5,7 +5,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |:----:|:---------:|:---:|:------:|
 |To be determined|[Godalming College](http://godalming.ac.uk/)|2016-2017|[dart](https://www.dartlang.org/)|
 
-## Licences
+## Licenses
 
 ##### Source Code
 ```
