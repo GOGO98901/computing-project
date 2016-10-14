@@ -35,7 +35,7 @@
 							<li><a href="#">Mannage users</a></li>
 							<li><a href="#">Class Progress</a></li>
 							<li class="divider"></li>
-							<li><a href="#">Help</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#modelHelp">Help</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -45,6 +45,26 @@
 			</div>
 		</div>
 	</nav>
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelHelp" id="modelHelp">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Help</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<h4>Somethings Wrong</h4>
+						I am very sorry that there are problems<br>
+						Please let me know what is wrong via the <a href="">github issue tracker</a>, or send an email to <a href="mailto:help@roryclaasen.me">help@roryclaasen.me</a>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container content">
 		<canvas id="gameContainer">
 		</canvas>
