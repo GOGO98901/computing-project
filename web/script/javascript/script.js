@@ -13,12 +13,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-$(document).ready(function() {
-	var p = new Ping();
-	p.ping("http://database.roryclaasen.me", function(data) {
-		document.getElementById("server-ping").innerHTML = data;
+$(window).ready(function() {
+	setTimeout(function() {
+
+		$.get('//database.roryclaasen.me/ping', function() {
+			$('#server-ping').addClass('green');
+			setTimeout(function() {
+				$('#server-ping').slideUp('slow');
+			}, 1000);
+		}).fail(function() {
+			$('#server-ping').addClass('red');
+			setTimeout(function() {
+				$('#server-ping').slideUp('slow');
+			}, 1000);
+		});
 	}, 1000);
 });
+
 $(window).bind('scroll', function () {
 	if ($(window).scrollTop() > 24) {
 		$('#navigation').addClass('fixed');
