@@ -14,21 +14,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 $(window).ready(function() {
-	setTimeout(function() {
+	pingDatabase();
+});
 
-		$.get('//database.roryclaasen.me/ping', function() {
-			$('#server-ping').addClass('green');
-			setTimeout(function() {
-				$('#server-ping').slideUp('slow');
-			}, 1000);
-		}).fail(function() {
-			$('#server-ping').addClass('red');
-			setTimeout(function() {
-				$('#server-ping').slideUp('slow');
-			}, 1000);
+function pingDatabase() {
+	$('#server-ping').removeClass('green');
+	$('#server-ping').removeClass('red');
+	$('#server-ping').slideDown();
+	setTimeout(function() {
+		console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
+		$.ajax({
+			url: "http://database.roryclaasen.me/ping",
+			dataType: "jsonp",
+			statusCode: {
+				200: function (response) {
+					console.log("[JAVASCRIPT] Server pong received")
+					$('#server-ping').addClass('green');
+					setTimeout(function() {
+						$('#server-ping').slideUp('slow');
+					}, 1000);
+				},
+				404: function (response) {
+					console.log("[JAVASCRIPT] Server pong NOT received")
+					$('#server-ping').addClass('red');
+					setTimeout(function() {
+						$('#server-ping').slideUp('slow');
+					}, 1000);
+				}
+			}
 		});
 	}, 1000);
-});
+}
 
 $(window).bind('scroll', function () {
 	if ($(window).scrollTop() > 24) {

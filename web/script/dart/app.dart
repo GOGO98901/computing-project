@@ -38,7 +38,7 @@ void main() {
 void _init() {
 	Logger.root.level = Level.ALL;
 	Logger.root.onRecord.listen((LogRecord rec) {
-		print('[${rec.time}] ${rec.level.name}: ${rec.message}');
+		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
 	_canvas = querySelector('#game-canvas');
 	if (_canvas != null) log.info("Found canvas node");
