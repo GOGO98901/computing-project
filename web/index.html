@@ -34,29 +34,75 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Mannage users</a></li>
 							<li><a href="#">Class Progress</a></li>
-							<li class="divider"></li>
-							<li><a href="#" data-toggle="modal" data-target="#modelHelp">Help</a></li>
 						</ul>
 					</li>
-				</ul>
-				<ul class="nav navbar-nav">
-					<li><a href="https://github.com/GOGO98901/computing-project">Source Code on Github</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" data-toggle="modal" data-target="#modelFAQ">FAQ</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#modelIssue">Report an issue</a></li>
+							<li class="divider"></li>
+							<li><a href="#" data-toggle="modal" data-target="#modelAbout">About</a></li>
+							<li><a href="https://github.com/GOGO98901/computing-project">Source Code</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelHelp" id="modelHelp">
+	<!-- START OF MODELS -->
+	<!-- Frequently Asked Questions -->
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelFAQ" id="modelFAQ">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Help</h4>
+					<h4 class="modal-title">Frequently Asked Questions</h4>
 				</div>
 				<div class="modal-body">
 					<p>
-						<h4>Somethings Wrong</h4>
+						PLACEHOLDER
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Report an Issue -->
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelIssue" id="modelIssue">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Report an issue</h4>
+				</div>
+				<div class="modal-body">
+					<p>
 						I am very sorry that there are problems<br>
-						Please let me know what is wrong via the <a href="">github issue tracker</a>, or send an email to <a href="mailto:help@roryclaasen.me">help@roryclaasen.me</a>
+						Please let me know what is wrong via the <a href="https://github.com/GOGO98901/computing-project/issues">github issue tracker</a>, or send an email to <a href="mailto:help@roryclaasen.me">help@roryclaasen.me</a>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- About -->
+	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelAbout" id="modelAbout">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">About</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						This game is my project for my <a href="https://en.wikipedia.org/wiki/GCE_Advanced_Level_(United_Kingdom)">A Level</a> <a href="http://www.aqa.org.uk/subjects/computer-science-and-it/as-and-a-level">Computer science</a> project.
+						<br>
+						PLACEHOLDER
 					</p>
 				</div>
 				<div class="modal-footer">
