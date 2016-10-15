@@ -15,13 +15,32 @@ limitations under the License.
 */
 library Computer_Science_Project;
 
-// import 'dart:html';
+import 'dart:html';
 // import 'package:yaml/yaml.dart';
-// import 'dart:async';
+import 'dart:async';
 // import 'dart:math';
 // import 'dart:collection';
+import 'package:logging/logging.dart';
 // import 'package:json_object/json_object.dart';
 
-void main() {
+part 'game.dart';
 
+final Logger log = new Logger('prototype');
+
+CanvasElement _canvas;
+
+void main() {
+	_init();
+	_canvas.focus();
+	scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
+}
+
+void _init() {
+	Logger.root.level = Level.ALL;
+	Logger.root.onRecord.listen((LogRecord rec) {
+		print('[${rec.time}] ${rec.level.name}: ${rec.message}');
+	});
+	_canvas = querySelector('#game-canvas');
+	if (_canvas != null) log.info("Found canvas node");
+	else log.severe("DID NOT FIND CANVAS NODE!");
 }
