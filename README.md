@@ -5,6 +5,11 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |:----:|:---------:|:---:|:------:|
 |To be determined|[Godalming College](http://godalming.ac.uk/)|2016-2017|[dart](https://www.dartlang.org/)|
 
+|branch|status|
+|:----:|:----:|
+|prototype|[![Build Status](https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype)](https://travis-ci.org/GOGO98901/computing-project)|
+|project|**N/A**|
+|gh-pages|building from prototype|
 ## Licenses
 
 ##### Source Code
