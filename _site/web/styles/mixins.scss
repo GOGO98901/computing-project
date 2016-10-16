@@ -1,0 +1,21 @@
+$S: $screen-lg;
+$M: $screen-md-min;
+$L: $screen-lg-min;
+
+@mixin MQ($canvas) {
+	@if $canvas == S {
+		@media only screen and (min-width: $S) { @content; }
+	}
+	@else if $canvas == M {
+		@media only screen and (min-width: $M) { @content; }
+	}
+	@else if $canvas == L {
+		@media only screen and (min-width: $L) { @content; }
+	}
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+	-webkit-box-shadow:$top $left $blur $color #{$inset};
+	-moz-box-shadow:$top $left $blur $color #{$inset};
+	box-shadow:$top $left $blur $color #{$inset};
+}
