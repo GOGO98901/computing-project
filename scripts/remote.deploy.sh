@@ -4,6 +4,9 @@ set -o errexit
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 
+cp README.md build/web
+cp LICENSE build/web/license.txt
+
 cd build/web
 git init
 git add --a
