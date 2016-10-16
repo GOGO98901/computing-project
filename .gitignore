@@ -1,6 +1,7 @@
 _site/
 **/.sass-cache/
 **/.jekyll-metadata
+.atom/
 
 # See https://www.dartlang.org/tools/private-files.html
 

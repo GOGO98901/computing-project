@@ -13,35 +13,31 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-library Computer_Science_Project;
+library Computer_Science_Project_database;
 
-import 'dart:html';
-// import 'package:yaml/yaml.dart';
-import 'dart:async';
-// import 'dart:math';
-// import 'dart:collection';
 import 'package:logging/logging.dart';
-// import 'package:json_object/json_object.dart';
-import 'database.dart';
-
-part 'game.dart';
 
 final Logger log = new Logger('prototype');
 
-CanvasElement _canvas;
-
 void main() {
-	_init();
-	_canvas.focus();
-	scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
-}
-
-void _init() {
 	Logger.root.level = Level.ALL;
 	Logger.root.onRecord.listen((LogRecord rec) {
 		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
-	_canvas = querySelector('#game-canvas');
-	if (_canvas != null) log.info("Found canvas node");
-	else log.severe("DID NOT FIND CANVAS NODE!");
+	log.info('Connecting to database via ' + Uri.base.toString());
+}
+
+class DataBaseConnection {
+	final String server;
+	DataBaseConnection(this.server) {
+
+	}
+
+	void addUser(String name) {
+
+	}
+
+	void removeUser(String name) {
+
+	}
 }
