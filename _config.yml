@@ -4,8 +4,8 @@ description: A level computer science project
 url: "http://roryclaasen.me/computing-project"
 
 compress_html:
-  clippings: all
   comments: ["<!-- ", " -->"]
+  clippings: all
 
 sass:
    sass_dir: web/styles
@@ -13,4 +13,4 @@ sass:
 
 # Making _site only have what is needed
 include: ['web', 'pubspec.yaml', 'LICENSE', 'README.md']
-exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor']
+exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor', 'packages']

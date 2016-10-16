@@ -126,6 +126,48 @@ nav#navigation {
 		min-width: $screen-md-min;
 		background-color: $gray;
 	}
+	.user-cards {
+		list-style: none;
+		text-align: center;
+		.card {
+			$size: ($screen-xs * 0.75);
+			$border: solid 1px $gray-dark;
+
+			display: inline-block;
+			width: $size;
+			border: $border;
+			margin: 1em;
+			border-radius: 5px;
+			@include box-shadow(0px, 0px, 30px, rgba($gray-dark, 0.5));
+			div {
+				width: 100%;
+				display: inline-block;
+				color: rgba($gray-dark, 0.5);
+				&.card-icon {
+					height: ($size * 0.85);
+					font-size: 11em;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				&.card-link {
+					padding: 15px;
+					border-top: $border;
+					text-align: right;
+				}
+				* {
+					margin: auto;
+					text-align: center;
+				}
+			}
+			&:hover {
+				@include box-shadow(0px, 0px, 40px, rgba($gray-dark, 0.6));
+				div {
+					color: rgba($gray-dark, 0.9);
+				}
+			}
+		}
+	}
 }
 
 $base-line-height: 20px;
