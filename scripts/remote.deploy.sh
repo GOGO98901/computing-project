@@ -4,10 +4,10 @@ set -o errexit
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
 
-cp README.md build/web
-cp LICENSE build/web/license.txt
+cp README.md build/_site/web
+cp LICENSE build/_site/web/license.txt
 
-cd build/web
+cd build/_site/web
 git init
 git add --a
 git commit -m "Deploy to Github Pages"
