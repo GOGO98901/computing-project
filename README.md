@@ -53,7 +53,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
-#### js-cookie `web/script/javascript/js.cookie.js`
+#### [js-cookie](https://github.com/js-cookie/) `web/script/javascript/js.cookie.js`
 ```
 Copyright 2014 Klaus Hartl
 
