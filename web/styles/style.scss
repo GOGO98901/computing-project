@@ -70,7 +70,7 @@ nav#navigation {
 	bottom: 0;
 	width: 100vw;
 	.pinger {
-		height: 40px;
+		height: 50px;
 		width: ($screen-xs / 2);
 		margin:auto;
 		background-color: $body-bg;
@@ -100,9 +100,11 @@ nav#navigation {
 		}
 		&.red {
 			border-color: $brand-danger;
+			color: $brand-danger;
 		}
 		&.green {
 			border-color: $brand-success;
+			color: $brand-success;
 		}
 	}
 }

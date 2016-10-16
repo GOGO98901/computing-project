@@ -13,37 +13,47 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-$(window).ready(function() {
+$(document).ready(function() {
+	console.log(Cookies.get('database-ping'));
 	pingDatabase();
 });
 
+function pingDatabaseForce() {
+	Cookies.remove('database-ping');
+	pingDatabase();
+}
 function pingDatabase() {
-	$('#server-ping').removeClass('green');
-	$('#server-ping').removeClass('red');
-	$('#server-ping').slideDown();
-	setTimeout(function() {
-		console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
-		$.ajax({
-			url: "http://database.roryclaasen.me/ping",
-			dataType: "jsonp",
-			statusCode: {
-				200: function (response) {
-					console.log("[JAVASCRIPT] Server pong received")
-					$('#server-ping').addClass('green');
-					setTimeout(function() {
-						$('#server-ping').slideUp('slow');
-					}, 1000);
-				},
-				404: function (response) {
-					console.log("[JAVASCRIPT] Server pong NOT received")
-					$('#server-ping').addClass('red');
-					setTimeout(function() {
-						$('#server-ping').slideUp('slow');
-					}, 1000);
+	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false') {
+		$('#server-ping').removeClass('green');
+		$('#server-ping').removeClass('red');
+		$('#server-ping').slideDown();
+		setTimeout(function() {
+			console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
+			Cookies.set('database-ping', 'sent', { expires: 1 });
+			$.ajax({
+				url: "http://database.roryclaasen.me/ping",
+				dataType: "jsonp",
+				statusCode: {
+					200: function (response) {
+						Cookies.set('database-ping', 'true', { expires: 1 });
+						console.log("[JAVASCRIPT] Server pong received")
+						$('#server-ping').addClass('green');
+						setTimeout(function() {
+							$('#server-ping').slideUp('slow');
+						}, 1000);
+					},
+					404: function (response) {
+						Cookies.set('database-ping', 'false', { expires: 1 });
+						console.log("[JAVASCRIPT] Server pong NOT received")
+						$('#server-ping').addClass('red');
+						setTimeout(function() {
+							$('#server-ping').slideUp('slow');
+						}, 1000);
+					}
 				}
-			}
-		});
-	}, 1000);
+			});
+		}, 1000);
+	}
 }
 
 $(window).bind('scroll', function () {
