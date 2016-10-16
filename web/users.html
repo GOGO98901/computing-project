@@ -2,6 +2,7 @@
 layout: default
 title: Manage Users
 ---
+{% include userModals.html %}
 <div class="container content">
 	<ul class="user-cards">
 		<li class="card">
@@ -9,7 +10,7 @@ title: Manage Users
 				<i class="fa fa-user-plus" aria-hidden="true"></i>
 			</div>
 			<div class="card-link">
-				<button type="button" class="btn btn-primary">Add user</button>
+				<button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modelUserAdd">Add Student</button>
 			</div>
 		</li>
 		<li class="card">
@@ -17,7 +18,7 @@ title: Manage Users
 				<i class="fa fa-user" aria-hidden="true"></i>
 			</div>
 			<div class="card-link">
-				<button type="button" class="btn btn-primary">View user</button>
+				<button type="button" class="btn btn-primary">View Student</button>
 			</div>
 		</li>
 		<li class="card">
@@ -25,7 +26,7 @@ title: Manage Users
 				<i class="fa fa-user-times" aria-hidden="true"></i>
 			</div>
 			<div class="card-link">
-				<button type="button" class="btn btn-primary">Remove user</button>
+				<button type="button" class="btn btn-primary">Remove Student</button>
 			</div>
 		</li>
 	</ul>
