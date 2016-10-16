@@ -129,23 +129,24 @@ nav#navigation {
 	.user-cards {
 		list-style: none;
 		text-align: center;
+		padding: 0;
 		.card {
 			$size: ($screen-xs * 0.75);
 			$border: solid 1px $gray-dark;
 
 			display: inline-block;
-			width: $size;
+			width: 90%;
 			border: $border;
 			margin: 1em;
-			border-radius: 5px;
+			border-radius: 7px;
 			@include box-shadow(0px, 0px, 30px, rgba($gray-dark, 0.5));
 			div {
 				width: 100%;
 				display: inline-block;
 				color: rgba($gray-dark, 0.5);
 				&.card-icon {
-					height: ($size * 0.85);
-					font-size: 11em;
+					height: ($size * 0.5);
+					font-size: 5em;
 					display: flex;
 					justify-content: center;
 					align-items: center;
@@ -164,6 +165,13 @@ nav#navigation {
 				@include box-shadow(0px, 0px, 40px, rgba($gray-dark, 0.6));
 				div {
 					color: rgba($gray-dark, 0.9);
+				}
+			}
+			@include MQ(M) {
+				width: $size;
+				div.card-icon {
+					height: ($size * 0.85);
+					font-size: 11em;
 				}
 			}
 		}
