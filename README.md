@@ -12,7 +12,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |gh-pages|building from prototype|
 ## Licenses
 
-##### Source Code
+##### [Source Code](https://github.com/GOGO98901/computing-project/) `./`
 ```
 Copyright 2016 Rory Claasen
 
