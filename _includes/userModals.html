@@ -9,12 +9,17 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label class="control-label" for="inputDefault">Student Name</label>
-					<input type="text" class="form-control" id="inputDefault">
+					<input type="text" class="form-control" id="userName">
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-success" data-dismiss="modal">Add Student</button>
+				<div id="stage-start">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-success" id="addStudent">Add Student</button>
+				</div>
+				<div id="stage-end" style="display:none;">
+					<button type="button" class="btn btn-success" id="addStudent" data-dismiss="modal">Okay Close</button>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -29,6 +29,7 @@ part 'game.dart';
 final Logger log = new Logger('prototype');
 
 CanvasElement _canvas;
+DataBaseConnection _dbConnect;
 
 void main() {
 	_init();
@@ -44,4 +45,5 @@ void _init() {
 	_canvas = querySelector('#game-canvas');
 	if (_canvas != null) log.info("Found canvas node");
 	else log.severe("DID NOT FIND CANVAS NODE!");
+	_dbConnect = new DataBaseConnection();
 }
