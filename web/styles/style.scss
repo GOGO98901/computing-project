@@ -33,7 +33,18 @@ html, body {
 	color: $text-color;
 	font-size: $font-size-base;
 }
-
+body.modal-open {
+	nav#navigation.fixed {
+		@include MQ(L) {
+			$width: $screen-lg-min - 17px;
+			margin-right: calc(#{-$width} / 2);
+		}
+		@include MQ(M) {
+			$width: $screen-md-min - 17px;
+			margin-right: calc(#{-$width} / 2);
+		}
+	}
+}
 nav#navigation {
 	width: 100%;
 	margin: auto;
