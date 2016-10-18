@@ -54,6 +54,9 @@ nav#navigation {
 	a {
 		text-decoration: none;
 	}
+	.navbar-brand {
+		cursor: default;
+	}
 	&.fixed {
 		position: fixed;
 		border-top-left-radius: 0;
