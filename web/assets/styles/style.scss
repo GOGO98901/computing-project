@@ -192,6 +192,13 @@ nav#navigation {
 	}
 }
 
+.modal-content {
+	.panel {
+		margin: 0 20px;
+		margin-bottom: 20px;
+	}
+}
+
 $base-line-height: 20px;
 $loading-color: $text-color;
 $off-loading-color: rgba($loading-color, 0.2);

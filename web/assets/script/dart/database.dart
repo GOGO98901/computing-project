@@ -30,9 +30,27 @@ void main() {
 	});
 	DataBaseConnection db = new DataBaseConnection();
 	querySelector('#addStudent').onClick.listen((event) {
-		db.addUser('testing6').then((json) {
-			//TODO Show message
-		});
+		String name = (querySelector('#userAddName') as InputElement).value;
+		if (name.length > 0)	{
+			db.addUser(name).then((json) {
+				querySelector('#userAddName').attributes['disabled'] = "";
+				querySelector('#stage-start').style.display = "none";
+				querySelector('#stage-end').style.display = "inline";
+				querySelector('#userAddReturnCode').text = json.token;
+			});
+		} else {
+			querySelector('#userAddForm').classes.add('has-error');
+		}
+	});
+	querySelector('#userAddName').onInput.listen((event) {
+		querySelector('#userAddForm').classes.remove('has-error');
+	});
+	querySelector('#addStudentClose').onClick.listen((event) {
+		querySelector('#userAddName').attributes.remove('disabled');
+		querySelector('#stage-start').style.display = "inline";
+		querySelector('#stage-end').style.display = "none";
+		querySelector('#userAddReturnCode').text = "";
+		(querySelector('#userAddName') as InputElement).value = "";
 	});
 }
 
@@ -49,7 +67,10 @@ class DataBaseConnection {
 			String login = _randomLogin(id, 4);
 			log.info("New login token " + login);
 			_getQueryResult("INSERT INTO `cp_students`(`name`, `login`) VALUES ('${name}', '${login}')").then((json) {
-				log.info(json);
+				json.isExtendable = true;
+				json.name = name;
+				json.token = login;
+				json.isExtendable = false;
 				completer.complete(json);
 			});
 		});
@@ -62,12 +83,10 @@ class DataBaseConnection {
 
 	Future<int> _getNextId() {
 		Completer<int> completer = new Completer();
-		_getQueryResult("SELECT id FROM `cp_students` ORDER BY id DESC LIMIT 1").then((json) {
+		_getQueryResultAsQueryList("SHOW TABLE STATUS LIKE 'cp_students'").then((list) {
 			int id = 0;
 			try  {
-				List query = json.query;
-				log.info(query);
-				id = int.parse(query[0].id);
+				id = int.parse(list[0].Auto_increment);
 			} catch(error) {
 				log.warning(error);
 			}
@@ -87,20 +106,44 @@ class DataBaseConnection {
 		return new String.fromCharCodes(codeUnits) + id.toString();
 	}
 
-	Future<JsonObject> _getQueryResult(String query) {
+	Future<String> _getQueryResultAsString(String query) {
 		log.info('Sending query "' + query + '"');
 		String url = queryPage + "?sql=" + query;
-		Completer<JsonObject> completer = new Completer();
+		Completer<String> completer = new Completer();
 		HttpRequest req = new HttpRequest();
 		req.open("get", url);
 		req.onLoadEnd.first.then((e) {
 			if(req.status ~/ 100 == 2) {
-				completer.complete(new JsonObject.fromJsonString(req.response as String));
+				completer.complete(req.response as String);
 			} else {
-				completer.complete(new JsonObject.fromJsonString('{"error": "Can\'t load url ${url}. Response type ${req.status}"}'));
+				completer.complete('{"error": "Can\'t load url ${url}. Response type ${req.status}"}');
 			}
 		});
 		req.send("");
 		return completer.future;
+	}
+
+	Future<JsonObject> _getQueryResult(String query) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResultAsString(query).then((json) {
+			completer.complete(new JsonObject.fromJsonString(json));
+		});
+		return completer.future;
+	}
+
+	Future<JsonList> _getQueryResultAsQueryList(String query) {
+		Completer<JsonList> completer = new Completer();
+		_getQueryResult(query).then((json) {
+			completer.complete(new JsonList.fromString(json.query.toString()));
+		});
+		return completer.future;
+	}
+}
+
+class JsonList extends JsonObject implements List {
+	JsonList();
+
+	factory JsonList.fromString(String jsonString) {
+		return new JsonObject.fromJsonString(jsonString, new JsonList());
 	}
 }

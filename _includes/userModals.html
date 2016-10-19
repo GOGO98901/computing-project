@@ -7,20 +7,27 @@
 				<h4 class="modal-title">Add User</h4>
 			</div>
 			<div class="modal-body">
-				<div class="form-group">
+				<div class="form-group" id="userAddForm">
 					<label class="control-label" for="inputDefault">Student Name</label>
-					<input type="text" class="form-control" id="userName">
+					<input type="text" class="form-control" id="userAddName">
 				</div>
 			</div>
-			<div class="modal-footer">
-				<div id="stage-start">
+			<div id="stage-start">
+				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-success" id="addStudent">Add Student</button>
 				</div>
-				<div id="stage-end" style="display:none;">
-					<button type="button" class="btn btn-success" id="addStudent" data-dismiss="modal">Okay Close</button>
+			</div>
+			<div id="stage-end" style="display:none;">
+				<div class="panel panel-info">
+					<div class="panel-heading">Login Code</div>
+					<div class="panel-body" id="userAddReturnCode"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" id="addStudentClose" data-dismiss="modal">Okay Close</button>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
