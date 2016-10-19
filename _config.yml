@@ -2,6 +2,7 @@ title: Prototype
 email: help@roryclaasen.me
 description: A level computer science project
 url: "http://roryclaasen.me/computing-project"
+base_url: "/computing-project"
 
 compress_html:
   comments: ["<!-- ", " -->"]
