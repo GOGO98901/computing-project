@@ -9,7 +9,7 @@ compress_html:
   clippings: all
 
 sass:
-   sass_dir: web/styles
+   sass_dir: web/assets/styles
    style: :compressed
 
 # Making _site only have what is needed

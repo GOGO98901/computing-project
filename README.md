@@ -29,7 +29,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-##### [bootswatch](http://bootswatch.com) `web/styles/flatly/...`
+##### [bootswatch](http://bootswatch.com) `web/styles/_variables.scss`
 ```
 The MIT License (MIT)
 
