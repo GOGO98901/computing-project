@@ -26,13 +26,18 @@ class GameHost {
 		height = _canvas.height;
 	}
 
+	ImageElement logo;
+	bool loaded = false;
+
 	run() {
+		logo = new ImageElement(src: 'web/assets/images/project white.png');
+		logo.onLoad.listen((event) => loaded=true);
 		window.requestAnimationFrame(_gameLoop);
 	}
 
 	void _gameLoop(double _) {
 		_update(_getDelta());
-		// TODO CALL RENDER
+		_render(_context);
 		window.requestAnimationFrame(_gameLoop);
 	}
 
@@ -42,6 +47,17 @@ class GameHost {
 		if (_lastTimestamp != 0) elapsed = (time - _lastTimestamp) / 1000.0;
 		_lastTimestamp = time;
 		return elapsed;
+	}
+
+
+	void _render(CanvasRenderingContext2D context) {
+		if (loaded) {
+			context.drawImage(logo, 0, 0);
+			int w = logo.width;
+			if (logo.width < width * 0.75) w = (int) (width * 0.75);
+			if (logo.width < width * 0.75) w = (int) (width * 0.75);
+			context.drawImageScaled(logo, destX, destY, destWidth, destHeight);
+		}
 	}
 
 	void _update(final double elapsed) {}

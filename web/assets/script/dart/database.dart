@@ -20,6 +20,7 @@ import 'dart:math';
 import 'package:logging/logging.dart';
 import 'dart:async';
 import 'package:json_object/json_object.dart';
+import 'package:js/js.dart';
 
 final Logger log = new Logger('prototype');
 
@@ -29,6 +30,8 @@ void main() {
 		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
 	DataBaseConnection db = new DataBaseConnection();
+
+	// ADD USER
 	querySelector('#addStudent').onClick.listen((event) {
 		String name = (querySelector('#userAddName') as InputElement).value;
 		if (name.length > 0)	{
@@ -51,6 +54,40 @@ void main() {
 		querySelector('#stage-end').style.display = "none";
 		querySelector('#userAddReturnCode').text = "";
 		(querySelector('#userAddName') as InputElement).value = "";
+	});
+
+	// REMOVE USER
+	querySelector('#modelUserRemoveBtn').onClick.listen((event) {
+		db.getStudentList().then((list) {
+			SelectElement element = querySelector('#userRemoveSelect') as SelectElement;
+			element.attributes.remove('disabled');
+			element.children.clear();
+			OptionElement option = new OptionElement();
+			option.text = "Select a Student";
+			option.attributes['id'] = "-1";
+			element.children.add(option);
+			for (JsonObject json in list) {
+				OptionElement option = new OptionElement();
+				option.text = json.name + " (" + json.login + ")";
+				option.attributes['id'] = json.id;
+				option.attributes['name'] = json.name;
+				option.attributes['login'] = json.login;
+				element.children.add(option);
+			}
+		});
+	});
+
+	@JS("toggleModal")
+	external void toggleModal(id);
+
+	querySelector('#removeStudentWarning').onClick.listen((event){
+		SelectElement element = querySelector('#userRemoveSelect') as SelectElement;
+		if (element.selectedIndex > 0) {
+			toggleModal('#modelUserRemoveConfirm');
+		}
+	});
+	querySelector('#removeStudent').onClick.listen((event) {
+
 	});
 }
 
@@ -79,6 +116,19 @@ class DataBaseConnection {
 
 	void removeUser(String login) {
 		//TODO Remove user
+	}
+
+	Future<List> getStudentList() {
+		Completer<List> completer = new Completer();
+		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE 1").then((list) {
+			List<JsonObject> userList = new List<JsonObject>();
+			for(var iter = list.iterator; iter.moveNext();) {
+				JsonObject current = iter.current;
+				userList.add(current);
+			}
+			completer.complete(userList);
+		});
+		return completer.future;
 	}
 
 	Future<int> _getNextId() {

@@ -21,6 +21,7 @@ function pingDatabaseForce() {
 	Cookies.remove('database-ping');
 	pingDatabase();
 }
+
 function pingDatabase() {
 	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false') {
 		$('#server-ping').removeClass('green');
@@ -64,3 +65,7 @@ $(window).bind('scroll', function () {
 		$('div.content').removeClass('offset');
 	}
 });
+
+function toggleModal(modal) {
+	$(modal).modal('toggle');
+}

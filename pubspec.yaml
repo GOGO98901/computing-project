@@ -11,6 +11,7 @@ dependencies:
   browser: any
   yaml: any
   logging: any
+  js: ^0.6.0
 
 transformers:
 - dart_to_js_script_rewriter
