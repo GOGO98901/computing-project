@@ -77,13 +77,13 @@ void main() {
 		});
 	});
 
-	@JS("toggleModal")
-	external void toggleModal(id);
+	//@JS("toggleModal")
+	//external void toggleModal(id);
 
 	querySelector('#removeStudentWarning').onClick.listen((event){
 		SelectElement element = querySelector('#userRemoveSelect') as SelectElement;
 		if (element.selectedIndex > 0) {
-			toggleModal('#modelUserRemoveConfirm');
+			//toggleModal('#modelUserRemoveConfirm');
 		}
 	});
 	querySelector('#removeStudent').onClick.listen((event) {
