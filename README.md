@@ -29,7 +29,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-##### [bootswatch](http://bootswatch.com) `web/styles/_variables.scss`
+##### [bootswatch](http://bootswatch.com) `./web/styles/_variables.scss`
 ```
 The MIT License (MIT)
 
@@ -53,7 +53,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
-#### [js-cookie](https://github.com/js-cookie/) `web/script/javascript/js.cookie.js`
+#### [js-cookie](https://github.com/js-cookie/) `./web/script/javascript/js.cookie.js`
 ```
 Copyright 2014 Klaus Hartl
 
@@ -76,7 +76,7 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
-#### [compress](http://jch.penibelst.de/) `_layouts/compress.html`
+#### [compress](http://jch.penibelst.de/) `./_layouts/compress.html`
 ```
 The MIT License (MIT)
 
