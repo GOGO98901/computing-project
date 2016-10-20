@@ -19,8 +19,8 @@ import 'dart:html';
 import 'dart:math';
 import 'package:logging/logging.dart';
 import 'dart:async';
+import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
-import 'package:js/js.dart';
 
 final Logger log = new Logger('prototype');
 
@@ -77,17 +77,22 @@ void main() {
 		});
 	});
 
-	//@JS("toggleModal")
-	//external void toggleModal(id);
-
-	querySelector('#removeStudentWarning').onClick.listen((event){
-		SelectElement element = querySelector('#userRemoveSelect') as SelectElement;
-		if (element.selectedIndex > 0) {
-			//toggleModal('#modelUserRemoveConfirm');
+	SelectElement rmSelector = querySelector('#userRemoveSelect') as SelectElement;
+	querySelector('#removeStudentWarning').onClick.listen((event) {
+		if (rmSelector.selectedIndex > 0) {
+			db.getStudent(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
+				querySelector('#userRemoveConfirmName').text = json.name;
+				querySelector('#userRemoveConfirmToken').text = json.login;
+			});
+			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['show']);
 		}
 	});
-	querySelector('#removeStudent').onClick.listen((event) {
-
+	querySelector('#removeStudentConfirm').onClick.listen((event) {
+		db.removeUser(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
+			log.info(json);
+			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
+			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
+		});
 	});
 }
 
@@ -114,8 +119,20 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
-	void removeUser(String login) {
-		//TODO Remove user
+	Future<JsonObject> removeUser(int id) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResult("DELETE FROM `cp_students` WHERE `id` = ${id}").then((json) {
+			completer.complete(json);
+		});
+		return completer.future;
+	}
+
+	Future<JsonObject> getStudent(int id) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE `id` = ${id}").then((list) {
+			completer.complete(list[0]);
+		});
+		return completer.future;
 	}
 
 	Future<List> getStudentList() {
