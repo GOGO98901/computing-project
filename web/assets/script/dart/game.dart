@@ -60,8 +60,8 @@ class GameHost {
 		context.setFillColorRgb(0, 0, 0);
 		context.fillRect(0, 0, width, height);
 		if (loaded) {
-			int w = (logo.width * 0.20).toInt();
-			int h = (logo.width * 0.20).toInt();
+			int w = (logo.width * 0.75).toInt();
+			int h = (logo.width * 0.75).toInt();
 			context.drawImageScaled(logo, (width / 2) - (w / 2), (height / 2) - (h / 2), w, h);
 		}
 	}
