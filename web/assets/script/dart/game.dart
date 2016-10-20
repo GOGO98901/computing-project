@@ -20,25 +20,31 @@ class GameHost {
 	final CanvasRenderingContext2D _context;
 	static int width, height;
 	int _lastTimestamp = 0;
+	bool _running = false;
 
 	GameHost(this._canvas, this._context) {
 		width = _canvas.width;
 		height = _canvas.height;
+		_canvas.onResize.listen((event) {
+			width = _canvas.width;
+			height = _canvas.height;
+		});
 	}
 
 	ImageElement logo;
 	bool loaded = false;
 
 	run() {
-		logo = new ImageElement(src: 'web/assets/images/project white.png');
+		logo = new ImageElement(src: 'assets/images/project white.png');
 		logo.onLoad.listen((event) => loaded=true);
+		_running=true;
 		window.requestAnimationFrame(_gameLoop);
 	}
 
 	void _gameLoop(double _) {
 		_update(_getDelta());
 		_render(_context);
-		window.requestAnimationFrame(_gameLoop);
+		if (_running) window.requestAnimationFrame(_gameLoop);
 	}
 
 	double _getDelta() {
@@ -51,12 +57,12 @@ class GameHost {
 
 
 	void _render(CanvasRenderingContext2D context) {
+		context.setFillColorRgb(0, 0, 0);
+		context.fillRect(0, 0, width, height);
 		if (loaded) {
-			context.drawImage(logo, 0, 0);
-			int w = logo.width;
-			if (logo.width < width * 0.75) w = (int) (width * 0.75);
-			if (logo.width < width * 0.75) w = (int) (width * 0.75);
-			context.drawImageScaled(logo, destX, destY, destWidth, destHeight);
+			int w = (logo.width * 0.20).toInt();
+			int h = (logo.width * 0.20).toInt();
+			context.drawImageScaled(logo, (width / 2) - (w / 2), (height / 2) - (h / 2), w, h);
 		}
 	}
 
