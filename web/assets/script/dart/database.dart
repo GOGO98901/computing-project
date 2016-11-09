@@ -181,6 +181,7 @@ class DataBaseConnection {
 		req.open("POST", queryPage);
 		req.onLoadEnd.first.then((e) {
 			if(req.status == 200 || req.status == 0) {
+				log.info(req.response);
 				completer.complete(req.response as String);
 			} else {
 				completer.complete('{"error": "Can\'t load url ${queryPage}. Response type ${req.status}"}');

@@ -1,36 +1,49 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-define('DB_HOST', getenv('OPENSHIFT_MYSQL_DB_HOST'));
-define('DB_PORT', getenv('OPENSHIFT_MYSQL_DB_PORT'));
-define('DB_USER', getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
-define('DB_PASS', getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
-define('DB_NAME', getenv('OPENSHIFT_GEAR_NAME'));
+$access = array("http://www.roryclaasen.me", "http://roryclaasen.me", "http://127.0.0.1:3694");
+$orign = $_SERVER['HTTP_ORIGIN'];
+if (in_array($orign, $access)) {
+   header('Access-Control-Allow-Origin: ' . $orign);
+   header('Access-Control-Allow-Methods: POST');
 
-$dbhost = constant("DB_HOST");
-$dbport = constant("DB_PORT");
-$dbusername = constant("DB_USER");
-$dbpassword = constant("DB_PASS");
-$db_name = constant("DB_NAME");
+   $post = json_decode(file_get_contents('php://input'));
 
-$post = json_decode(file_get_contents('php://input'));
-if (!empty($post)) {
-	$query = $post->query;
+   if (!empty($post)) {
+      header('Content-Type: application/json');
 
-	$link = mysql_connect($dbhost, $dbusername, $dbpassword)  or die('{"error": "Could not connect: " '. mysql_error(). '"}');
+      define('DB_HOST', getenv('OPENSHIFT_MYSQL_DB_HOST'));
+      define('DB_PORT', getenv('OPENSHIFT_MYSQL_DB_PORT'));
+      define('DB_USER', getenv('OPENSHIFT_MYSQL_DB_USERNAME'));
+      define('DB_PASS', getenv('OPENSHIFT_MYSQL_DB_PASSWORD'));
+      define('DB_NAME', getenv('OPENSHIFT_GEAR_NAME'));
+      $dbhost = constant("DB_HOST");
+      $dbport = constant("DB_PORT");
+      $dbusername = constant("DB_USER");
+      $dbpassword = constant("DB_PASS");
+      $db_name = constant("DB_NAME");
 
-	mysql_select_db($db_name) or die('{"error": "Could not select database"');
+      $link = mysql_connect($dbhost, $dbusername, $dbpassword)  or die('{"error": "Could not connect: " '. mysql_error(). '"}');
 
-	$result = mysql_query($query) or die('{"error": "Query failed: ' . mysql_error() . '"}');
-	echo '{"output": [';
-	$entry = False;
-	while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-		if ($entry) echo ',';
-		echo json_encode($line);
-		$entry = True;
-	}
-	echo ']}';
+      mysql_select_db($db_name) or die('{"error": "Could not select database"}');
 
-	mysql_free_result($result);
-	mysql_close($link);
+      $result = mysql_query($post->query) or die('{"error": "Query failed: ' . mysql_error() . '"}');
+
+      $output = '{"output": [';
+      $entry = False;
+      while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+         if ($entry) $output .= ',';
+         $output .= json_encode($line);
+         $entry = True;
+      }
+      $output .= ']}';
+
+      mysql_free_result($result);
+      mysql_close($link);
+
+      echo $output;
+   } else {
+      header('HTTP/1.0 403 Forbidden');
+   }
+} else{
+   header('HTTP/1.0 403 Forbidden');
 }
 ?>

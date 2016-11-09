@@ -31,8 +31,8 @@ function pingDatabase() {
 			console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
 			Cookies.set('database-ping', 'sent', { expires: 1 });
 			$.ajax({
-				url: "http://database.roryclaasen.me/ping",
-				dataType: "jsonp",
+				url: "http://database.roryclaasen.me/ping.php",
+				dataType: "text",
 				statusCode: {
 					200: function (response) {
 						Cookies.set('database-ping', 'true', { expires: 1 });
