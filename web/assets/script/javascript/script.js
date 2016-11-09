@@ -23,7 +23,7 @@ function pingDatabaseForce() {
 }
 
 function pingDatabase() {
-	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false') {
+	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false' || Cookies.get('database-ping') == 'sent') {
 		$('#server-ping').removeClass('green');
 		$('#server-ping').removeClass('red');
 		$('#server-ping').slideDown();
