@@ -19,6 +19,7 @@ import 'dart:html';
 import 'dart:math';
 import 'package:logging/logging.dart';
 import 'dart:async';
+// import 'dart:convert';
 import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
 
@@ -175,18 +176,17 @@ class DataBaseConnection {
 
 	Future<String> _getQueryResultAsString(String query) {
 		log.info('Sending query "' + query + '"');
-		String url = queryPage + "?sql=" + query;
 		Completer<String> completer = new Completer();
 		HttpRequest req = new HttpRequest();
-		req.open("get", url);
+		req.open("POST", queryPage);
 		req.onLoadEnd.first.then((e) {
-			if(req.status ~/ 100 == 2) {
+			if(req.status == 200 || req.status == 0) {
 				completer.complete(req.response as String);
 			} else {
-				completer.complete('{"error": "Can\'t load url ${url}. Response type ${req.status}"}');
+				completer.complete('{"error": "Can\'t load url ${queryPage}. Response type ${req.status}"}');
 			}
 		});
-		req.send("");
+		req.send('{"query": "${query}"}');
 		return completer.future;
 	}
 
@@ -201,7 +201,7 @@ class DataBaseConnection {
 	Future<JsonList> _getQueryResultAsQueryList(String query) {
 		Completer<JsonList> completer = new Completer();
 		_getQueryResult(query).then((json) {
-			completer.complete(new JsonList.fromString(json.query.toString()));
+			completer.complete(new JsonList.fromString(json.output.toString()));
 		});
 		return completer.future;
 	}
