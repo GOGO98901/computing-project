@@ -1,4 +1,5 @@
-<!--
+<?php
+/*
 Copyright 2016 Rory Claasen
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,9 +12,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.
--->
-<?php
+*/
 $access = array("http://www.roryclaasen.me", "http://roryclaasen.me", "http://127.0.0.1:3694");
 $orign = $_SERVER['HTTP_ORIGIN'];
 if (in_array($orign, $access)) {
