@@ -51,11 +51,11 @@ nav#navigation {
 	top: 0;
 	a {
 		text-decoration: none;
-	}
-	.navbar-brand {
-		cursor: default;
-		&:hover {
-			color: $navbar-default-brand-color;
+		&.navbar-brand {
+			cursor: default;
+			&:hover {
+				color: $navbar-default-brand-color;
+			}
 		}
 	}
 	&.fixed {
