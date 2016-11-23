@@ -16,12 +16,8 @@ limitations under the License.
 library Computer_Science_Project;
 
 import 'dart:html';
-// import 'package:yaml/yaml.dart';
 import 'dart:async';
-// import 'dart:math';
-// import 'dart:collection';
 import 'package:logging/logging.dart';
-// import 'package:json_object/json_object.dart';
 import 'database.dart';
 
 part 'game.dart';
