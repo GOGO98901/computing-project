@@ -1,0 +1,255 @@
+---
+# this ensures Jekyll reads the file to be transformed into CSS later
+# only Main files contain this front matter, not partials.
+---
+/*
+Copyright 2016 Rory Claasen
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i');
+@import '_variables';
+
+@import 'mixins';
+
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif;
+	background-color: $body-bg;
+	color: $text-color;
+	font-size: $font-size-base;
+}
+body.modal-open {
+	nav#navigation.fixed {
+		@include MQ(L) {
+			$width: $screen-lg-min - 17px;
+			margin-right: calc(#{-$width} / 2);
+		}
+		@include MQ(M) {
+			$width: $screen-md-min - 17px;
+			margin-right: calc(#{-$width} / 2);
+		}
+	}
+}
+nav#navigation {
+	width: 100%;
+	margin: auto;
+
+	position: fixed;
+	top: 0;
+	a {
+		text-decoration: none;
+	}
+	.navbar-brand {
+		cursor: default;
+	}
+	&.fixed {
+		position: fixed;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	@include MQ(L) {
+		position: relative;
+		width: $screen-lg-min;
+		margin-top: 1.5em;
+		&.fixed {
+			margin-top: 0;
+			right: 50%;
+			margin-right: calc(#{-$screen-lg-min} / 2);
+		}
+	}
+	@include MQ(M) {
+		position: relative;
+		width: $screen-md-min;
+		margin-top: 1.5em;
+		&.fixed {
+			margin-top: 0;
+			right: 50%;
+			margin-right: calc(#{-$screen-md-min} / 2);
+		}
+	}
+}
+.pinger-container {
+	position: fixed;
+	bottom: 0;
+	width: 100vw;
+	.pinger {
+		height: 50px;
+		width: ($screen-xs / 2);
+		margin:auto;
+		background-color: $body-bg;
+		text-align: center;
+		border: solid 4px $brand-primary;
+		border-top-left-radius: 7px;
+		border-top-right-radius: 7px;
+		border-bottom: none;
+		@include box-shadow(0px, 5px, 30px, #000);
+		.container {
+			display: inline-block;
+			position: relative;
+			width: 100%;
+			height: 100%;
+			span {
+				display: inline-block;
+				position: relative;
+				&.title {
+					font-weight: bold;
+					top: 6px;
+				}
+				&.loading-pulse {
+					margin-left: 20px;
+					top: 10px;
+				}
+			}
+		}
+		&.red {
+			border-color: $brand-danger;
+			color: $brand-danger;
+		}
+		&.green {
+			border-color: $brand-success;
+			color: $brand-success;
+		}
+	}
+}
+.content {
+	margin-top: calc(#{$navbar-height} + 2em);
+	@include MQ(M) {
+		margin-top: 2em;
+		&.offset {
+			margin-top: calc(#{$navbar-height} * 2 + 2em - 34px);
+		}
+	}
+	.jumbotron {
+		margin-top: 30px;
+	}
+	#game-canvas {
+		width: 100%;
+		height: 100%;
+		min-width: $screen-md-min;
+		background-color: $gray;
+	}
+	.user-cards {
+		list-style: none;
+		text-align: center;
+		padding: 0;
+		.card {
+			$size: ($screen-xs * 0.75);
+			$border: solid 1px $gray-dark;
+
+			display: inline-block;
+			width: 90%;
+			border: $border;
+			margin: 1em;
+			border-radius: 7px;
+			@include box-shadow(0px, 0px, 30px, rgba($gray-dark, 0.5));
+			div {
+				width: 100%;
+				display: inline-block;
+				color: rgba($gray-dark, 0.5);
+				&.card-icon {
+					height: ($size * 0.5);
+					font-size: 5em;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				&.card-link {
+					padding: 15px;
+					border-top: $border;
+					text-align: right;
+				}
+				* {
+					margin: auto;
+					text-align: center;
+				}
+			}
+			&:hover {
+				@include box-shadow(0px, 0px, 40px, rgba($gray-dark, 0.6));
+				div {
+					color: rgba($gray-dark, 0.9);
+				}
+			}
+			@include MQ(M) {
+				width: $size;
+				div.card-icon {
+					height: ($size * 0.85);
+					font-size: 11em;
+				}
+			}
+		}
+	}
+}
+
+$base-line-height: 20px;
+$loading-color: $text-color;
+$off-loading-color: rgba($loading-color, 0.2);
+$spin-duration: 1s;
+$pulse-duration: 875ms;
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes pulse {
+	50% {
+		background: $loading-color;
+	}
+}
+
+.loading {
+	border-radius: 50%;
+	width: $base-line-height;
+	height: $base-line-height;
+	border: .25rem solid $off-loading-color;
+	border-top-color: $loading-color;
+	animation: spin $spin-duration infinite linear;
+	&--double {
+		border-style: double;
+		border-width: .5rem;
+	}
+}
+
+.loading-pulse {
+	position: relative;
+	width: ($base-line-height / 4);
+	height: $base-line-height;
+	background: $off-loading-color;
+	animation: pulse $pulse-duration infinite;
+	animation-delay: ($pulse-duration / 3);
+	&:before, &:after {
+		content: '';
+		position: absolute;
+		display: block;
+		height: ($base-line-height / 1.5);
+		width: ($base-line-height / 4);
+		background: $off-loading-color;
+		top: 50%;
+		transform: translateY(-50%);
+		animation: pulse $pulse-duration infinite;
+	}
+	&:before {
+		left: -($base-line-height / 2);
+	}
+	&:after {
+		left: ($base-line-height / 2);
+		animation-delay: ($pulse-duration / 1.5);
+	}
+}

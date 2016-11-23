@@ -1,0 +1,4 @@
+base_url: "/web"
+include: ['.packages']
+permalink: "/web/:title"
+port: 3694
