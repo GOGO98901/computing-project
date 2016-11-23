@@ -84,6 +84,24 @@ nav#navigation {
 		}
 	}
 }
+footer {
+	pre {
+		white-space: pre-line;
+		padding-bottom: 0;
+		.links {
+			white-space: normal;
+			margin-bottom: -20px;
+			a {
+				display: inline-block;
+				margin-right: 15px;
+				&.right {
+					float: right;
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}
 .content {
 	margin-top: calc(#{$navbar-height} + 2em);
 	@include MQ(M) {
