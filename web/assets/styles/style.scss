@@ -54,6 +54,9 @@ nav#navigation {
 	}
 	.navbar-brand {
 		cursor: default;
+		&:hover {
+			color: $navbar-default-brand-color;
+		}
 	}
 	&.fixed {
 		position: fixed;
