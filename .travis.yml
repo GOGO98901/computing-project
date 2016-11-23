@@ -11,6 +11,7 @@ install:
 script:
    - pub get
    - jekyll build ./_site
+   - mkdir ./_site/static/assets/script/dart/
    - cp -r dart/* ./_site/static/assets/script/dart/
    - pub build ./_site/static --mode=release
 after_success:
