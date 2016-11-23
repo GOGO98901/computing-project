@@ -11,7 +11,7 @@ install:
 script:
    - pub get
    - jekyll build ./_site
-   - cp -r ~/dart/* ~/_site/assets/script/
-   - pub build _site/web --mode=release
+   - cp -r ./dart/ ./_site/assets/script/
+   - pub build ./_site/web --mode=release
 after_success:
    - bash ./scripts/remote.deploy.sh
