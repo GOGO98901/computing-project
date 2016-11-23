@@ -7,8 +7,8 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 
 |branch|status|
 |:----:|:----:|
-|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![alt text][branch-prototype]](http://travis-ci.org/GOGO98901/computing-project)|
-|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project)|
+|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![alt text][branch-prototype]](http://travis-ci.org/GOGO98901/computing-project/branches)|
+|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project/branches)|
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code

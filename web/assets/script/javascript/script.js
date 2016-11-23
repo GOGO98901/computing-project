@@ -35,13 +35,13 @@ function pingDatabase() {
 					200: function (response) {
 						Cookies.set('database-ping', 'true', { expires: 1 });
 						console.log("[JAVASCRIPT] Server pong received");
-						iziToast.destroy();
+						// iziToast.destroy();
 						notif('success', 'Database', 'Received');
 					},
 					404: function (response) {
 						Cookies.set('database-ping', 'false', { expires: 1 });
 						console.log("[JAVASCRIPT] Server pong NOT received");
-						iziToast.destroy();
+						// iziToast.destroy();
 						notif('warning', 'Database', 'Failed');
 					}
 				}
