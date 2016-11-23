@@ -5,7 +5,6 @@ author_url: "http://roryclaasen.me"
 description: A level computer science project
 url: "http://roryclaasen.me/computing-project"
 base_url: "/computing-project"
-permalink: "/:title"
 
 compress_html:
   comments: ["<!-- ", " -->"]
@@ -13,9 +12,9 @@ compress_html:
   startings: [html, head, body]
 
 sass:
-   sass_dir: web/assets/styles
+   sass_dir: static/assets/styles
    style: :compressed
 
 # Making _site only have what is needed
-include: ['web', 'pubspec.yaml', 'LICENSE', 'README.md']
-exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', '**/packages/']
+include: ['static', 'pubspec.yaml', 'LICENSE', 'README.md']
+exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', '**/packages/', 'dart']

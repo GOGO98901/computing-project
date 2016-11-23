@@ -13,12 +13,12 @@
 			<ul class="nav navbar-nav">
 				{% if page.title != "Welcome" %}
 				{% if page.title %}
-				<li><a href="{{ site.base_url }}/game">Home</a></li>
+				<li><a href="{{ site.base_url }}/game{{ site.linkends }}">Home</a></li>
 				{% endif %}
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="{{ site.base_url }}/admin">Mannage users</a></li>
+						<li><a href="{{ site.base_url }}/admin{{ site.linkends }}">Mannage users</a></li>
 						<li><a href="#">Class Progress</a></li>
 						<li class="divider"></li>
 						<li><a href="http://database.roryclaasen.me">Database</a></li>
@@ -28,7 +28,7 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="{{ site.base_url }}/index.html">Start Page</a></li>
+						<li><a href="{{ site.base_url }}/">Start Page</a></li>
 						<li><a href="#" data-toggle="modal" data-target="#modelFAQ">FAQ</a></li>
 						<li><a href="#" data-toggle="modal" data-target="#modelIssue">Report an issue</a></li>
 						<li class="divider"></li>

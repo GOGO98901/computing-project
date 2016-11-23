@@ -1,6 +1,4 @@
-base_url: "/web"
+base_url: ""
 include: ['.packages']
-permalink: "/web/:title"
 port: 3694
-exclude_from_watch:
-   - packages
+linkends: ".html"
