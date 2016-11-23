@@ -1,8 +1,10 @@
 title: Fraction Maths Game
+description: A level computer science project
 email: help@roryclaasen.me
+
 author: Rory Claasen
 author_url: "http://roryclaasen.me"
-description: A level computer science project
+
 url: "http://roryclaasen.me/computing-project"
 base_url: "/computing-project"
 
@@ -15,6 +17,5 @@ sass:
    sass_dir: static/assets/styles
    style: :compressed
 
-# Making _site only have what is needed
 include: ['static', 'pubspec.yaml', 'LICENSE', 'README.md']
-exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', '**/packages/', 'dart']
+exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', 'packages/', 'dart']

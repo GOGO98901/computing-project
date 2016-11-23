@@ -1,4 +1,2 @@
 base_url: ""
-include: ['.packages']
-port: 3694
 linkends: ".html"

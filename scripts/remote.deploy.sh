@@ -7,10 +7,10 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 	git config --global user.email "travis@travis-ci.org"
 	git config --global user.name "Travis CI"
 
-	cp README.md build/_site/web
-	cp LICENSE build/_site/web/license.txt
+	cp README.md build/_site/static
+	cp LICENSE build/_site/static/license.txt
 
-	cd build/_site/web
+	cd build/_site/static
 	git init
 	git add --a
 	git commit -m "Deploy to Github Pages"
