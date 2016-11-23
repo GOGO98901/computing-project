@@ -2,3 +2,5 @@ base_url: "/web"
 include: ['.packages']
 permalink: "/web/:title"
 port: 3694
+exclude_from_watch:
+   - packages
