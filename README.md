@@ -10,6 +10,10 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |prototype|[![Build Status](https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype)](https://travis-ci.org/GOGO98901/computing-project)|
 |project|**N/A**|
 |gh-pages|building from prototype|
+
+### Dart Code
+The dart code can be found in the directory [/web/assets/script/dart](/web/assets/script/dart).
+
 ## Licenses
 
 ##### [Source Code](https://github.com/GOGO98901/computing-project/) `./`
