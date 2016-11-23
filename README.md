@@ -7,9 +7,9 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 
 |branch|status|
 |:----:|:----:|
-|prototype|[![Build Status](https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype)](https://travis-ci.org/GOGO98901/computing-project)|
-|project|**N/A**|
-|gh-pages|building from prototype|
+|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![alt text][branch-prototype]](http://travis-ci.org/GOGO98901/computing-project)|
+|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project)|
+|[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
 The dart code can be found in the directory [/web/assets/script/dart](/web/assets/script/dart).
@@ -104,3 +104,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+[branch-prototype]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype "Build Status"
+[branch-project]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=project "Build Status"
