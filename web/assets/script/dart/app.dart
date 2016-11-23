@@ -28,18 +28,23 @@ CanvasElement _canvas;
 DataBaseConnection _dbConnect;
 
 void main() {
-	_init();
-	_canvas.focus();
-	scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
+	if (_init()) {
+		_canvas.focus();
+		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
+	}
 }
 
-void _init() {
+bool _init() {
 	Logger.root.level = Level.ALL;
 	Logger.root.onRecord.listen((LogRecord rec) {
 		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
 	_canvas = querySelector('#game-canvas');
 	if (_canvas != null) log.info("Found canvas node");
-	else log.severe("DID NOT FIND CANVAS NODE!");
+	else {
+		log.severe("DID NOT FIND CANVAS NODE!");
+		return false;
+	}
 	_dbConnect = new DataBaseConnection();
+	return true;
 }
