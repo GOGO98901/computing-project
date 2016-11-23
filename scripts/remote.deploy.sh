@@ -16,5 +16,5 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 	git commit -m "Deploy to Github Pages"
 	git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}.git" master:gh-pages
 else
-	echo "Branch is not $BRANCH. Skipping build"
+	echo "Branch is not $BRANCH. Skipping deploy!"
 fi
