@@ -1,15 +1,15 @@
 @echo off
-title Computing Project
+title Development manager - Computing Project
 cd ../
 SET option=-1
 :MENU
 cls
 echo (0) exit
-echo (1) pub get
-echo (2) jekyll build
-echo (3) copy dart
-echo (4) serve
-echo (5) dartium
+echo (1) pub get 				- Collects the current dart dependencies
+echo (2) jekyll build 			- Builds the liquid html
+echo (3) copy dart 				- Copys the dart code to the output of (2).
+echo (4) serve 				- Starts a python server
+echo (5) dartium 				- Opens dartium browser
 echo.
 SET /P option="To select an option enter the corresponding number: "
 IF %option% == 0 exit
