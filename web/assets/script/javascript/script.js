@@ -24,9 +24,7 @@ function pingDatabaseForce() {
 
 function pingDatabase() {
 	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false' || Cookies.get('database-ping') == 'sent') {
-		$('#server-ping').removeClass('green');
-		$('#server-ping').removeClass('red');
-		$('#server-ping').slideDown();
+		notif('info', 'Database', 'Ping!');
 		setTimeout(function() {
 			console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
 			Cookies.set('database-ping', 'sent', { expires: 1 });
@@ -36,19 +34,15 @@ function pingDatabase() {
 				statusCode: {
 					200: function (response) {
 						Cookies.set('database-ping', 'true', { expires: 1 });
-						console.log("[JAVASCRIPT] Server pong received")
-						$('#server-ping').addClass('green');
-						setTimeout(function() {
-							$('#server-ping').slideUp('slow');
-						}, 1000);
+						console.log("[JAVASCRIPT] Server pong received");
+						iziToast.destroy();
+						notif('success', 'Database', 'Received');
 					},
 					404: function (response) {
 						Cookies.set('database-ping', 'false', { expires: 1 });
-						console.log("[JAVASCRIPT] Server pong NOT received")
-						$('#server-ping').addClass('red');
-						setTimeout(function() {
-							$('#server-ping').slideUp('slow');
-						}, 1000);
+						console.log("[JAVASCRIPT] Server pong NOT received");
+						iziToast.destroy();
+						notif('warning', 'Database', 'Failed');
 					}
 				}
 			});
@@ -66,6 +60,28 @@ $(window).bind('scroll', function () {
 	}
 });
 
-function toggleModal(modal) {
-	$(modal).modal('toggle');
+function notif(type, title, message) {
+	var defaultMap = {
+		position: 'bottomLeft',
+		title: title,
+		message: message
+	};
+	switch(type) {
+		case "success": {
+			iziToast.success(defaultMap);
+			break;
+		}
+		case "warning": {
+			iziToast.warning(defaultMap);
+			break;
+		}
+		case "error": {
+			iziToast.error(defaultMap);
+			break;
+		}
+		default: {
+			iziToast.info(defaultMap);
+			break;
+		}
+	}
 }

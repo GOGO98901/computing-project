@@ -41,6 +41,8 @@ void main() {
 				querySelector('#stage-start').style.display = "none";
 				querySelector('#stage-end').style.display = "inline";
 				querySelector('#userAddReturnCode').text = json.token;
+
+				js.context.callMethod('notif', ['success', 'Added Student', name]);
 			});
 		} else {
 			querySelector('#userAddForm').classes.add('has-error');
@@ -89,10 +91,13 @@ void main() {
 		}
 	});
 	querySelector('#removeStudentConfirm').onClick.listen((event) {
+		var name = rmSelector.item(rmSelector.selectedIndex).attributes['name'];
 		db.removeUser(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
 			log.info(json);
 			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
+
+			js.context.callMethod('notif', ['warning', 'Removed student', name]);
 		});
 	});
 }
