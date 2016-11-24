@@ -64,7 +64,9 @@ function notif(type, title, message) {
 	var defaultMap = {
 		position: 'bottomLeft',
 		title: title,
-		message: message
+		message: message,
+   		zindex: 99999,
+		transitionIn: 'flipInX'
 	};
 	switch(type) {
 		case "success": {
