@@ -3,7 +3,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 
 |title |institution|development period|language|
 |:----:|:---------:|:----------------:|:------:|
-|To be determined|[Godalming College](http://godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|
+|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|
 
 |branch|status|
 |:----:|:----:|
