@@ -3,6 +3,8 @@ set title=Development manager - Computing Project
 set doExit=0
 set bar=-------------------------------------------------------------------------------
 
+title %title%
+
 if NOT [%1] == [] (
 	set /a option=%1
 	set doExit=1
