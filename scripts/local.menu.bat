@@ -1,6 +1,8 @@
 @echo off
-title Development manager - Computing Project
-
+set title=Development manager - Computing Project
+title %title%
+:license
+cls
 echo Copyright 2016 Rory Claasen
 echo Licensed under the Apache License, Version 2.0 (the "License");
 echo you may not use this file except in compliance with the License.
@@ -18,7 +20,7 @@ set bar=------------------------------------------------------------------------
 :loop
 cls
 echo %bar%
-echo Main Menu
+echo Main Menu - %title%
 echo %bar%
 echo   (0) exit
 echo   (1) pub get              - Collects the current dart dependencies
@@ -26,6 +28,7 @@ echo   (2) jekyll build         - Builds the liquid html
 echo   (3) copy dart            - Copys the dart code to the output of (2).
 echo   (4) serve                - Starts a python server
 echo   (5) dartium              - Opens dartium browser
+echo   (6) license              - Shows the license
 echo %bar%
 set option=-1
 set /P option="To select an option enter the corresponding number: "
@@ -46,6 +49,9 @@ if %option% == 0 (
 	)
 	if %option% == 5 (
 		start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/
+	)
+	if %option% == 6 (
+		goto license
 	)
 )
 goto loop

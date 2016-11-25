@@ -21,6 +21,7 @@ import 'package:logging/logging.dart';
 import 'database.dart';
 
 part 'game.dart';
+part 'resources.dart';
 
 final Logger log = new Logger('prototype');
 
