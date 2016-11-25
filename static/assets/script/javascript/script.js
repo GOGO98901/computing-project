@@ -66,7 +66,7 @@ function notif(type, title, message) {
 		title: title,
 		message: message,
 		zindex: 99999,
-		transitionIn: 'flipInX',
+		transitionOut: 'flipOutX',
 	};
 	console.log("[JAVASCRIPT] Showing notification");
 	console.log(defaultMap);
