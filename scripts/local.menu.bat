@@ -64,6 +64,7 @@ if %option% == 0 (
 	if %option% == 3 (
 		cp -r dart/ _site/static/assets/script/
 		cp -r _site/static/assets/script/packages/ _site/static/assets/script/dart/
+		cp -r _site/static/assets/script/packages/ _site/static/assets/script/dart/util/
 	)
 	if %option% == 4 (
 		cp -r static/assets/script/javascript/ _site/static/assets/script/

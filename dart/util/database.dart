@@ -23,6 +23,8 @@ import 'dart:async';
 import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
 
+part 'toolbox2.dart';
+
 final Logger log = new Logger('project');
 
 void main() {
@@ -209,41 +211,5 @@ class DataBaseConnection {
 			completer.complete(new JsonList.fromString(json.output.toString()));
 		});
 		return completer.future;
-	}
-}
-
-class JsonList extends JsonObject implements List {
-	JsonList();
-
-	factory JsonList.fromString(String jsonString) {
-		return new JsonObject.fromJsonString(jsonString, new JsonList());
-	}
-}
-
-class Notify {
-	static final String keyInfo = "info";
-	static final String keySuccess = "success";
-	static final String keyWarn = "warning";
-	static final String keyError = "error";
-
-	static void info(String title, [String message]) {
-		notify(keyInfo, title, message);
-	}
-
-	static void success(String title, [String message]) {
-		notify(keySuccess, title, message);
-	}
-
-	static void warn(String title, [String message]) {
-		notify(keyWarn, title, message);
-	}
-
-	static void error(String title, [String message]) {
-		notify(keyError, title, message);
-	}
-
-	static void notify(String type, String title, [String message]) {
-		if (message == null) message = '';
-		js.context.callMethod('notif', [type, title, message]);
 	}
 }

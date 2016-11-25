@@ -21,7 +21,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'package:logging/logging.dart';
 
-import 'database.dart';
+import 'util/database.dart';
 
 part 'game.dart';
 part 'handler.dart';
