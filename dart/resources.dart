@@ -33,7 +33,7 @@ class ResourceManager {
 	}
 
 	static String getAssetsDir() {
-		if (Util.isLive()) return "computing-project/assets";
+		// if (Util.isLive()) return "computing-project/assets";
 		return "assets";
 	}
 }
