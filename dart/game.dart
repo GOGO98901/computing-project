@@ -31,12 +31,10 @@ class GameHost {
 		});
 	}
 
-	ImageElement logo;
-	bool loaded = false;
+	Sprite logo;
 
 	run() {
-		logo = new ImageElement(src: 'assets/images/project white.png');
-		logo.onLoad.listen((event) => loaded=true);
+		logo = new Sprite('assets/images/project white.png');
 		_running=true;
 		window.requestAnimationFrame(_gameLoop);
 	}
@@ -59,10 +57,10 @@ class GameHost {
 	void _render(CanvasRenderingContext2D context) {
 		context.setFillColorRgb(0, 0, 0);
 		context.fillRect(0, 0, width, height);
-		if (loaded) {
-			int w = (logo.width * 0.75).toInt();
-			int h = (logo.width * 0.75).toInt();
-			context.drawImageScaled(logo, (width / 2) - (w / 2), (height / 2) - (h / 2), w, h);
+		if (logo.isComplete()) {
+			int w = (logo.width() * 0.75).toInt();
+			int h = (logo.width() * 0.75).toInt();
+			context.drawImageScaled(logo.getTexture(), (width / 2) - (w / 2), (height / 2) - (h / 2), w, h);
 		}
 	}
 

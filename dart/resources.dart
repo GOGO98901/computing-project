@@ -36,6 +36,14 @@ abstract class BaseResource {
 	Status getStatus() {
 		return _stage;
 	}
+
+	bool isComplete() {
+		return _stage == Status.complete;
+	}
+
+	bool isFailed() {
+		return _stage == Status.failed;
+	}
 }
 
 
@@ -57,6 +65,16 @@ class Sprite extends BaseResource {
 		_image.onError.listen((e) {
 			_stage = Status.failed;
 		});
+	}
+
+	int width() {
+		if (isComplete()) return _image.width;
+		return 0;
+	}
+
+	int height() {
+		if (isComplete()) return _image.height;
+		return 0;
 	}
 
 	ImageElement getTexture() {
