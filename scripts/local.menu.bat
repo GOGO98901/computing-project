@@ -26,9 +26,10 @@ echo   (0) exit
 echo   (1) pub get              - Collects the current dart dependencies
 echo   (2) jekyll build         - Builds the liquid html
 echo   (3) copy dart            - Copy's the dart code to the output of (2).
-echo   (4) serve                - Starts a python server
-echo   (5) dartium              - Opens dartium browser
-echo   (6) clean _site          - Empties the _site directory
+echo   (4) copy JavaScript      - Copy's the JavaScript to the output of (2).
+echo   (5) serve                - Starts a python server
+echo   (6) dartium              - Opens dartium browser
+echo   (7) clean _site          - Empties the _site directory
 echo   (9) license              - Shows the license
 echo %bar%
 set option=-1
@@ -47,12 +48,15 @@ if %option% == 0 (
 		cp -r _site/static/assets/script/packages/ _site/static/assets/script/dart/
 	)
 	if %option% == 4 (
-		start cmd /k "cd _site/static && python -m SimpleHTTPServer 3694"
+		cp -r static/assets/script/javascript/ _site/static/assets/script/
 	)
 	if %option% == 5 (
-		start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/
+		start cmd /k "cd _site/static && python -m SimpleHTTPServer 3694"
 	)
 	if %option% == 6 (
+		start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/
+	)
+	if %option% == 7 (
 		rd /s /q "_site/"
 	)
 	if %option% == 9 (

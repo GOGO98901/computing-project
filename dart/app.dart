@@ -17,11 +17,17 @@ library Computer_Science_Project;
 
 import 'dart:html';
 import 'dart:async';
+// import 'dart:math';
+import 'dart:collection';
 import 'package:logging/logging.dart';
+
 import 'database.dart';
 
 part 'game.dart';
+part 'handler.dart';
+part 'toolbox.dart';
 part 'resources.dart';
+part 'entity.dart';
 
 final Logger log = new Logger('prototype');
 
@@ -30,7 +36,6 @@ DataBaseConnection _dbConnect;
 
 void main() {
 	if (_init()) {
-		_canvas.focus();
 		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
 	}
 }

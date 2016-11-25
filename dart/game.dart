@@ -22,6 +22,8 @@ class GameHost {
 	int _lastTimestamp = 0;
 	bool _running = false;
 
+	MasterHandler handler;
+
 	GameHost(this._canvas, this._context) {
 		width = _canvas.width;
 		height = _canvas.height;
@@ -29,13 +31,15 @@ class GameHost {
 			width = _canvas.width;
 			height = _canvas.height;
 		});
+		handler = new MasterHandler(_canvas);
 	}
 
 	Sprite logo;
 
 	run() {
 		logo = new Sprite('assets/images/project white.png');
-		_running=true;
+		_running = true;
+		_canvas.focus();
 		window.requestAnimationFrame(_gameLoop);
 	}
 

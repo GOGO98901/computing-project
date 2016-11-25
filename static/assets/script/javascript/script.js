@@ -65,7 +65,7 @@ function notif(type, title, message) {
 		position: 'bottomLeft',
 		title: title,
 		message: message,
-   		zindex: 99999,
+		zindex: 99999,
 		transitionIn: 'flipInX',
 	};
 	switch(type) {
