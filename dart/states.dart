@@ -90,22 +90,24 @@ class StateIntro extends State {
 
 class StateLogin extends State {
 
-		StateLogin(StateManager _manager) : super(_manager);
+	StateLogin(StateManager _manager) : super(_manager);
 
-		void init() {}
+	void init() {}
 
-		void render(CanvasRenderingContext2D context) {}
+	void render(CanvasRenderingContext2D context) {
+		// TODO Create login page
+	}
 
-		void update(final double delta) {}
+	void update(final double delta) {}
 }
 
 class StateGame extends State {
 
-		StateGame(StateManager _manager) : super(_manager);
+	StateGame(StateManager _manager) : super(_manager);
 
-		void init() {}
+	void init() {}
 
-		void render(CanvasRenderingContext2D context) {}
+	void render(CanvasRenderingContext2D context) {}
 
-		void update(final double delta) {}
+	void update(final double delta) {}
 }
