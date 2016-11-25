@@ -43,6 +43,6 @@ class Point {
 
 	operator +(Point other) => new Point(_x + other._x, _y + other._y);
 	operator -(Point other) => new Point(_x - other._x, _y - other._y);
-	operator *(Point other) => new Point(_x * other._x, _y * other._y);
-	operator /(Point other) => new Point(_x ~/ other._x, _y ~/ other._y);
+	operator *(int factor) => new Point(_x * factor, _y * factor);
+	operator /(int factor) => new Point(_x ~/ factor, _y ~/ factor);
 }
