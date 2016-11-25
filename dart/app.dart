@@ -39,7 +39,7 @@ void main() {
 	if (_init()) {
 		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
 	} else {
-		Helper.notify(Helper.error, "Failed to initialize");
+		Notify.error("Failed to initialize");
 		log.severe("Failed to initialize");
 	}
 }
@@ -53,7 +53,7 @@ bool _init() {
 	if (_canvas != null) log.info("Found canvas node");
 	else {
 		log.severe("DID NOT FIND CANVAS NODE!");
-		Helper.notify(Helper.warn, "Unable to find canvas node");
+		Notify.warn("Unable to find canvas node");
 		return false;
 	}
 	_dbConnect = new DataBaseConnection();

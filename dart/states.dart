@@ -32,7 +32,7 @@ class StateManager {
 		State next = _states[tag];
 		if (next == null) {
 			log.severe("State '${tag} is null");
-			Helper.notify(Helper.error, "StateManager", "${tag} state is null");
+			Notify.error("StateManager", "${tag} state is null");
 			return;
 		}
 		_current = next;

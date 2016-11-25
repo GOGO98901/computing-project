@@ -15,6 +15,19 @@ limitations under the License.
 */
 part of Computer_Science_Project;
 
+class Util {
+	static Uri getUri() {
+		return Uri.base;
+	}
+
+	static bool isLive()  {
+		String address = getUri().toString().toLowerCase().replaceFirst("http://", "");
+		// Helper.notify(Helper.info, address);
+		if (address.startsWith('127.0.0.1')) return false;
+		return true;
+	}
+}
+
 class Point {
 	int _x, _y;
 

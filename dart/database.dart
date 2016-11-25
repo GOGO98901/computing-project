@@ -42,7 +42,7 @@ void main() {
 				querySelector('#stage-end').style.display = "inline";
 				querySelector('#userAddReturnCode').text = json.token;
 
-				Helper.notify(Helper.success, 'Added Student', name);
+				Notify.success('Added Student', name);
 			});
 		} else {
 			querySelector('#userAddForm').classes.add('has-error');
@@ -97,7 +97,7 @@ void main() {
 			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
 
-			Helper.notify(Helper.warn, 'Removed Student', name);
+			Notify.warn('Removed Student', name);
 		});
 	});
 }
@@ -220,11 +220,27 @@ class JsonList extends JsonObject implements List {
 	}
 }
 
-class Helper {
-	static final String info = "info";
-	static final String success = "sucess";
-	static final String warn = "warning";
-	static final String error = "error";
+class Notify {
+	static final String keyInfo = "info";
+	static final String keySuccess = "success";
+	static final String keyWarn = "warning";
+	static final String keyError = "error";
+
+	static void info(String title, [String message]) {
+		notify(keyInfo, title, message);
+	}
+
+	static void success(String title, [String message]) {
+		notify(keySuccess, title, message);
+	}
+
+	static void warn(String title, [String message]) {
+		notify(keyWarn, title, message);
+	}
+
+	static void error(String title, [String message]) {
+		notify(keyError, title, message);
+	}
 
 	static void notify(String type, String title, [String message]) {
 		if (message == null) message = '';

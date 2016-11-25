@@ -25,7 +25,7 @@ class ResourceManager {
 	}
 
 	void _initSprites() {
-		_sprites['logo.roryclaasen'] = new Sprite("${getAssetsDir()}/assets/images/project white.png");
+		_sprites['logo.roryclaasen'] = new Sprite("${getAssetsDir()}/images/project white.png");
 	}
 
 	static Sprite getSprite(String key) {
@@ -33,7 +33,8 @@ class ResourceManager {
 	}
 
 	static String getAssetsDir() {
-		return "";
+		if (Util.isLive()) return "computing-project/assets";
+		return "assets";
 	}
 }
 
