@@ -26,7 +26,7 @@ function pingDatabase() {
 	if (Cookies.get('database-ping') == undefined || Cookies.get('database-ping') == 'false' || Cookies.get('database-ping') == 'sent') {
 		notif('info', 'Database', 'Ping!');
 		setTimeout(function() {
-			console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle")
+			console.log("[JAVASCRIPT] Server ping sending, will be waking up from idle");
 			Cookies.set('database-ping', 'sent', { expires: 1 });
 			$.ajax({
 				url: "http://database.roryclaasen.me/ping.php",
@@ -68,6 +68,8 @@ function notif(type, title, message) {
 		zindex: 99999,
 		transitionIn: 'flipInX',
 	};
+	console.log("[JAVASCRIPT] Showing notification");
+	console.log(defaultMap);
 	switch(type) {
 		case "success": {
 			iziToast.success(defaultMap);
