@@ -17,9 +17,22 @@ part of Computer_Science_Project;
 
 class ResourceManager {
 
-	// TODO Store all resoureces in hash map
+	static HashMap<String, Sprite> _sprites;
 
-	static String getAssetsDir(){
+	ResourceManager() {
+		_sprites = new HashMap<String, Sprite>();
+		_initSprites();
+	}
+
+	void _initSprites() {
+		_sprites['logo.roryclaasen'] = new Sprite("${getAssetsDir()}/assets/images/project white.png");
+	}
+
+	static Sprite getSprite(String key) {
+		return _sprites[key];
+	}
+
+	static String getAssetsDir() {
 		return "";
 	}
 }

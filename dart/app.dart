@@ -27,6 +27,7 @@ part 'game.dart';
 part 'handler.dart';
 part 'toolbox.dart';
 part 'resources.dart';
+part 'states.dart';
 part 'entity.dart';
 
 final Logger log = new Logger('project');
@@ -48,7 +49,7 @@ bool _init() {
 	Logger.root.onRecord.listen((LogRecord rec) {
 		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
-	_canvas = querySelector('#game-canvas');
+	_canvas = document.querySelector('#game-canvas');
 	if (_canvas != null) log.info("Found canvas node");
 	else {
 		log.severe("DID NOT FIND CANVAS NODE!");

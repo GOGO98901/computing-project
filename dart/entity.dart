@@ -68,6 +68,9 @@ class Mob extends Entity {
 		return _sprite;
 	}
 
+	void render(CanvasRenderingContext2D context) {}
+	void update(final double delta) {}
+
 	void setSprite(Sprite sprite){
 		this._sprite = sprite;
 		_width = _sprite.width();

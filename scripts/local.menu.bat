@@ -1,6 +1,16 @@
 @echo off
 set title=Development manager - Computing Project
-title %title%
+set doExit=0
+set bar=-------------------------------------------------------------------------------
+
+if NOT [%1] == [] (
+	set /a option=%1
+	set doExit=1
+	goto command
+) else (
+	cd ../
+)
+
 :license
 cls
 echo Copyright 2016 Rory Claasen
@@ -15,9 +25,12 @@ echo See the License for the specific language governing permissions and
 echo.
 pause
 
-cd ../
-set bar=-------------------------------------------------------------------------------
 :loop
+title %title%
+if %doExit% == 1 (
+	exit
+)
+
 cls
 echo %bar%
 echo Main Menu - %title%
@@ -34,6 +47,9 @@ echo   (9) license              - Shows the license
 echo %bar%
 set option=-1
 set /P option="To select an option enter the corresponding number: "
+
+:command
+title %title% - %option%
 if %option% == 0 (
 	exit
 ) else (

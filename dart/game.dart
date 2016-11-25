@@ -23,6 +23,8 @@ class GameHost {
 	bool _running = false;
 
 	MasterHandler handler;
+	ResourceManager resources;
+	StateManager stateManager;
 
 	GameHost(this._canvas, this._context) {
 		width = _canvas.width;
@@ -31,13 +33,12 @@ class GameHost {
 			width = _canvas.width;
 			height = _canvas.height;
 		});
+		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
+		stateManager = new StateManager();
 	}
 
-	Sprite logo;
-
 	run() {
-		logo = new Sprite('assets/images/project white.png');
 		_running = true;
 		_canvas.focus();
 		window.requestAnimationFrame(_gameLoop);
@@ -61,12 +62,11 @@ class GameHost {
 	void _render(CanvasRenderingContext2D context) {
 		context.setFillColorRgb(0, 0, 0);
 		context.fillRect(0, 0, width, height);
-		if (logo.isComplete()) {
-			int w = (logo.width() * 0.75).toInt();
-			int h = (logo.width() * 0.75).toInt();
-			context.drawImageScaled(logo.getTexture(), (width / 2) - (w / 2), (height / 2) - (h / 2), w, h);
-		}
+
+		stateManager.render(context);
 	}
 
-	void _update(final double elapsed) {}
+	void _update(final double delta) {
+		stateManager.update(delta);
+	}
 }
