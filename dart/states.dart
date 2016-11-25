@@ -16,6 +16,7 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class StateManager {
+	/// This Map contains the game states and their corresponding keys
 	Map<String, State> _states = new Map<String, State>();
 
 	State _current;
@@ -28,6 +29,8 @@ class StateManager {
 		_current = _states['intro'];
 	}
 
+	/// Changes the state to [tag]
+	/// If tag is null or there is no state called [tag] the state will not change!
 	void changeState(String tag) {
 		State next = _states[tag];
 		if (next == null) {
@@ -38,10 +41,12 @@ class StateManager {
 		_current = next;
 	}
 
+	/// Renders the current state
 	void render(CanvasRenderingContext2D context) {
 		_current.render(context);
 	}
 
+	/// Updates the current state
 	void update(final double delta) {
 		_current.update(delta);
 	}
@@ -53,9 +58,13 @@ abstract class State {
 		init();
 	}
 
+	/// Abstract initializer
 	void init();
 
+	/// Abstrcat render method
 	void render(CanvasRenderingContext2D context);
+
+	/// Abstrcat update method
 	void update(final double delta);
 }
 

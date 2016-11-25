@@ -38,18 +38,23 @@ class GameHost {
 		stateManager = new StateManager();
 	}
 
+	/// Method to start the gameloop
+	///
+	/// Stops when `running` is set to `false`
 	run() {
 		_running = true;
 		_canvas.focus();
 		window.requestAnimationFrame(_gameLoop);
 	}
 
+	/// Main game loop function
 	void _gameLoop(double _) {
 		_update(_getDelta());
 		_render(_context);
 		if (_running) window.requestAnimationFrame(_gameLoop);
 	}
 
+	/// Get the current delta from the last call to this call
 	double _getDelta() {
 		final int time = new DateTime.now().millisecondsSinceEpoch;
 		double elapsed = 0.0;
@@ -58,7 +63,9 @@ class GameHost {
 		return elapsed;
 	}
 
-
+	/// Main render function
+	///
+	/// [context] is the rendering context of the game canvas
 	void _render(CanvasRenderingContext2D context) {
 		context.setFillColorRgb(0, 0, 0);
 		context.fillRect(0, 0, width, height);
@@ -66,6 +73,10 @@ class GameHost {
 		stateManager.render(context);
 	}
 
+	/// Main update method
+	///
+	/// [delta] is the time between the last updated to this one
+	/// e.g. `0.25` is `250` mills
 	void _update(final double delta) {
 		stateManager.update(delta);
 	}

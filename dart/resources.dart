@@ -24,10 +24,14 @@ class ResourceManager {
 		_initSprites();
 	}
 
+	/// All sprites get loaded at this point in the program
+	///
+	/// This means that images wont have to be craeted mroe than once
 	void _initSprites() {
 		_sprites['logo.roryclaasen'] = new Sprite("${getAssetsDir()}/images/project white.png");
 	}
 
+	/// Gets the sprite from the hash map with the corresponding [key]
 	static Sprite getSprite(String key) {
 		return _sprites[key];
 	}
@@ -43,20 +47,23 @@ enum Status {
 }
 
 abstract class BaseResource {
-	Status _stage = Status.initialized;
+	Status _status = Status.initialized;
 
 	void _start();
 
+	/// Gets the current status of the resource
 	Status getStatus() {
-		return _stage;
+		return _status;
 	}
 
+	/// Returns `true` if the current status equals complete
 	bool isComplete() {
-		return _stage == Status.complete;
+		return _status == Status.complete;
 	}
 
+	/// Returns `true` if the current status equals failed
 	bool isFailed() {
-		return _stage == Status.failed;
+		return _status == Status.failed;
 	}
 }
 
@@ -70,31 +77,35 @@ class Sprite extends BaseResource {
 	}
 
 	void _start() {
-		_stage = Status.started;
+		_status = Status.started;
 
 		_image = new ImageElement(src: _source);
 		_image.onLoad.listen((e) {
-			_stage = Status.complete;
+			_status = Status.complete;
 		});
 		_image.onError.listen((e) {
-			_stage = Status.failed;
+			_status = Status.failed;
 		});
 	}
 
+	/// Returns the width of the image only if it is loaded
 	int width() {
 		if (isComplete()) return _image.width;
 		return 0;
 	}
 
+	/// Returns the height of the image only if it is loaded
 	int height() {
 		if (isComplete()) return _image.height;
 		return 0;
 	}
 
+	/// Returns the image element of the source
 	ImageElement getTexture() {
 		return _image;
 	}
 
+	/// Returns the source that was entered when created
 	String getSource() {
 		return _source;
 	}

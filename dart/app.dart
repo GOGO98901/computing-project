@@ -35,6 +35,7 @@ final Logger log = new Logger('project');
 CanvasElement _canvas;
 DataBaseConnection _dbConnect;
 
+/// Entry point for the dart code
 void main() {
 	if (_init()) {
 		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
@@ -44,6 +45,9 @@ void main() {
 	}
 }
 
+/// Main initialization method
+///
+/// This function checks to make sure that the canvas iss visible and creates crucial objects
 bool _init() {
 	Logger.root.level = Level.ALL;
 	Logger.root.onRecord.listen((LogRecord rec) {

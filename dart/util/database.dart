@@ -106,15 +106,19 @@ void main() {
 
 class DataBaseConnection {
 	final String queryPage = "http://database.roryclaasen.me/query.php";
+	final Random _random = new Random();
 
 	DataBaseConnection() {
 		log.info('Database connection setting up with url [${queryPage}]');
 	}
 
+	/// Adds the user with the [name] to the databse
+	///
+	/// Returns the student details
 	Future<JsonObject> addUser(String name) {
 		Completer<JsonObject> completer = new Completer();
 		_getNextId().then((id) {
-			String login = _randomLogin(id, 4);
+			String login = _randomLogin(id);
 			log.info("New login token " + login);
 			_getQueryResult("INSERT INTO `cp_students`(`name`, `login`) VALUES ('${name}', '${login}')").then((json) {
 				json.isExtendable = true;
@@ -127,6 +131,7 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
+	/// Removes the user with the [id] from the database
 	Future<JsonObject> removeUser(int id) {
 		Completer<JsonObject> completer = new Completer();
 		_getQueryResult("DELETE FROM `cp_students` WHERE `id` = ${id}").then((json) {
@@ -135,6 +140,7 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
+	/// Gets the user with the [id] from the database
 	Future<JsonObject> getStudent(int id) {
 		Completer<JsonObject> completer = new Completer();
 		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE `id` = ${id}").then((list) {
@@ -143,6 +149,7 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
+	/// Gets a list of all the students from the database
 	Future<List> getStudentList() {
 		Completer<List> completer = new Completer();
 		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE 1").then((list) {
@@ -156,6 +163,7 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
+	/// Gets the next id from the table `cp_students` from the database
 	Future<int> _getNextId() {
 		Completer<int> completer = new Completer();
 		_getQueryResultAsQueryList("SHOW TABLE STATUS LIKE 'cp_students'").then((list) {
@@ -170,17 +178,31 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
-	String _randomLogin(int id, int length) {
-		var rand = new Random();
-		var codeUnits = new List.generate(
-			length,
-			(index) {
-				return rand.nextInt(26) + 97;
-			}
-		);
-		return new String.fromCharCodes(codeUnits) + id.toString();
+	/// Returns a random prefix word with the [id] appended on to the end
+	String _randomLogin(int id) {
+		List prefixes = ['car', 'lion', 'cat', 'cube', 'gem'];
+		return prefixes[_random.nextInt(prefixes.length)] + id.toString();
 	}
 
+	/// Carries out the query then returns the result as a `JsonList`
+	Future<JsonList> _getQueryResultAsQueryList(String query) {
+		Completer<JsonList> completer = new Completer();
+		_getQueryResult(query).then((json) {
+			completer.complete(new JsonList.fromString(json.output.toString()));
+		});
+		return completer.future;
+	}
+
+	/// Carries out the query then returns the result as a `JsonObject`
+	Future<JsonObject> _getQueryResult(String query) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResultAsString(query).then((json) {
+			completer.complete(new JsonObject.fromJsonString(json));
+		});
+		return completer.future;
+	}
+
+	/// Carries out the query then returns the result as a `String` formatted like Json
 	Future<String> _getQueryResultAsString(String query) {
 		log.info('Sending query "' + query + '"');
 		Completer<String> completer = new Completer();
@@ -194,22 +216,6 @@ class DataBaseConnection {
 			}
 		});
 		req.send('{"query": "${query}"}');
-		return completer.future;
-	}
-
-	Future<JsonObject> _getQueryResult(String query) {
-		Completer<JsonObject> completer = new Completer();
-		_getQueryResultAsString(query).then((json) {
-			completer.complete(new JsonObject.fromJsonString(json));
-		});
-		return completer.future;
-	}
-
-	Future<JsonList> _getQueryResultAsQueryList(String query) {
-		Completer<JsonList> completer = new Completer();
-		_getQueryResult(query).then((json) {
-			completer.complete(new JsonList.fromString(json.output.toString()));
-		});
 		return completer.future;
 	}
 }

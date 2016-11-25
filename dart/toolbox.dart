@@ -16,10 +16,13 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class Util {
+
+	/// Gets the Uri that the system is connected from
 	static Uri getUri() {
 		return Uri.base;
 	}
 
+	/// Returns `true` when not connected to from the local host `127.0.0.1`
 	static bool isLive()  {
 		String address = getUri().toString().toLowerCase().replaceFirst("http://", "");
 		// Helper.notify(Helper.info, address);
