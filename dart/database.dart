@@ -23,7 +23,7 @@ import 'dart:async';
 import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
 
-final Logger log = new Logger('prototype');
+final Logger log = new Logger('project');
 
 void main() {
 	Logger.root.level = Level.ALL;
@@ -42,7 +42,7 @@ void main() {
 				querySelector('#stage-end').style.display = "inline";
 				querySelector('#userAddReturnCode').text = json.token;
 
-				js.context.callMethod('notif', ['success', 'Added Student', name]);
+				Helper.notify(Helper.success, 'Added Student', name);
 			});
 		} else {
 			querySelector('#userAddForm').classes.add('has-error');
@@ -97,7 +97,7 @@ void main() {
 			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
 
-			js.context.callMethod('notif', ['warning', 'Removed student', name]);
+			Helper.notify(Helper.warn, 'Removed Student', name);
 		});
 	});
 }
@@ -217,5 +217,17 @@ class JsonList extends JsonObject implements List {
 
 	factory JsonList.fromString(String jsonString) {
 		return new JsonObject.fromJsonString(jsonString, new JsonList());
+	}
+}
+
+class Helper {
+	static final String info = "info";
+	static final String success = "sucess";
+	static final String warn = "warning";
+	static final String error = "error";
+
+	static void notify(String type, String title, [String message]) {
+		if (message == null) message = '';
+		js.context.callMethod('notif', [type, title, message]);
 	}
 }
