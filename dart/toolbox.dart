@@ -16,7 +16,6 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class Util {
-
 	static final Spec spec = new Spec();
 
 	/// Gets the Uri that the system is connected from
@@ -67,16 +66,62 @@ class Point {
 
 class Spec {
 
+	bool _loaded = false;
+
+	YamlMap _map;
+
 	Spec() {
-		_load().then((map)  {
+		_load().then((map) {
+			if (map != null) {
+				_loaded = true;
+				_map = map;
+
+				log.info("[${name()}] ${version()}#${build()}");
+			}
 		});
+	}
+
+	String name() {
+		return _get('name');
+	}
+
+	String description() {
+		return _get('description');
+	}
+
+	String homepage() {
+		return _get('homepage');
+	}
+
+	String version() {
+		return _get('version');
+	}
+
+	String build() {
+		return _get('build');
+	}
+
+	String _get(String key){
+		if (_loaded) return _map[key];
+		return "";
+	}
+
+	@deprecated
+	YamlMap map() {
+		return _map;
+	}
+
+	bool isLoaded() {
+		return _loaded;
 	}
 
 	Future<YamlMap> _load() {
 		Completer<YamlMap> completer = new Completer();
 		HttpRequest.getString('pubspec.yaml').then((String yaml) {
+			log.info("loaded pubspec");
 			completer.complete(loadYaml(yaml));
-		}).catchError((Error error){
+		}).catchError((Error error) {
+			log.warning("failed to load pubspec");
 			completer.complete(null);
 		});
 		return completer.future;

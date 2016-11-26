@@ -54,6 +54,11 @@ bool _init() {
 	Logger.root.onRecord.listen((LogRecord rec) {
 		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
 	});
+
+	log.info("Running from ${Util.getUri()}");
+
+	Util.spec.isLoaded();
+
 	_canvas = document.querySelector('#game-canvas');
 	if (_canvas != null) log.info("Found canvas node");
 	else {
