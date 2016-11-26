@@ -68,8 +68,8 @@ function notif(type, title, message) {
 		zindex: 99999,
 		transitionOut: 'flipOutX',
 	};
-	console.log("[JAVASCRIPT] Showing notification");
-	console.log(defaultMap);
+	// console.log("[JAVASCRIPT] Showing notification");
+	// console.log(defaultMap);
 	switch(type) {
 		case "success": {
 			iziToast.success(defaultMap);
