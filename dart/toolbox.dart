@@ -69,7 +69,6 @@ class Spec {
 
 	Spec() {
 		_load().then((map)  {
-
 		});
 	}
 
