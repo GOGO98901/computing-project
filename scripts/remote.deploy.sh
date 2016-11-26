@@ -20,6 +20,7 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 
 	cp README.md build/_site/static
 	cp LICENSE build/_site/static/license.txt
+	cp pubspec.yaml build/_site/static
 
 	cd build/_site/static
 	git init
