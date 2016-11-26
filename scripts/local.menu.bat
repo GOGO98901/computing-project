@@ -40,7 +40,7 @@ echo %bar%
 echo   (0) exit
 echo   (1) pub get              - Collects the current dart dependencies
 echo   (2) jekyll build         - Builds the liquid html
-echo   (3) copy dart            - Copy's the dart code to the output of (2).
+echo   (3) link dart            - Creates a symlink of the dart code to the output of (2).
 echo   (4) copy JavaScript      - Copy's the JavaScript to the output of (2).
 echo   (5) serve                - Starts a python server
 echo   (6) dartium              - Opens dartium browser
@@ -62,9 +62,9 @@ if %option% == 0 (
 		start cmd /C jekyll build --config _config.yml,_config-dev.yml | cp dart _site/assets/script/
 	)
 	if %option% == 3 (
-		cp -r dart/ _site/static/assets/script/
-		cp -r _site/static/assets/script/packages/ _site/static/assets/script/dart/
-		cp -r _site/static/assets/script/packages/ _site/static/assets/script/dart/util/
+		runas /user:Administrator /savecred "cmd /c mklink /J %CD%\dart\packages %CD%\packages"
+		runas /user:Administrator /savecred "cmd /c mklink /J %CD%\dart\util\packages %CD%\packages"
+		runas /user:Administrator /savecred "cmd /c mklink /J %CD%\_site\static\assets\script\dart %CD%\dart"
 	)
 	if %option% == 4 (
 		cp -r static/assets/script/javascript/ _site/static/assets/script/

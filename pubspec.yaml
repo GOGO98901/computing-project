@@ -1,6 +1,6 @@
 name: Computer_Science_Project
 description: Rory Claasen's A Level Computer Science project.
-version: 0.0.1
+version: 0.1.1
 homepage: https://github.com/GOGO98901/computing-project
 environment:
   sdk: '>=1.0.0'
