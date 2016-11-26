@@ -17,6 +17,8 @@ part of Computer_Science_Project;
 
 class Util {
 
+	static final Spec spec = new Spec();
+
 	/// Gets the Uri that the system is connected from
 	static Uri getUri() {
 		return Uri.base;
@@ -61,4 +63,23 @@ class Point {
 	operator -(Point other) => new Point(_x - other._x, _y - other._y);
 	operator *(int factor) => new Point(_x * factor, _y * factor);
 	operator /(int factor) => new Point(_x ~/ factor, _y ~/ factor);
+}
+
+class Spec {
+
+	Spec() {
+		_load().then((map)  {
+
+		});
+	}
+
+	Future<YamlMap> _load() {
+		Completer<YamlMap> completer = new Completer();
+		HttpRequest.getString('pubspec.yaml').then((String yaml) {
+			completer.complete(loadYaml(yaml));
+		}).catchError((Error error){
+			completer.complete(null);
+		});
+		return completer.future;
+	}
 }

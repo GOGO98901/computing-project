@@ -23,6 +23,8 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 	cp pubspec.yaml build/_site/static
 
 	cd build/_site/static
+
+	echo "build: $TRAVIS_BUILD_NUMBER" >> pubspec.yaml
 	git init
 	git add --a
 	git commit -m "Deploy to Github Pages"
