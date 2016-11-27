@@ -1,2 +1,3 @@
 base_url: ""
 linkends: ".html"
+exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', 'packages/', 'dart', 'static/assets/images/', 'static/assets/script/javascript/']
