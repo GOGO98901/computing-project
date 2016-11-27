@@ -19,12 +19,18 @@ class MasterHandler {
 	CanvasElement _canvas;
 
 	Keyboard _keyboard;
+	Mouse _mouse;
 
 	MasterHandler(this._canvas) {
 		_keyboard = new Keyboard();
+		_mouse = new Mouse(_canvas);
 	}
 
-	Keyboard getKeyboard(){
+	Mouse getMouse()  {
+		return _mouse;
+	}
+
+	Keyboard getKeyboard() {
 		return _keyboard;
 	}
 }
@@ -43,4 +49,36 @@ class Keyboard {
 	}
 
 	static isPressed(int keyCode) => _keys.contains(keyCode);
+}
+
+class Mouse {
+	static int _x = 0, _y = 0;
+	static bool _inside;
+	CanvasElement _canvas;
+	Mouse(this._canvas) {
+		_canvas.onMouseMove.listen((e) {
+			_inside = false;
+			if (_canvas.getBoundingClientRect().containsPoint(e.client)) {
+				_inside = true;
+				_x = e.offset.x;
+				_y = e.offset.y;
+			}
+		});
+	}
+
+	static bool inCanvas() {
+		return _inside;
+	}
+
+	static int getX() {
+		return _x;
+	}
+
+	static int getY() {
+		return _y;
+	}
+
+	static Point getPoint() {
+		return new Point(_x, _y);
+	}
 }

@@ -28,7 +28,8 @@ class ResourceManager {
 	///
 	/// This means that images wont have to be craeted mroe than once
 	void _initSprites() {
-		_sprites['logo.roryclaasen'] = new Sprite("${getAssetsDir()}/images/project white.png");
+		_sprites['logo.roryclaasen.white'] = new Sprite("${getAssetsDir()}/images/project white.png");
+		_sprites['logo.roryclaasen.black'] = new Sprite("${getAssetsDir()}/images/project black.png");
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]

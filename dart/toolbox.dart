@@ -32,10 +32,10 @@ class Util {
 	}
 }
 
-class Point {
+class PointSmart {
 	int _x, _y;
 
-	Point(this._x, this._y);
+	PointSmart(this._x, this._y);
 
 	void setX(int x) {
 		this._x = x;
@@ -58,10 +58,14 @@ class Point {
 		this._y = y;
 	}
 
-	operator +(Point other) => new Point(_x + other._x, _y + other._y);
-	operator -(Point other) => new Point(_x - other._x, _y - other._y);
-	operator *(int factor) => new Point(_x * factor, _y * factor);
-	operator /(int factor) => new Point(_x ~/ factor, _y ~/ factor);
+	Point toPoint() {
+		return new Point(_x, _y);
+	}
+
+	operator +(PointSmart other) => new PointSmart(_x + other._x, _y + other._y);
+	operator -(PointSmart other) => new PointSmart(_x - other._x, _y - other._y);
+	operator *(int factor) => new PointSmart(_x * factor, _y * factor);
+	operator /(int factor) => new PointSmart(_x ~/ factor, _y ~/ factor);
 }
 
 class Spec {

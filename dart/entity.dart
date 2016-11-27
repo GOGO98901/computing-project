@@ -16,7 +16,7 @@ limitations under the License.
 part of Computer_Science_Project;
 
 abstract class Entity  {
-	Point _position;
+	PointSmart _position;
 	Sprite _sprite;
 
 	void init();

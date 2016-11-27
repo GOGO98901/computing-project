@@ -16,17 +16,21 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class StateManager {
+
+	CanvasElement _canvas;
+
 	/// This Map contains the game states and their corresponding keys
 	Map<String, State> _states = new Map<String, State>();
 
 	State _current;
 
-	StateManager() {
+	StateManager(this._canvas) {
 		_states['intro'] = new StateIntro(this);
 		_states['login'] = new StateLogin(this);
 		_states['game'] = new StateGame(this);
 
-		_current = _states['intro'];
+		//_current = _states['intro'];
+		_current = _states['login'];
 	}
 
 	/// Changes the state to [tag]
@@ -43,18 +47,26 @@ class StateManager {
 
 	/// Renders the current state
 	void render(CanvasRenderingContext2D context) {
-		_current.render(context);
+		context..setFillColorRgb(255, 255, 255)..fillRect(0, 0, GameHost.width, GameHost.height);
+		_current..render(context)..renderGui(context);
 	}
 
 	/// Updates the current state
 	void update(final double delta) {
-		_current.update(delta);
+		_current..update(delta)..updateGui(delta);
+	}
+
+	CanvasElement canvas() {
+		return  _canvas;
 	}
 }
 
 abstract class State {
 	final StateManager _manager;
+
+	HashMap<String, GuiElement> _gui;
 	State(this._manager)  {
+		_gui = new HashMap<String, GuiElement>();
 		init();
 	}
 
@@ -64,8 +76,20 @@ abstract class State {
 	/// Abstrcat render method
 	void render(CanvasRenderingContext2D context);
 
+	void renderGui(CanvasRenderingContext2D context) {
+		_gui.values.forEach((element) {
+			element.render(context);
+		});
+	}
+
 	/// Abstrcat update method
 	void update(final double delta);
+
+	void updateGui(final double delta) {
+		_gui.values.forEach((element) {
+			element.update(delta);
+		});
+	}
 }
 
 class StateIntro extends State {
@@ -77,10 +101,10 @@ class StateIntro extends State {
 	double _time = 0.0;
 
 	void init() {
-		_logo = ResourceManager.getSprite('logo.roryclaasen');
+		_logo = ResourceManager.getSprite('logo.roryclaasen.black');
 	}
 
-	void render(CanvasRenderingContext2D context){
+	void render(CanvasRenderingContext2D context) {
 		if (_logo.isComplete()) {
 			int w = (_logo.width() * 0.75).toInt();
 			int h = (_logo.width() * 0.75).toInt();
@@ -101,7 +125,9 @@ class StateLogin extends State {
 
 	StateLogin(StateManager _manager) : super(_manager);
 
-	void init() {}
+	void init() {
+		_gui['token'] = new InputboxElement(_manager.canvas(), 100, 100, "Enter user token");
+	}
 
 	void render(CanvasRenderingContext2D context) {
 		// TODO Create login page

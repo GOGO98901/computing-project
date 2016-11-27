@@ -35,7 +35,7 @@ class GameHost {
 		});
 		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
-		stateManager = new StateManager();
+		stateManager = new StateManager(_canvas);
 	}
 
 	/// Method to start the gameloop
@@ -67,9 +67,6 @@ class GameHost {
 	///
 	/// [context] is the rendering context of the game canvas
 	void _render(CanvasRenderingContext2D context) {
-		context.setFillColorRgb(0, 0, 0);
-		context.fillRect(0, 0, width, height);
-
 		stateManager.render(context);
 	}
 

@@ -27,6 +27,7 @@ import 'util/database.dart';
 part 'game.dart';
 part 'handler.dart';
 part 'toolbox.dart';
+part 'gui.dart';
 part 'resources.dart';
 part 'states.dart';
 part 'entity.dart';
