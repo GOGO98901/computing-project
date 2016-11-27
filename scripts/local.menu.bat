@@ -21,7 +21,6 @@ echo %bar%
 echo Main Menu - %title%
 echo %bar%
 echo General:
-echo   -  (0) Show license
 echo   -  (1) Get the pub dependencies
 echo   -  (2) Clean build directory
 echo   -  (3) Jekyll build
@@ -38,18 +37,6 @@ set /p option="To select an option enter the corresponding number: "
 :command
 cls
 title %title% - [option = %option%]
-if %option%==0 (
-	echo Copyright 2016 Rory Claasen
-	echo Licensed under the Apache License, Version 2.0 (the License);
-	echo you may not use this file except in compliance with the License.
-	echo You may obtain a copy of the License at
-	echo http://www.apache.org/licenses/LICENSE-2.0
-	echo Unless required by applicable law or agreed to in writing, software
-	echo distributed under the License is distributed on an AS IS BASIS,
-	echo WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	echo See the License for the specific language governing permissions and
-	pause
-)
 if %option%==1 (
 	:: Collects pub dependencies and saves them
 	start cmd /C pub get --packages-dir
