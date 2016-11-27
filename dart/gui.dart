@@ -40,57 +40,25 @@ abstract class GuiElement {
 	}
 }
 
-class InputboxElement extends GuiElement {
+class GuiButtonElement extends GuiElement {
 
 	static final int width = 300, height =  40;
 
 	int _x, _y;
-	String _text, _placeholder;
 
-	bool _hover = false, _focus = false;
-
-	InputboxElement(CanvasElement canvas, int x, int y, [String placeholder]) : super(new Rectangle(x, y, width, height)) {
+	GuiButtonElement(CanvasElement canvas, int x, int y, [String text]) : super(new Rectangle(x, y, width, height)) {
 		this._x = x;
 		this._y = y;
-		this._placeholder = placeholder;
-
-		canvas.onClick.listen((e) {
-			if (Mouse.inCanvas()) {
-				if (_bounds.containsPoint(Mouse.getPoint())) {
-					_focus = true;
-				} else _focus = false;
-			}
-		});
 	}
 
 	void _init() {
-		_text = '';
+
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		if (_hover || _focus) {
-			context..setFillColorRgb(0, 0, 0)
-			..setStrokeColorRgb(0, 0, 0);
-		} else {
-			context..setStrokeColorRgb(100, 100, 100)
-			..setFillColorRgb(100, 100, 100);
-		}
-		context.strokeRect(_x, _y, width, height);
-
-		context.font = '19pt Roboto';
-		context.fillText(_getText(), _x, _y + (height * 0.75).toInt());
-	}
-
-	String _getText() {
-		if (_text == null) return  _placeholder;
-		if (_text.length > 0) return _text;
-		return _placeholder;
 	}
 
 	void update(final double delta) {
-		_hover = false;
-		if (_bounds.containsPoint(Mouse.getPoint())) {
-			_hover = true;
-		}
+
 	}
 }

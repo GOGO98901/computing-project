@@ -126,7 +126,7 @@ class StateLogin extends State {
 	StateLogin(StateManager _manager) : super(_manager);
 
 	void init() {
-		_gui['token'] = new InputboxElement(_manager.canvas(), 100, 100, "Enter user token");
+		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Login");
 	}
 
 	void render(CanvasRenderingContext2D context) {
