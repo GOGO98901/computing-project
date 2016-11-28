@@ -143,10 +143,6 @@ class StateLogin extends State {
 	}
 
 	void update(final double delta) {}
-
-	void _login(String token) {
-
-	}
 }
 
 class StateGame extends State {
