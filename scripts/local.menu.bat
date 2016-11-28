@@ -1,18 +1,15 @@
 @echo off
 set title=Development manager - Computing Project
-set /A doExit=0
+set doExit=0
 set bar=-------------------------------------------------------------------------------
 
-title %title%
-
 if NOT [%1] == [] (
-	set /A option=%1
-	set /A doExit=1
+	set option=%1
+	set doExit=1
 	goto command
 ) else (
 	cd ../
 )
-
 
 :menu
 title %title%
@@ -31,7 +28,7 @@ echo   -  (5) Serve the build folder
 echo   -  (6) Open dartium
 
 echo %bar%
-set /A option=-1
+set option=-1
 set /p option="To select an option enter the corresponding number: "
 
 :command
@@ -76,6 +73,6 @@ if %option%==6 (
 	start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/
 )
 if %doExit%==1 (
-	::exit
+	exit
 )
 goto menu

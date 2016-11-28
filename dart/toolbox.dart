@@ -30,6 +30,12 @@ class Util {
 		if (address.startsWith('127.0.0.1')) return false;
 		return true;
 	}
+
+	static void drawCenteredText(String text, int x, int y, int width, int height, CanvasRenderingContext2D context) {
+		if (text == null) text="";
+		int textWidth = context.measureText(text).width.round();
+		context.fillText(text, x + (width / 2) - (textWidth / 2), y + (height * 0.775));
+	}
 }
 
 class PointSmart {

@@ -28,8 +28,16 @@ class ResourceManager {
 	///
 	/// This means that images wont have to be craeted mroe than once
 	void _initSprites() {
-		_sprites['logo.roryclaasen.white'] = new Sprite("${getAssetsDir()}/images/project white.png");
-		_sprites['logo.roryclaasen.black'] = new Sprite("${getAssetsDir()}/images/project black.png");
+		_sprites['logo.roryclaasen.white'] = _loadSprite('project white.png');
+		_sprites['logo.roryclaasen.black'] = _loadSprite('project black.png');
+
+		_sprites['ui.button.up.blue'] = _loadSprite('game/ui/kenney/blue_button02.png');
+		_sprites['ui.button.down.blue'] = _loadSprite('game/ui/kenney/blue_button03.png');
+	}
+
+	Sprite _loadSprite(String name, {String dir}) {
+		if (dir == null) 	return new Sprite("${getAssetsDir()}/images/${name}");
+		else 	return new Sprite("${dir}/${name}");
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]

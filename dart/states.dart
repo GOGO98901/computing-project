@@ -67,11 +67,11 @@ abstract class State {
 	HashMap<String, GuiElement> _gui;
 	State(this._manager)  {
 		_gui = new HashMap<String, GuiElement>();
-		init();
+		init(_manager.canvas());
 	}
 
 	/// Abstract initializer
-	void init();
+	void init(CanvasElement canvas);
 
 	/// Abstrcat render method
 	void render(CanvasRenderingContext2D context);
@@ -100,7 +100,7 @@ class StateIntro extends State {
 
 	double _time = 0.0;
 
-	void init() {
+	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.black');
 	}
 
@@ -125,8 +125,18 @@ class StateLogin extends State {
 
 	StateLogin(StateManager _manager) : super(_manager);
 
-	void init() {
+	void init(CanvasElement canvas) {
 		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Login");
+
+		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
+		eventStreamProvider.forTarget(canvas).listen((e) {
+			if (e.detail['type']=='button') {
+				if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
+					// TODO open model
+					log.info("clicked");
+				}
+			}
+		});
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -140,7 +150,7 @@ class StateGame extends State {
 
 	StateGame(StateManager _manager) : super(_manager);
 
-	void init() {}
+	void init(CanvasElement canvas) {}
 
 	void render(CanvasRenderingContext2D context) {}
 
