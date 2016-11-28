@@ -132,8 +132,7 @@ class StateLogin extends State {
 		eventStreamProvider.forTarget(canvas).listen((e) {
 			if (e.detail['type']=='button') {
 				if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
-					// TODO open model
-					log.info("clicked");
+					js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
 				}
 			}
 		});
@@ -144,6 +143,10 @@ class StateLogin extends State {
 	}
 
 	void update(final double delta) {}
+
+	void _login(String token) {
+
+	}
 }
 
 class StateGame extends State {
