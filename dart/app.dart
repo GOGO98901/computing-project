@@ -32,6 +32,7 @@ part 'gui.dart';
 part 'resources.dart';
 part 'states.dart';
 part 'entity.dart';
+part 'user.dart';
 
 final Logger log = new Logger('project');
 
