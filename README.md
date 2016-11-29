@@ -122,5 +122,9 @@ Copyright 2016 Marcelo Dolce
    limitations under the License.
 ```
 
+#### [Kenney *Assets*](http://kenney.nl/assets)
+`./web/assets/images/game/ui/kenney/`
+[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
+
 [branch-prototype]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype "Build Status"
 [branch-project]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=project "Build Status"
