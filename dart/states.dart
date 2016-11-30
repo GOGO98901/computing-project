@@ -17,6 +17,7 @@ part of Computer_Science_Project;
 
 class StateManager {
 
+	GameHost _host;
 	CanvasElement _canvas;
 
 	/// This Map contains the game states and their corresponding keys
@@ -24,7 +25,7 @@ class StateManager {
 
 	State _current;
 
-	StateManager(this._canvas) {
+	StateManager(this._host, this._canvas) {
 		_states['intro'] = new StateIntro(this);
 		_states['login'] = new StateLogin(this);
 		_states['game'] = new StateGame(this);
@@ -54,6 +55,10 @@ class StateManager {
 	/// Updates the current state
 	void update(final double delta) {
 		_current..update(delta)..updateGui(delta);
+	}
+
+	GameHost host() {
+		return _host;
 	}
 
 	CanvasElement canvas() {
@@ -133,6 +138,17 @@ class StateLogin extends State {
 			if (e.detail['type']=='button') {
 				if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
 					js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
+				}
+			}
+		});
+
+		querySelector('#gameLogin').onClick.listen((event) {
+			String token = (querySelector('#gameToken') as InputElement).value;
+			if (token != null) if (token.length > 0) {
+				if (_manager.host().userManagement.login(token)) {
+					Notify.info("Logged in");
+				} else {
+					Notify.warn("Failed to logged in");
 				}
 			}
 		});

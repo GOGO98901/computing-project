@@ -37,7 +37,6 @@ part 'user.dart';
 final Logger log = new Logger('project');
 
 CanvasElement _canvas;
-DataBaseConnection _dbConnect;
 
 /// Entry point for the dart code
 void main() {
@@ -69,6 +68,5 @@ bool _init() {
 		Notify.warn("Unable to find canvas node");
 		return false;
 	}
-	_dbConnect = new DataBaseConnection();
 	return true;
 }

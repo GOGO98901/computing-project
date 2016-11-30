@@ -149,6 +149,15 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
+	/// Gets the user with the [token] from the database
+	Future<JsonObject> getStudentFromToken(String token) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE `login` = `${token}`").then((list) {
+			completer.complete(list[0]);
+		});
+		return completer.future;
+	}
+
 	/// Gets a list of all the students from the database
 	Future<List> getStudentList() {
 		Completer<List> completer = new Completer();
@@ -188,7 +197,13 @@ class DataBaseConnection {
 	Future<JsonList> _getQueryResultAsQueryList(String query) {
 		Completer<JsonList> completer = new Completer();
 		_getQueryResult(query).then((json) {
-			completer.complete(new JsonList.fromString(json.output.toString()));
+			JsonList list = null;
+			try {
+				list = new JsonList.fromString(json.output.toString());
+			} catch (e) {
+				log.warning("Query failed: ${e} ${json}");
+			}
+			completer.complete(list);
 		});
 		return completer.future;
 	}

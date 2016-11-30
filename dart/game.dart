@@ -24,6 +24,7 @@ class GameHost {
 
 	MasterHandler handler;
 	ResourceManager resources;
+	UserManagement userManagement;
 	StateManager stateManager;
 
 	GameHost(this._canvas, this._context) {
@@ -35,7 +36,8 @@ class GameHost {
 		});
 		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
-		stateManager = new StateManager(_canvas);
+		userManagement = new UserManagement();
+		stateManager = new StateManager(this, _canvas);
 	}
 
 	/// Method to start the gameloop
