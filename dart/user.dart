@@ -27,12 +27,14 @@ class UserManagement {
 
 	UserData _current;
 
-	bool login(String token) {
+	Future<bool> login(String token) {
+		Completer<bool> completer = new Completer();
 		database.getStudentFromToken(token).then((json) {
 			log.info(json);
-			return true;
+			completer.complete(true);
 		});
-		return false;
+		//completer.complete(false);
+		return completer.future;
 	}
 }
 

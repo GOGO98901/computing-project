@@ -145,11 +145,10 @@ class StateLogin extends State {
 		querySelector('#gameLogin').onClick.listen((event) {
 			String token = (querySelector('#gameToken') as InputElement).value;
 			if (token != null) if (token.length > 0) {
-				if (_manager.host().userManagement.login(token)) {
-					Notify.info("Logged in");
-				} else {
-					Notify.warn("Failed to logged in");
-				}
+				_manager.host().userManagement.login(token).then((connected) {
+					if (connected) Notify.info("Logged in");
+					else Notify.warn("Not logged in");
+				});
 			}
 		});
 	}
