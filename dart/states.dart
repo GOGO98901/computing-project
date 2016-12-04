@@ -167,7 +167,6 @@ class StateLogin extends State {
 
 	void render(CanvasRenderingContext2D context) {
 		// TODO Create login page
-		context..setFillColorRgb(0, 0, 0)..fillRect(Mouse.getX(), Mouse.getY(), 10, 10);
 	}
 
 	void update(final double delta) {}
