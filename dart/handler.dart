@@ -82,3 +82,43 @@ class Mouse {
 		return new Point(_x, _y);
 	}
 }
+
+class ScreenHandler {
+	GameHost _host;
+
+	int _startWidth, _startHeight;
+
+	bool _fullScreen = false;
+
+	ScreenHandler(this._host) {
+		updateCanvasSize();
+		_startWidth = _host.getCanvas().getBoundingClientRect().width;
+		_startHeight = _host.getCanvas().getBoundingClientRect().height;
+		_host.updateSize(_startWidth, _startHeight);
+	}
+
+	void setFullScreen(bool state) {
+		_fullScreen = state;
+		if (state) {
+			js.context.callMethod('goFullScreen');
+			updateCanvasSize(window.innerWidth, window.innerHeight);
+			_host.updateSize(window.innerWidth, window.innerHeight);
+		} else {
+			js.context.callMethod('exitFullScreen');
+			updateCanvasSize(_startWidth, _startHeight);
+			_host.updateSize(_canvas.width, _canvas.height);
+		}
+	}
+
+	void updateCanvasSize([int width, int height]) {
+		log.info("Setting game canvas attribute size");
+		if (width == null) width = _host.getCanvas().getBoundingClientRect().width;
+		if (height == null) height = _host.getCanvas().getBoundingClientRect().height;
+		_canvas.attributes['width'] = "${width}px";
+		_canvas.attributes['height'] = "${height}px";
+	}
+
+	bool isFullScreen() {
+		return _fullScreen;
+	}
+}

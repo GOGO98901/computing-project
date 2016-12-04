@@ -83,4 +83,8 @@ class GameHost {
 	void _update(final double delta) {
 		stateManager.update(delta);
 	}
+
+	CanvasElement getCanvas() {
+		return _canvas;
+	}
 }
