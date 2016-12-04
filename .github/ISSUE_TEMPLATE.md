@@ -2,8 +2,6 @@
 <!-- Title of the issue -->
 ## Issue
 ## TODO
-
-## Context
 <!-- Explain what is happening or should happen -->
 
 ## Current State (*examples*)
