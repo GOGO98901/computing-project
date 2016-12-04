@@ -31,13 +31,17 @@ class GameHost {
 		width = _canvas.width;
 		height = _canvas.height;
 		_canvas.onResize.listen((event) {
-			width = _canvas.width;
-			height = _canvas.height;
+			updateSize(_canvas.width, _canvas.height);
 		});
 		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
 		userManagement = new UserManagement();
 		stateManager = new StateManager(this, _canvas);
+	}
+
+	void updateSize(int width, int height) {
+		GameHost.width = width;
+		GameHost.height = height;
 	}
 
 	/// Method to start the gameloop

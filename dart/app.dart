@@ -37,14 +37,15 @@ part 'user.dart';
 final Logger log = new Logger('project');
 
 CanvasElement _canvas;
+GameHost _host;
+
+int oldWidth, oldHeight;
 
 /// Entry point for the dart code
 void main() {
 	if (_init()) {
-		_canvas.onClick.listen((e) {
-			js.context.callMethod('goFullScreen');
-		});
-		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
+		_host = new GameHost(_canvas, _canvas.getContext('2d'));
+		scheduleMicrotask(_host.run);
 	} else {
 		Notify.error("Failed to initialize");
 		log.severe("Failed to initialize");
@@ -67,12 +68,33 @@ bool _init() {
 	_canvas = document.querySelector('#game-canvas');
 	if (_canvas != null) {
 		log.info("Found canvas node");
-		_canvas.attributes['width'] = "${_canvas.getBoundingClientRect().width}px";
-		_canvas.attributes['height'] = "${_canvas.getBoundingClientRect().height}px";
+		updateCanvasSize(_canvas);
+		oldWidth = _canvas.getBoundingClientRect().width;
+		oldHeight = _canvas.getBoundingClientRect().height;
 	} else {
 		log.severe("DID NOT FIND CANVAS NODE!");
 		Notify.warn("Unable to find canvas node");
 		return false;
 	}
 	return true;
+}
+
+void setFullScreen(bool state) {
+	if (state) {
+		js.context.callMethod('goFullScreen');
+		updateCanvasSize(_canvas, window.innerWidth, window.innerHeight);
+		_host.updateSize(window.innerWidth, window.innerHeight);
+	} else {
+		js.context.callMethod('exitFullScreen');
+		updateCanvasSize(_canvas, oldWidth, oldHeight);
+		_host.updateSize(_canvas.width, _canvas.height);
+	}
+}
+
+void updateCanvasSize(CanvasElement canvas, [int width, int height]) {
+	log.info("Setting game canvas attribute size");
+	if (width == null) width = canvas.getBoundingClientRect().width;
+	if (height == null) height = canvas.getBoundingClientRect().height;
+	_canvas.attributes['width'] = "${width}px";
+	_canvas.attributes['height'] = "${height}px";
 }
