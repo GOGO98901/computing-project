@@ -62,8 +62,11 @@ bool _init() {
 	Util.spec.isLoaded();
 
 	_canvas = document.querySelector('#game-canvas');
-	if (_canvas != null) log.info("Found canvas node");
-	else {
+	if (_canvas != null) {
+		log.info("Found canvas node");
+		_canvas.attributes['width'] = "${_canvas.getBoundingClientRect().width}px";
+		_canvas.attributes['height'] = "${_canvas.getBoundingClientRect().height}px";
+	} else {
 		log.severe("DID NOT FIND CANVAS NODE!");
 		Notify.warn("Unable to find canvas node");
 		return false;

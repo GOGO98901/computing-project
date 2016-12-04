@@ -48,7 +48,7 @@ class StateManager {
 
 	/// Renders the current state
 	void render(CanvasRenderingContext2D context) {
-		context..setFillColorRgb(255, 255, 255)..fillRect(0, 0, GameHost.width, GameHost.height);
+		context..setFillColorRgb(200, 200, 200)..fillRect(0, 0, GameHost.width, GameHost.height);
 		_current..render(context)..renderGui(context);
 	}
 
@@ -143,11 +143,19 @@ class StateLogin extends State {
 		});
 
 		querySelector('#gameLogin').onClick.listen((event) {
-			String token = (querySelector('#gameToken') as InputElement).value;
+			InputElement input = querySelector('#gameToken') as InputElement;
+			String token = input.value;
 			if (token != null) if (token.length > 0) {
 				_manager.host().userManagement.login(token).then((connected) {
-					if (connected) Notify.info("Logged in");
-					else Notify.warn("Not logged in");
+					if (connected) {
+						input.parent.classes.remove('has-error');
+						Notify.info("Logged in");
+						// TODO Hide model
+						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
+					} else {
+						input.parent.classes.add('has-error');
+						Notify.warn("Unable to login");
+					}
 				});
 			}
 		});
@@ -155,6 +163,7 @@ class StateLogin extends State {
 
 	void render(CanvasRenderingContext2D context) {
 		// TODO Create login page
+		context..setFillColorRgb(0, 0, 0)..fillRect(Mouse.getX(), Mouse.getY(), 10, 10);
 	}
 
 	void update(final double delta) {}

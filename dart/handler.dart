@@ -58,7 +58,8 @@ class Mouse {
 	Mouse(this._canvas) {
 		_canvas.onMouseMove.listen((e) {
 			_inside = false;
-			if (_canvas.getBoundingClientRect().containsPoint(e.client)) {
+			Rectangle rect = _canvas.getBoundingClientRect();
+			if (rect.containsPoint(e.client)) {
 				_inside = true;
 				_x = e.offset.x;
 				_y = e.offset.y;

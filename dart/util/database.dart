@@ -144,7 +144,7 @@ class DataBaseConnection {
 	Future<JsonObject> getStudent(int id) {
 		Completer<JsonObject> completer = new Completer();
 		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE `id` = ${id}").then((list) {
-			completer.complete(list[0]);
+			completer.complete(_getUserFromList(list));
 		});
 		return completer.future;
 	}
@@ -153,9 +153,18 @@ class DataBaseConnection {
 	Future<JsonObject> getStudentFromToken(String token) {
 		Completer<JsonObject> completer = new Completer();
 		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE login = '${token}'").then((list) {
-			completer.complete(list[0]);
+			completer.complete(_getUserFromList(list));
 		});
 		return completer.future;
+	}
+
+	JsonObject _getUserFromList(JsonList list) {
+		if (list != null) {
+			if (list.length > 0) {
+				return list[0];
+			}
+		}
+		return new JsonObject.fromJsonString('{"error" : "no user found"}');
 	}
 
 	/// Gets a list of all the students from the database
