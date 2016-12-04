@@ -154,7 +154,6 @@ class StateLogin extends State {
 					if (connected) {
 						input.parent.classes.remove('has-error');
 						Notify.info("Logged in");
-						// TODO Hide model
 						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
 					} else {
 						input.parent.classes.add('has-error');
