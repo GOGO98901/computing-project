@@ -4,7 +4,7 @@
 ## TODO
 
 ## Context
-<!-- Explain what is happing or should happen -->
+<!-- Explain what is happening or should happen -->
 
 ## Current State (*examples*)
-<!-- Include examples or print screens for the prupose of the issue -->
+<!-- Include examples or print screens for the purpose of the issue -->
