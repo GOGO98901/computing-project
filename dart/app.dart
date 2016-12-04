@@ -41,6 +41,9 @@ CanvasElement _canvas;
 /// Entry point for the dart code
 void main() {
 	if (_init()) {
+		_canvas.onClick.listen((e) {
+			js.context.callMethod('goFullScreen');
+		});
 		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
 	} else {
 		Notify.error("Failed to initialize");
