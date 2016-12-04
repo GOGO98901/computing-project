@@ -82,18 +82,14 @@ abstract class State {
 	void render(CanvasRenderingContext2D context);
 
 	void renderGui(CanvasRenderingContext2D context) {
-		_gui.values.forEach((element) {
-			element.render(context);
-		});
+		_gui.values.forEach((element) =>	element.render(context));
 	}
 
 	/// Abstrcat update method
 	void update(final double delta);
 
 	void updateGui(final double delta) {
-		_gui.values.forEach((element) {
-			element.update(delta);
-		});
+		_gui.values.forEach((element) => element.update(delta));
 	}
 }
 
@@ -132,7 +128,7 @@ class StateLogin extends State {
 
 	void init(CanvasElement canvas) {
 		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Login");
-		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), 200, 200, "FullScreen");
+		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), 200, 200, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {
@@ -168,7 +164,10 @@ class StateLogin extends State {
 		// TODO Create login page
 	}
 
-	void update(final double delta) {}
+	void update(final double delta) {
+		GuiButtonElement fullscreen = _gui['fullscreen'] as GuiButtonElement;
+		fullscreen.setPosition(GameHost.width - (fullscreen.getBounds().width + 30), GameHost.height - (GuiButtonElement.height + 30));
+	}
 }
 
 class StateGame extends State {

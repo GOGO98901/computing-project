@@ -36,8 +36,8 @@ class ResourceManager {
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {
-		if (dir == null) 	return new Sprite("${getAssetsDir()}/images/${name}");
-		else 	return new Sprite("${dir}/${name}");
+		if (dir == null) return new Sprite("${getAssetsDir()}/images/${name}");
+		else return new Sprite("${dir}/${name}");
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]
