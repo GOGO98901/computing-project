@@ -145,8 +145,8 @@ footer {
 			border: $border;
 			margin: 1em;
 			border-radius: 7px;
-			@include box-shadow(0px, 0px, 30px, rgba($gray-dark, 0.5));
-			transition: box-shadow 0.3s ease-in-out;
+			@include box-shadow(0px, 0px, 30px, rgba($gray-dark, 0.4));
+			transition: box-shadow 0.2s ease;
 			div {
 				width: 100%;
 				display: inline-block;
@@ -169,7 +169,7 @@ footer {
 				}
 			}
 			&:hover {
-				@include box-shadow(0px, 0px, 40px, rgba($gray-dark, 0.6));
+				@include box-shadow(0px, 0px, 45px, rgba($gray-dark, 0.6));
 				div {
 					color: rgba($gray-dark, 0.9);
 				}
