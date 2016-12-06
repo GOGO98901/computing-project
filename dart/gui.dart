@@ -94,7 +94,7 @@ class GuiButtonElement extends GuiElement {
 	void _renderButton(CanvasRenderingContext2D context) {
 		if(!_long) context.drawImage(_current.getTexture(), _x, _y + _offset);
 		else {
-			_longWidth = Util.getTextMetrics(context, _text).width + 40;
+			_longWidth = Util.getTextMetrics(context, _text).width.round() + 40;
 			int step = (width / 3).ceil();
 			context.drawImageScaledFromSource(_current.getTexture(), 0, 0, step, height + offset, _x, _y + _offset, step, height + offset);
 			for (int xI = step; xI < _longWidth - step; xI += step) {
