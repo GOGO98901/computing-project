@@ -12,7 +12,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
-The dart code can be found in the directory [/dart](/dart).
+The dart code can be found in the directory [`/dart`](/dart).
 
 ## Licenses
 
