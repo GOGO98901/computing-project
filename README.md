@@ -105,7 +105,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-#### [iziToast](https://github.com/dolce/iziToast) `./web/assets/script/javascript/iziToast.min.js` `./web/assets/styles/iziToast.min.css`
+#### [iziToast](https://github.com/dolce/iziToast) `./web/assets/iziToast`
 ```
 Copyright 2016 Marcelo Dolce
 

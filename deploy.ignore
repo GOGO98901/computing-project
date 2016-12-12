@@ -1,0 +1,6 @@
+# Dont push this file
+.gitignore
+
+# Only keep the important parts from iziToast
+assets/iziToast/*
+!assets/iziToast/dist/*
