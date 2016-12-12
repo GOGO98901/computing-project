@@ -31,10 +31,17 @@ class Util {
 		return true;
 	}
 
-	static void drawCenteredText(String text, int x, int y, int width, int height, CanvasRenderingContext2D context) {
-		if (text == null) text="";
-		int textWidth = context.measureText(text).width.round();
+	static void drawCenteredText(String text, int x, int y, int width, int height, CanvasRenderingContext2D context, [String font]) {
+		if (text == null) text = "";
+		int textWidth = getTextMetrics(context, text, font).width.round();
 		context.fillText(text, x + (width / 2) - (textWidth / 2), y + (height * 0.775));
+	}
+
+	static TextMetrics getTextMetrics(CanvasRenderingContext2D context, String text, [String font]) {
+		if (text == null) text = "";
+		if (font == null) font = "30pt KenVector Future";
+		context.font = font;
+		return context.measureText(text);
 	}
 }
 

@@ -17,6 +17,7 @@ part of Computer_Science_Project;
 
 class StateManager {
 
+	GameHost _host;
 	CanvasElement _canvas;
 
 	/// This Map contains the game states and their corresponding keys
@@ -24,7 +25,7 @@ class StateManager {
 
 	State _current;
 
-	StateManager(this._canvas) {
+	StateManager(this._host, this._canvas) {
 		_states['intro'] = new StateIntro(this);
 		_states['login'] = new StateLogin(this);
 		_states['game'] = new StateGame(this);
@@ -47,13 +48,17 @@ class StateManager {
 
 	/// Renders the current state
 	void render(CanvasRenderingContext2D context) {
-		context..setFillColorRgb(255, 255, 255)..fillRect(0, 0, GameHost.width, GameHost.height);
+		context..setFillColorRgb(200, 200, 200)..fillRect(0, 0, GameHost.width, GameHost.height);
 		_current..render(context)..renderGui(context);
 	}
 
 	/// Updates the current state
 	void update(final double delta) {
 		_current..update(delta)..updateGui(delta);
+	}
+
+	GameHost host() {
+		return _host;
 	}
 
 	CanvasElement canvas() {
@@ -77,18 +82,14 @@ abstract class State {
 	void render(CanvasRenderingContext2D context);
 
 	void renderGui(CanvasRenderingContext2D context) {
-		_gui.values.forEach((element) {
-			element.render(context);
-		});
+		_gui.values.forEach((element) =>	element.render(context));
 	}
 
 	/// Abstrcat update method
 	void update(final double delta);
 
 	void updateGui(final double delta) {
-		_gui.values.forEach((element) {
-			element.update(delta);
-		});
+		_gui.values.forEach((element) => element.update(delta));
 	}
 }
 
@@ -127,13 +128,34 @@ class StateLogin extends State {
 
 	void init(CanvasElement canvas) {
 		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Login");
+		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), 200, 200, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {
-			if (e.detail['type']=='button') {
+			if (e.detail['type'] == 'button') {
 				if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
 					js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
 				}
+				if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
+					screenHandler.setFullScreen(!screenHandler.isFullScreen());
+				}
+			}
+		});
+
+		querySelector('#gameLogin').onClick.listen((event) {
+			InputElement input = querySelector('#gameToken') as InputElement;
+			String token = input.value;
+			if (token != null) if (token.length > 0) {
+				_manager.host().userManagement.login(token).then((connected) {
+					if (connected) {
+						input.parent.classes.remove('has-error');
+						Notify.info("Logged in");
+						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
+					} else {
+						input.parent.classes.add('has-error');
+						Notify.warn("Unable to login");
+					}
+				});
 			}
 		});
 	}
@@ -142,7 +164,10 @@ class StateLogin extends State {
 		// TODO Create login page
 	}
 
-	void update(final double delta) {}
+	void update(final double delta) {
+		GuiButtonElement fullscreen = _gui['fullscreen'] as GuiButtonElement;
+		fullscreen.setPosition(GameHost.width - (fullscreen.getBounds().width + 30), GameHost.height - (GuiButtonElement.height + 30));
+	}
 }
 
 class StateGame extends State {

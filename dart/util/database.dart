@@ -144,9 +144,27 @@ class DataBaseConnection {
 	Future<JsonObject> getStudent(int id) {
 		Completer<JsonObject> completer = new Completer();
 		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE `id` = ${id}").then((list) {
-			completer.complete(list[0]);
+			completer.complete(_getUserFromList(list));
 		});
 		return completer.future;
+	}
+
+	/// Gets the user with the [token] from the database
+	Future<JsonObject> getStudentFromToken(String token) {
+		Completer<JsonObject> completer = new Completer();
+		_getQueryResultAsQueryList("SELECT * FROM `cp_students` WHERE login = '${token}'").then((list) {
+			completer.complete(_getUserFromList(list));
+		});
+		return completer.future;
+	}
+
+	JsonObject _getUserFromList(JsonList list) {
+		if (list != null) {
+			if (list.length > 0) {
+				return list[0];
+			}
+		}
+		return new JsonObject.fromJsonString('{"error" : "no user found"}');
 	}
 
 	/// Gets a list of all the students from the database
@@ -188,7 +206,13 @@ class DataBaseConnection {
 	Future<JsonList> _getQueryResultAsQueryList(String query) {
 		Completer<JsonList> completer = new Completer();
 		_getQueryResult(query).then((json) {
-			completer.complete(new JsonList.fromString(json.output.toString()));
+			JsonList list = null;
+			try {
+				list = new JsonList.fromString(json.output.toString());
+			} catch (e) {
+				log.warning("Query failed: ${e} ${json}");
+			}
+			completer.complete(list);
 		});
 		return completer.future;
 	}

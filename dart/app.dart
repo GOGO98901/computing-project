@@ -37,12 +37,17 @@ part 'user.dart';
 final Logger log = new Logger('project');
 
 CanvasElement _canvas;
-DataBaseConnection _dbConnect;
+
+ScreenHandler screenHandler;
+
+int oldWidth, oldHeight;
 
 /// Entry point for the dart code
 void main() {
 	if (_init()) {
-		scheduleMicrotask(new GameHost(_canvas, _canvas.getContext('2d')).run);
+		GameHost _host = new GameHost(_canvas, _canvas.getContext('2d'));
+		screenHandler = new ScreenHandler(_host);
+		scheduleMicrotask(_host.run);
 	} else {
 		Notify.error("Failed to initialize");
 		log.severe("Failed to initialize");
@@ -63,12 +68,12 @@ bool _init() {
 	Util.spec.isLoaded();
 
 	_canvas = document.querySelector('#game-canvas');
-	if (_canvas != null) log.info("Found canvas node");
-	else {
+	if (_canvas != null) {
+		log.info("Found canvas node");
+	} else {
 		log.severe("DID NOT FIND CANVAS NODE!");
 		Notify.warn("Unable to find canvas node");
 		return false;
 	}
-	_dbConnect = new DataBaseConnection();
 	return true;
 }

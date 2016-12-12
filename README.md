@@ -1,7 +1,7 @@
 # Computing Project (2016-2017)
 This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advanced_Level_(United_Kingdom)) [Computer Science](http://www.aqa.org.uk/subjects/computer-science-and-it/as-and-a-level) project.
 
-|title |institution|development period|language|
+|title|institution|development period|language|
 |:----:|:---------:|:----------------:|:------:|
 |To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|
 
@@ -12,7 +12,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
-The dart code can be found in the directory [/web/assets/script/dart](/web/assets/script/dart).
+The dart code can be found in the directory [`/dart`](/dart).
 
 ## Licenses
 
@@ -123,7 +123,8 @@ Copyright 2016 Marcelo Dolce
 ```
 
 #### [Kenney *Assets*](http://kenney.nl/assets)
-`./web/assets/images/game/ui/kenney/`
+- `./web/assets/images/game/ui/kenney/`
+
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
 [branch-prototype]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype "Build Status"

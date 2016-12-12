@@ -24,18 +24,24 @@ class GameHost {
 
 	MasterHandler handler;
 	ResourceManager resources;
+	UserManagement userManagement;
 	StateManager stateManager;
 
 	GameHost(this._canvas, this._context) {
 		width = _canvas.width;
 		height = _canvas.height;
 		_canvas.onResize.listen((event) {
-			width = _canvas.width;
-			height = _canvas.height;
+			updateSize(_canvas.width, _canvas.height);
 		});
 		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
-		stateManager = new StateManager(_canvas);
+		userManagement = new UserManagement();
+		stateManager = new StateManager(this, _canvas);
+	}
+
+	void updateSize(int width, int height) {
+		GameHost.width = width;
+		GameHost.height = height;
 	}
 
 	/// Method to start the gameloop
@@ -76,5 +82,9 @@ class GameHost {
 	/// e.g. `0.25` is `250` mills
 	void _update(final double delta) {
 		stateManager.update(delta);
+	}
+
+	CanvasElement getCanvas() {
+		return _canvas;
 	}
 }
