@@ -2,7 +2,7 @@
 /.sass-cache/
 /.jekyll-metadata
 /.atom/
-*.db
+Thumbs.db
 
 # See https://www.dartlang.org/tools/private-files.html
 
