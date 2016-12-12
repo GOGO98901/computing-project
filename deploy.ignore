@@ -3,4 +3,4 @@
 
 # Only keep the important parts from iziToast
 assets/iziToast/*
-!assets/iziToast/dist/*
+!assets/iziToast/dist/
