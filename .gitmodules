@@ -1,0 +1,3 @@
+[submodule "static/assets/iziToast"]
+	path = static/assets/iziToast
+	url = https://github.com/dolce/iziToast.git
