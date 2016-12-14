@@ -66,7 +66,7 @@ if %option%==4 (
 )
 if %option%==5 (
 	:: Starts python webserver
-	start cmd /k "cd _site/static && python -m SimpleHTTPServer 3694"
+	start cmd /k "cd _site/static && python -m http.server 3694"
 )
 if %option%==6 (
 	:: Starts dartium
