@@ -14,3 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 part of Computer_Science_Project;
+
+class ProblemItem {
+  Sprite _question;
+
+  List<String> _questions;
+
+  int _answer;
+
+  ProblemItem(this._question, this._questions, this._answer);
+
+  Sprite getQuestion() {
+    return _question;
+  }
+
+  List<String> getQuestions() {
+    return _questions;
+  }
+
+  int getAnswer() {
+    return _answer;
+  }
+}
