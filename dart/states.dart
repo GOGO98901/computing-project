@@ -81,7 +81,7 @@ abstract class State {
 	State(this._manager)  {
 		_gui = new HashMap<String, GuiElement>();
 		init(_manager.canvas());
-		if (_background == null) _background = ResourceManager.getSprite("background.black");
+		if (_background == null) _background = ResourceManager.getSprite("background.blue");
 	}
 
 	/// Abstract initializer
