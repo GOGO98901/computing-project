@@ -33,6 +33,11 @@ class ResourceManager {
 
 		_sprites['ui.button.up.blue'] = _loadSprite('game/ui/kenney/blue_button02.png');
 		_sprites['ui.button.down.blue'] = _loadSprite('game/ui/kenney/blue_button03.png');
+
+		_sprites['background.black'] = _loadSprite('game/background/kenney/black.png');
+		_sprites['background.blue'] = _loadSprite('game/background/kenney/blue.png');
+		_sprites['background.purple'] = _loadSprite('game/background/kenney/purple.png');
+		_sprites['background.purple.dark'] = _loadSprite('game/background/kenney/darkPurple.png');
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {

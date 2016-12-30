@@ -32,6 +32,7 @@ class StateManager {
 
 		//_current = _states['intro'];
 		_current = _states['login'];
+		_current.setVisible(true);
 	}
 
 	/// Changes the state to [tag]
@@ -43,13 +44,15 @@ class StateManager {
 			Notify.error("StateManager", "${tag} state is null");
 			return;
 		}
+		_current.setVisible(false);
 		_current = next;
+		_current.setVisible(true);
 	}
 
 	/// Renders the current state
 	void render(CanvasRenderingContext2D context) {
 		context..setFillColorRgb(200, 200, 200)..fillRect(0, 0, GameHost.width, GameHost.height);
-		_current..render(context)..renderGui(context);
+		_current..renderBackground(context)..render(context)..renderGui(context);
 	}
 
 	/// Updates the current state
@@ -70,9 +73,15 @@ abstract class State {
 	final StateManager _manager;
 
 	HashMap<String, GuiElement> _gui;
+
+	Sprite _background;
+
+	bool _visible = false;
+
 	State(this._manager)  {
 		_gui = new HashMap<String, GuiElement>();
 		init(_manager.canvas());
+		if (_background == null) _background = ResourceManager.getSprite("background.black");
 	}
 
 	/// Abstract initializer
@@ -80,6 +89,17 @@ abstract class State {
 
 	/// Abstrcat render method
 	void render(CanvasRenderingContext2D context);
+
+	void renderBackground(CanvasRenderingContext2D context) {
+		if (_background != null) if (_background.isComplete()) {
+			ImageElement image =	_background.getTexture();
+			for (int y = 0; y < GameHost.height; y += _background.height()) {
+				for (int x = 0; x < GameHost.width; x += _background.width()) {
+					context.drawImage(image, x, y);
+				}
+			}
+		}
+	}
 
 	void renderGui(CanvasRenderingContext2D context) {
 		_gui.values.forEach((element) =>	element.render(context));
@@ -90,6 +110,15 @@ abstract class State {
 
 	void updateGui(final double delta) {
 		_gui.values.forEach((element) => element.update(delta));
+	}
+
+	bool isVisible() {
+		return _visible;
+	}
+
+	void setVisible(bool vis) {
+		this._visible = vis;
+		this._gui.values.forEach((element) => element.setParentVisible(vis));
 	}
 }
 
@@ -132,12 +161,14 @@ class StateLogin extends State {
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {
-			if (e.detail['type'] == 'button') {
-				if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
-					js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
-				}
-				if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
-					screenHandler.setFullScreen(!screenHandler.isFullScreen());
+			if (isVisible()) {
+				if (e.detail['type'] == 'button') {
+					if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
+						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
+					}
+					if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
+						screenHandler.setFullScreen(!screenHandler.isFullScreen());
+					}
 				}
 			}
 		});
@@ -151,6 +182,7 @@ class StateLogin extends State {
 						input.parent.classes.remove('has-error');
 						Notify.info("Logged in");
 						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
+						_manager.changeState('game');
 					} else {
 						input.parent.classes.add('has-error');
 						Notify.warn("Unable to login");
@@ -176,7 +208,9 @@ class StateGame extends State {
 
 	void init(CanvasElement canvas) {}
 
-	void render(CanvasRenderingContext2D context) {}
+	void render(CanvasRenderingContext2D context) {
+
+	}
 
 	void update(final double delta) {}
 }

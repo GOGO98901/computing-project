@@ -18,6 +18,8 @@ part of Computer_Science_Project;
 abstract class GuiElement {
 	Rectangle _bounds;
 
+	bool _parentVisible;
+
 	GuiElement(this._bounds, [CanvasElement canvas]) {
 		_init(canvas);
 	}
@@ -41,6 +43,14 @@ abstract class GuiElement {
 
 	Rectangle getBounds() {
 		return _bounds;
+	}
+
+	void setParentVisible(bool vis) {
+		this._parentVisible = vis;
+	}
+
+	bool isParentVisible() {
+		return _parentVisible;
 	}
 }
 
@@ -66,15 +76,17 @@ class GuiButtonElement extends GuiElement {
 
 	void _init([CanvasElement canvas]) {
 		canvas.onClick.listen((e) {
-			if (_hover) {
-				var detail = {
-					"type": "button",
-					"x": _x,
-					"y": _y,
-					"text": _text
-				};
-				var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
-				canvas.dispatchEvent(event);
+			if (isParentVisible()) {
+				if (_hover) {
+					var detail = {
+						"type": "button",
+						"x": _x,
+						"y": _y,
+						"text": _text
+					};
+					var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
+					canvas.dispatchEvent(event);
+				}
 			}
 		});
 
