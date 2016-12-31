@@ -1,7 +1,4 @@
----
-layout: compress
----
-<!--
+/*
 Copyright 2016 Rory Claasen
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +12,27 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-{% capture urlPath %}{{ site.url }}/{{ site.url_dir }}{% endcapture %}
-<!DOCTYPE html>
-<html lang="en">
-{% include head.html %}
-<body>
-	<div class="wrapper">
-		{% include navigation.html %}
-		{% include modals.html %}
-		{{ content }}
-	</div>
-</body>
-</html>
+*/
+part of Computer_Science_Project;
+
+class ProblemItem {
+  Sprite _question;
+
+  List<String> _questions;
+
+  int _answer;
+
+  ProblemItem(this._question, this._questions, this._answer);
+
+  Sprite getQuestion() {
+    return _question;
+  }
+
+  List<String> getQuestions() {
+    return _questions;
+  }
+
+  int getAnswer() {
+    return _answer;
+  }
+}

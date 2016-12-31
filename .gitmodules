@@ -1,3 +1,3 @@
-[submodule "static/assets/iziToast"]
-	path = static/assets/iziToast
+[submodule "site/assets/iziToast"]
+	path = site/assets/iziToast
 	url = https://github.com/dolce/iziToast.git

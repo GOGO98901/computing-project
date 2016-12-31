@@ -5,8 +5,7 @@ email: help@roryclaasen.me
 author: Rory Claasen
 author_url: "http://roryclaasen.me"
 
-url: "http://roryclaasen.me/computing-project"
-base_url: "/computing-project"
+url_dir: "computing-project"
 
 compress_html:
   comments: ["<!-- ", " -->"]
@@ -14,8 +13,8 @@ compress_html:
   startings: [html, head, body]
 
 sass:
-   sass_dir: static/assets/styles
+   sass_dir: site/assets/styles
    style: :compressed
 
-include: ['static', 'pubspec.yaml', 'LICENSE', 'README.md']
-exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', 'packages/', 'dart']
+include: ['site', 'pubspec.yaml', 'LICENSE', 'README.md']
+exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor', 'packages', 'database', 'src', 'links.md']

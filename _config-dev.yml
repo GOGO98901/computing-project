@@ -1,3 +1,4 @@
-base_url: ""
+url_dir: "site"
 linkends: ".html"
-exclude: ['.gitignore', 'bin/', 'scripts/', 'build/', 'vendor', 'packages/', 'dart', 'static/assets/images/', 'static/assets/script/javascript/']
+port: 3694
+exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor', 'packages', 'database', 'src', 'links.md', 'deploy.ignore']
