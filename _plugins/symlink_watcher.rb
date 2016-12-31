@@ -3,10 +3,6 @@
 
 # The symlink_watcher plugin extends jekyll-watch to also listen for changes in
 # any symlinked sub-directories.
-#
-# For example, my _drafts directory is a symlink to a directory elsewhere on my
-# filesystem.  This plugin will cause jekyll to regenerate my site when any
-# files in my drafts folder change.
 
 require "find"
 require "jekyll-watch"
@@ -17,7 +13,7 @@ module Jekyll
       src = "#{options["source"]}/src"
       dirs = [src]
       Find.find(src).each do |f|
-        dirs << f if File.directory?(f) and File.symlink?(f)
+          dirs << f if File.directory?(f) and File.symlink?(f)
       end
 
       require "listen"
