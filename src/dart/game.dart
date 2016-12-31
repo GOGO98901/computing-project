@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-part of Computer_Science_Prodject;
+part of Computer_Science_Project;
 
 class GameHost {
 	final CanvasElement _canvas;
