@@ -44,7 +44,7 @@ if %option%==3 (
 )
 if %option%==4 (
 	:: Starts dartium
-	start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/
+	start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/site
 )
 if %doExit%==1 (
 	exit

@@ -21,7 +21,7 @@ abstract class Entity  {
 
 	void init();
 
-	void setX(int x)  {
+	void setX(int x) {
 		_position.setX(x);
 	}
 

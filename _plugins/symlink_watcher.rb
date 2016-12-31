@@ -10,10 +10,14 @@ require "jekyll-watch"
 module Jekyll
   module Watcher
     def build_listener_with_symlinks(site, options)
-      src = "#{options["source"]}/src"
+      src = options["source"]
       dirs = [src]
       Find.find(src).each do |f|
-          dirs << f if File.directory?(f) and File.symlink?(f)
+          if !f.include? "src"
+            if !f.include? "packages"
+              dirs << f if File.directory?(f) and File.symlink?(f)
+            end
+          end
       end
 
       require "listen"
