@@ -18,7 +18,7 @@ The dart code can be found in the directory [`src/dart`](src/dart).
 
 ##### [Source Code](https://github.com/GOGO98901/computing-project/) `./`
 ```
-Copyright 2016 Rory Claasen
+Copyright 2016-2017 Rory Claasen
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
