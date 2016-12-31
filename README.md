@@ -12,7 +12,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
-The dart code can be found in the directory [`/dart`](/dart).
+The dart code can be found in the directory [`src/dart`](src/dart).
 
 ## Licenses
 
@@ -33,7 +33,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-##### [bootswatch](http://bootswatch.com) `./web/styles/_variables.scss`
+##### [bootswatch](http://bootswatch.com) `./site/assets/styles/_variables.scss`
 ```
 The MIT License (MIT)
 
@@ -57,7 +57,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
-#### [js-cookie](https://github.com/js-cookie/) `./web/script/javascript/js.cookie.js`
+#### [js-cookie](https://github.com/js-cookie/) `./src/javascript/js.cookie.js`
 ```
 Copyright 2014 Klaus Hartl
 
@@ -123,8 +123,8 @@ Copyright 2016 Marcelo Dolce
 ```
 
 #### [Kenney *Assets*](http://kenney.nl/assets)
-- `./web/assets/images/game/ui/kenney/`
-- `./web/assets/images/game/background/kenney/`
+- `./src/images/game/ui/kenney/`
+- `./src/images/game/background/kenney/`
 
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
