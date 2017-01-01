@@ -15,6 +15,10 @@ limitations under the License.
 */
 part of Computer_Science_Project;
 
+class ProblemLoader {
+  
+}
+
 class ProblemItem {
   Sprite _question;
 

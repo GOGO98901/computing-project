@@ -21,6 +21,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
+import 'package:json_object/json_object.dart';
 import 'dart:js' as js;
 
 import 'util/database.dart';

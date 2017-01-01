@@ -124,3 +124,18 @@ class Sprite extends BaseResource {
 		return _source;
 	}
 }
+
+class JsonFile extends BaseResource {
+	String  _source;
+	JsonObject _data;
+
+	JsonFile(this._source) {
+		_start();
+	}
+
+	void _start() {
+		_status = Status.started;
+
+		// TODO load file
+	}
+}
