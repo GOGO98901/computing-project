@@ -23,8 +23,11 @@ class UserManagement {
 
 	UserData currentUser;
 
+	ProblemManager problems;
+
 	UserManagement() {
 		database = new DataBaseConnection();
+		problems = new ProblemManager();
 	}
 
 	UserData _current;

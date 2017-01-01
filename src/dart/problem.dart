@@ -15,8 +15,12 @@ limitations under the License.
 */
 part of Computer_Science_Project;
 
-class ProblemLoader {
-  
+class ProblemManager {
+  JsonFile _dataFile;
+
+  ProblemManager() {
+    _dataFile = ResourceManager.sample;
+  }
 }
 
 class ProblemItem {

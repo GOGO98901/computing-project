@@ -19,9 +19,13 @@ class ResourceManager {
 
 	static HashMap<String, Sprite> _sprites;
 
+	static JsonFile sample;
+
 	ResourceManager() {
 		_sprites = new HashMap<String, Sprite>();
 		_initSprites();
+
+		sample = _loadJsonFile('problems/sample.json');
 	}
 
 	/// All sprites get loaded at this point in the program
@@ -43,6 +47,11 @@ class ResourceManager {
 	Sprite _loadSprite(String name, {String dir}) {
 		if (dir == null) return new Sprite("${getAssetsDir()}/images/${name}");
 		else return new Sprite("${dir}/${name}");
+	}
+
+	JsonFile _loadJsonFile(String name, {String dir}) {
+			if (dir == null) return new JsonFile("${getAssetsDir()}/${name}");
+			else return new JsonFile("${dir}/${name}");
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]
@@ -143,6 +152,8 @@ class JsonFile extends BaseResource {
 				String data = req.response as String;
 				_data = new JsonObject.fromJsonString(data);
 				_status = Status.complete;
+
+				// log.info(_data);
 			} else {
 				_data = new JsonObject();
 				_status = Status.failed;
