@@ -136,6 +136,29 @@ class JsonFile extends BaseResource {
 	void _start() {
 		_status = Status.started;
 
-		// TODO load file
+		HttpRequest req = new HttpRequest();
+		req.open("GET", _source);
+		req.onLoadEnd.first.then((e) {
+			if(req.status == 200 || req.status == 0) {
+				String data = req.response as String;
+				_data = new JsonObject.fromJsonString(data);
+				_status = Status.complete;
+			} else {
+				_data = new JsonObject();
+				_status = Status.failed;
+			}
+		});
+		_status = Status.started;
+		req.send();
+	}
+
+	/// Returns the source that was entered when created
+	String getSource() {
+		return _source;
+	}
+
+	/// Returns Json file contents
+	JsonObject getData() {
+		return _data;
 	}
 }
