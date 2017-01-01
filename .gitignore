@@ -3,6 +3,8 @@
 /.jekyll-metadata
 /.atom/
 Thumbs.db
+src/dart/packages
+src/dart/util/packages
 
 # See https://www.dartlang.org/tools/private-files.html
 
