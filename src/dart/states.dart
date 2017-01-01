@@ -156,7 +156,8 @@ class StateLogin extends State {
 	StateLogin(StateManager _manager) : super(_manager);
 
 	void init(CanvasElement canvas) {
-		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Login");
+		_gui['play'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Play");
+		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 200, "Login");
 		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), 200, 200, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
@@ -165,6 +166,9 @@ class StateLogin extends State {
 				if (e.detail['type'] == 'button') {
 					if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
 						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
+					}
+					if (e.detail['text'] == (_gui['play'] as GuiButtonElement).getText()) {
+						_manager.changeState('game');
 					}
 					if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
 						screenHandler.setFullScreen(!screenHandler.isFullScreen());
