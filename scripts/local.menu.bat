@@ -22,6 +22,7 @@ echo   -  (1) Get the pub dependencies
 echo   -  (2) Clean build directory
 echo   -  (3) Serve the build folder
 echo   -  (4) Open dartium
+echo   -  (5) Quick Start
 
 echo %bar%
 set option=-1
@@ -45,6 +46,11 @@ if %option%==3 (
 if %option%==4 (
 	:: Starts dartium
 	start "" "C:/Program Files/Dart/chromium/chrome.exe" --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/site
+)
+if %option%==5 (
+	:: Starts with 3 and 4
+	start %CD%\scripts\local.menu.bat 3
+	start %CD%\scripts\local.menu.bat 4
 )
 if %doExit%==1 (
 	exit
