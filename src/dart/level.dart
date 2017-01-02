@@ -63,16 +63,16 @@ class GameLevel {
     void _updateShips(final double delta) {
         if (_time == 0.0) {
             Asteroid asteroid = new Asteroid(_baseStation);
-            int side = 1 + _random.nextInt(4);
+            int side = _random.nextInt(4);
             int x, y;
-            if (side % 2 == 0) x = _random.nextInt(GameHost.width);
-            else  y = _random.nextInt(GameHost.height);
+            if (1 + side % 2 == 0) x = _random.nextInt(GameHost.width);
+            else y = _random.nextInt(GameHost.height);
 
             int offset = 50;
-            if (side == 1) x = -offset;
-            if (side == 2) y = -offset;
-            if (side == 3) x = GameHost.width + offset;
-            if (side == 4) y = GameHost.height + offset;
+            if (side == 0) x = -offset;
+            if (side == 1) y = -offset;
+            if (side == 2) x = GameHost.width + offset;
+            if (side == 3) y = GameHost.height + offset;
 
             asteroid.setX(x);
             asteroid.setY(y);
