@@ -23,7 +23,7 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 	cp pubspec.yaml build/_site
 	cp deploy.ignore build/_site/.gitignore
 
-	cd build/_site/site
+	cd build/_site
 
 	echo "" >> pubspec.yaml
 	echo "build: $TRAVIS_BUILD_NUMBER" >> pubspec.yaml
