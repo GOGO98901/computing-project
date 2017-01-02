@@ -140,18 +140,24 @@ class Asteroid extends Mob {
 	}
 
 	void update(final double delta) {
-		int x1 = this.getX();
-		int x2 = _target.getX() + (_target.getWidth() / 2).round();
-		int y1 = this.getY();
-		int y2 = _target.getY() + (_target.getHeight() / 2).round();
+		double x1 = this.getX() + 0.0;
+		double x2 = _target.getX() + (_target.getWidth() / 2);
+		double y1 = this.getY() + 0.0;
+		double y2 = _target.getY() + (_target.getHeight() / 2);
 
-		if (x1 < x2) x1 += (speed * delta * 0.87).round();
-		if (x1 > x2) x1 -= (speed * delta * 0.87).round();
-		if (y1 < y2) y1 += (speed * delta * 0.75).round();
-		if (y1 > y2) y1 -= (speed * delta * 0.75).round();
+		Vector2 position = new Vector2(x1, y1);
+		Vector2 goal = new Vector2(x2, y2);
 
-		this.setX(x1);
-		this.setY(y1);
+		Vector2 norm = goal - position;
+		Vector2 direction = (goal - position).normalizeInto(norm);
+
+		position += direction * speed * delta;
+
+ 		if ((direction.dot(goal - position) + 1).abs() < 0.1) {
+			position = goal;
+		}
+		this.setX(position.x.round());
+		this.setY(position.y.round());
 	}
 
 	void remove() {

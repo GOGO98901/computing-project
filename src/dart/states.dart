@@ -227,6 +227,7 @@ class StateLogin extends State {
 
 	void update(final double delta) {
 		_hover += delta;
+		if (_hover > 360) _hover = 0.0;
 	}
 }
 
@@ -236,8 +237,7 @@ class StateGame extends State {
 
 	StateGame(StateManager _manager) : super(_manager);
 
-	void init(CanvasElement canvas) {
-	}
+	void init(CanvasElement canvas) {}
 
 	void onVisibilityChange() {
 		if (isVisible()) _level = GameLevel.newLevel(_manager.host().userManagement.currentUser);
