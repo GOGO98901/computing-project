@@ -42,6 +42,11 @@ class ResourceManager {
 		_sprites['background.blue'] = _loadSprite('game/background/kenney/blue.png');
 		_sprites['background.purple'] = _loadSprite('game/background/kenney/purple.png');
 		_sprites['background.purple.dark'] = _loadSprite('game/background/kenney/darkPurple.png');
+
+
+		_sprites['game.eneities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
+		_sprites['game.eneities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
+		_sprites['game.eneities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_26.png');
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {
@@ -72,6 +77,10 @@ enum Status {
 abstract class BaseResource {
 	Status _status = Status.initialized;
 
+	BaseResource() {
+		_start();
+	}
+
 	void _start();
 
 	/// Gets the current status of the resource
@@ -95,9 +104,7 @@ class Sprite extends BaseResource {
 	ImageElement _image;
 	String  _source;
 
-	Sprite(this._source) {
-		_start();
-	}
+	Sprite(this._source);
 
 	void _start() {
 		_status = Status.started;
@@ -138,9 +145,7 @@ class JsonFile extends BaseResource {
 	String  _source;
 	JsonObject _data;
 
-	JsonFile(this._source) {
-		_start();
-	}
+	JsonFile(this._source);
 
 	void _start() {
 		_status = Status.started;
@@ -158,7 +163,7 @@ class JsonFile extends BaseResource {
 					"data": _data
 				};
 
-		    window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
+		    	window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
 			} else {
 				_data = new JsonObject();
 				_status = Status.failed;

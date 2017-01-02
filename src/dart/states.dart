@@ -119,7 +119,10 @@ abstract class State {
 	void setVisible(bool vis) {
 		this._visible = vis;
 		this._gui.values.forEach((element) => element.setParentVisible(vis));
+		onVisibilityChange();
 	}
+
+	void onVisibilityChange() {}
 }
 
 class StateIntro extends State {
@@ -208,13 +211,23 @@ class StateLogin extends State {
 
 class StateGame extends State {
 
+	Level _level;
+
 	StateGame(StateManager _manager) : super(_manager);
 
-	void init(CanvasElement canvas) {}
-
-	void render(CanvasRenderingContext2D context) {
-
+	void init(CanvasElement canvas) {
 	}
 
-	void update(final double delta) {}
+	void onVisibilityChange() {
+		if (isVisible()) _level = Level.newLevel(_manager.host().userManagement.currentUser);
+		else _level = Level.newLevel();
+	}
+
+	void render(CanvasRenderingContext2D context) {
+		if (_level != null) _level.render(context);
+	}
+
+	void update(final double delta) {
+		if (_level != null) _level.update(delta);
+	}
 }

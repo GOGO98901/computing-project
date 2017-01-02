@@ -68,6 +68,10 @@ class Mob extends Entity {
 		return _sprite;
 	}
 
+	Rectangle getBounds() {
+		return new Rectangle(this.getX(), this.getY(), this._width, this._height);
+	}
+
 	void render(CanvasRenderingContext2D context) {}
 	void update(final double delta) {}
 
@@ -75,5 +79,15 @@ class Mob extends Entity {
 		this._sprite = sprite;
 		_width = _sprite.width();
 		_height = _sprite.height();
+	}
+}
+
+class SpaceStation extends Mob {
+	SpaceStation() : super (ResourceManager.getSprite("game.eneity.station.one")) {
+
+	}
+
+	void render(CanvasRenderingContext2D context) {
+		context.drawImageToRect(_sprite.getTexture(), getBounds());
 	}
 }

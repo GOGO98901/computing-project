@@ -33,6 +33,7 @@ part 'gui.dart';
 part 'resources.dart';
 part 'states.dart';
 part 'entity.dart';
+part 'level.dart';
 part 'problem.dart';
 part 'user.dart';
 
@@ -48,7 +49,7 @@ int oldWidth, oldHeight;
 void main() {
 	if (_init()) {
 		GameHost _host = new GameHost(_canvas, _canvas.getContext('2d'));
-		screenHandler = new ScreenHandler(_host);
+		// screenHandler = new ScreenHandler(_host);
 		scheduleMicrotask(_host.run);
 	} else {
 		Notify.error("Failed to initialize");
