@@ -22,15 +22,35 @@ class Level {
         return level;
     }
 
+    SpaceStation _baseStation;
+    List<SpaceShip> _enemyShips = new List<SpaceShip>();
+
     UserData _userData;
 
-    Level() {}
+    Level() {
+        _baseStation = new SpaceStation();
+    }
 
     /// Renders the Level
-    void render(CanvasRenderingContext2D context) {}
+    void render(CanvasRenderingContext2D context) {
+        _enemyShips.forEach((enemy) {
+            enemy.render(context);
+        });
+        _baseStation.render(context);
+    }
 
     /// Updates the Level
-    void update(final double delta) {}
+    void update(final double delta) {
+        List<SpaceShip> toRemove = new List<SpaceShip>();
+        _enemyShips.forEach((ship) {
+            ship.update(delta);
+            if (ship.isRemoved()) toRemove.add(ship);
+        });
+        toRemove.forEach((ship) {
+            _enemyShips.remove(ship);
+        });
+        _baseStation.update(delta);
+    }
 
     void _setUser(UserData data) {
         this._userData = data;

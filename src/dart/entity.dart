@@ -82,9 +82,26 @@ class Mob extends Entity {
 	}
 }
 
+class SpaceShip extends Mob {
+	bool _removed;
+
+	SpaceShip() : super (ResourceManager.getSprite("game.eneity.ship.one")) {
+
+	}
+
+	void remove() {
+		_removed = true;
+	}
+
+	bool isRemoved() {
+		return _removed;
+	}
+}
+
 class SpaceStation extends Mob {
 	SpaceStation() : super (ResourceManager.getSprite("game.eneity.station.one")) {
-
+		setX(((GameHost.width / 2) - (_width / 2)).round());
+		setY(((GameHost.height / 2) - (_height / 2)).round());
 	}
 
 	void render(CanvasRenderingContext2D context) {
