@@ -1,16 +1,5 @@
 @echo off
 set title=Development manager - Computing Project
-set doExit=0
-set bar=-------------------------------------------------------------------------------
-
-if NOT [%1] == [] (
-	set option=%1
-	set doExit=1
-	goto command
-) else (
-	cd ../
-)
-
 :menu
 title %title%
 cls
@@ -66,8 +55,5 @@ if %option%==6 (
 
 	start cmd /k "cd _site && serve -p 3694"
 	start "" "C:/Program Files/Dart/chromium/chrome.exe" --disable-web-security --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/game.html
-)
-if %doExit%==1 (
-	exit
 )
 goto menu
