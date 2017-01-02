@@ -30,7 +30,7 @@ class GameLevel {
     UserData _userData;
 
     double _time = 0.0;
-    int _spawnTime = 2;
+    double _spawnTime = 2.3;
     int _level = 0;
 
     GameLevel() {
@@ -61,16 +61,14 @@ class GameLevel {
     }
 
     void _updateShips(final double delta) {
-        _time += delta;
-
-        if (_time > _spawnTime - (_level * 0.5)) {
+        if (_time == 0.0) {
             Asteroid asteroid = new Asteroid(_baseStation);
             int side = 1 + _random.nextInt(4);
             int x, y;
             if (side % 2 == 0) x = _random.nextInt(GameHost.width);
             else  y = _random.nextInt(GameHost.height);
 
-            int offset = 100;
+            int offset = 50;
             if (side == 1) x = -offset;
             if (side == 2) y = -offset;
             if (side == 3) x = GameHost.width + offset;
@@ -81,6 +79,8 @@ class GameLevel {
             log.info("Spawned new asteroid");
             _asteroids.add(asteroid);
         }
+        _time += delta;
+        if (_time > _spawnTime - (_level * 0.5)) _time = 0.0;
     }
 
     void _setUser(UserData data) {

@@ -93,7 +93,7 @@ class Mob extends Entity {
 }
 
 class Asteroid extends Mob {
-	double speed = 30.0;
+	double speed = 50.0;
 	bool _removed;
 
 	Mob _target;
@@ -129,16 +129,17 @@ class Asteroid extends Mob {
 			}
 		}
 		texture += 1;
-		log.info("using texture game.enities.metor.${type}.${texture}");
+		// log.info("using texture game.enities.metor.${type}.${texture}");
 		this.setSprite(ResourceManager.getSprite("game.enities.metor.${type}.${texture}"));
 
-		speed += random.nextInt(15) - (15 / 2);
+		speed += random.nextInt(20) - 10;
 	}
 
 	void render(CanvasRenderingContext2D context) {
 		context.drawImageToRect(_sprite.getTexture(), getBounds());
 	}
 
+	// See http://gamedev.stackexchange.com/a/28337 for refrence
 	void update(final double delta) {
 		double x1 = this.getX() + 0.0;
 		double x2 = _target.getX() + (_target.getWidth() / 2);
@@ -146,6 +147,8 @@ class Asteroid extends Mob {
 		double y2 = _target.getY() + (_target.getHeight() / 2);
 
 		Vector2 position = new Vector2(x1, y1);
+		Vector2 center = new Vector2(_width / 2, _height / 2);
+		position += center;
 		Vector2 goal = new Vector2(x2, y2);
 
 		Vector2 norm = goal - position;
@@ -153,11 +156,13 @@ class Asteroid extends Mob {
 
 		position += direction * speed * delta;
 
- 		if ((direction.dot(goal - position) + 1).abs() < 0.1) {
+		position -= center;
+ 		if ((direction.dot(goal - position) + 1).abs() < 10.5) {
 			position = goal;
+			remove();
 		}
-		this.setX(position.x.round());
-		this.setY(position.y.round());
+		setX(position.x.round());
+		setY(position.y.round());
 	}
 
 	void remove() {
