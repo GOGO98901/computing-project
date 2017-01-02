@@ -2,6 +2,8 @@ title: Fraction Maths Game
 description: A level computer science project
 email: help@roryclaasen.me
 
+source: "public"
+
 author: Rory Claasen
 author_url: "http://roryclaasen.me"
 
@@ -13,8 +15,5 @@ compress_html:
   startings: [html, head, body]
 
 sass:
-   sass_dir: site/assets/styles
+   sass_dir: assets/styles
    style: :compressed
-
-include: ['site', 'pubspec.yaml', 'LICENSE', 'README.md']
-exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor', 'packages', 'database', 'src', 'links.md']

@@ -18,10 +18,10 @@ if [ "$TRAVIS_BRANCH" == "$BRANCH" ]; then
 	git config --global user.email "travis@travis-ci.org"
 	git config --global user.name "Travis CI"
 
-	cp README.md build/_site/site
-	cp LICENSE build/_site/site/license.txt
-	cp pubspec.yaml build/_site/site
-	cp deploy.ignore build/_site/site/.gitignore
+	cp README.md build/_site
+	cp LICENSE build/_site/license.txt
+	cp pubspec.yaml build/_site
+	cp deploy.ignore build/_site/.gitignore
 
 	cd build/_site/site
 

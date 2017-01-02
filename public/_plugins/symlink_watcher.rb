@@ -13,6 +13,10 @@ module Jekyll
       src = options["source"]
       dirs = [src]
       Find.find(src).each do |f|
+        # if !f.include? "src" && !f.include? "packages"
+        if !f.include? "packages"
+          next
+        end
         dirs << f if File.directory?(f) and File.symlink?(f)
       end
 

@@ -1,4 +1,3 @@
 title: Fraction Maths Game - Debug
-url_dir: "site"
+url_dir: ""
 port: 3694
-exclude: ['.gitignore', 'bin', 'scripts', 'build', 'vendor', 'packages', 'database', 'src', 'links.md', 'deploy.ignore']

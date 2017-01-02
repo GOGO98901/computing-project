@@ -11,6 +11,6 @@ install:
 script:
    - pub get
    - jekyll build ./_site
-   - pub build ./_site/site --mode=release
+   - pub build ./_site --mode=release
 after_success:
    - bash ./scripts/remote.deploy.sh

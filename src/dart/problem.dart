@@ -20,6 +20,10 @@ class ProblemManager {
 
   ProblemManager() {
     _dataFile = ResourceManager.sample;
+
+    _dataFile.onLoad().then((e) {
+      log.info(e);
+    });
   }
 }
 

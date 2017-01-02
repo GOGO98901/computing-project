@@ -153,7 +153,12 @@ class JsonFile extends BaseResource {
 				_data = new JsonObject.fromJsonString(data);
 				_status = Status.complete;
 
-				// log.info(_data);
+				var detail = {
+					"source": _source,
+					"data": _data
+				};
+
+		    window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
 			} else {
 				_data = new JsonObject();
 				_status = Status.failed;
@@ -161,6 +166,17 @@ class JsonFile extends BaseResource {
 		});
 		_status = Status.started;
 		req.send();
+	}
+
+	Future<JsonObject> onLoad() {
+		Completer<JsonObject> completer = new Completer<JsonObject>();
+		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("jsonLoad");
+		eventStreamProvider.forTarget(window).listen((e) {
+			if (e.detail['source'].equals(_source)) {
+				completer.complete(new JsonObject.fromJsonString(e.detail['data']));
+			}
+		});
+		return completer.future;
 	}
 
 	/// Returns the source that was entered when created
