@@ -57,7 +57,7 @@ class StateManager {
 
 	/// Updates the current state
 	void update(final double delta) {
-		_current..update(delta)..updateGui(delta);
+		_current..updateBackground(delta)..update(delta)..updateGui(delta);
 	}
 
 	GameHost host() {
@@ -78,6 +78,8 @@ abstract class State {
 
 	bool _visible = false;
 
+	double _starOffset = 0.0;
+
 	State(this._manager)  {
 		_gui = new HashMap<String, GuiElement>();
 		init(_manager.canvas());
@@ -92,10 +94,10 @@ abstract class State {
 
 	void renderBackground(CanvasRenderingContext2D context) {
 		if (_background != null) if (_background.isComplete()) {
-			ImageElement image =	_background.getTexture();
-			for (int y = 0; y < GameHost.height; y += _background.height()) {
+			ImageElement image = _background.getTexture();
+			for (int y = 0; y < GameHost.height + _background.height(); y += _background.height()) {
 				for (int x = 0; x < GameHost.width; x += _background.width()) {
-					context.drawImage(image, x, y);
+					context.drawImage(image, x, y - _starOffset);
 				}
 			}
 		}
@@ -110,6 +112,13 @@ abstract class State {
 
 	void updateGui(final double delta) {
 		_gui.values.forEach((element) => element.update(delta));
+	}
+
+	void updateBackground(final double delta) {
+		if (_background != null) {
+			_starOffset += delta * 5;
+			if (_starOffset >= _background.height()) _starOffset = 0.0;
+		}
 	}
 
 	bool isVisible() {
