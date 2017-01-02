@@ -33,7 +33,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-##### [bootswatch](http://bootswatch.com) `./site/assets/styles/_variables.scss`
+##### [bootswatch](http://bootswatch.com) `./public/assets/styles/_variables.scss`
 ```
 The MIT License (MIT)
 
@@ -105,7 +105,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-#### [iziToast](https://github.com/dolce/iziToast) `./web/assets/iziToast`
+#### [iziToast](https://github.com/dolce/iziToast) `./public/assets/iziToast`
 ```
 Copyright 2016 Marcelo Dolce
 
