@@ -64,7 +64,7 @@ if %option%==6 (
 	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\dart ..\..\..\src\dart"
 	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\javascript ..\..\..\src\javascript"
 
-	start cmd /k "cd _site && python -m http.server 3694"
+	start cmd /k "cd _site && serve -p 3694"
 	start "" "C:/Program Files/Dart/chromium/chrome.exe" --disable-web-security --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/game.html
 )
 if %doExit%==1 (

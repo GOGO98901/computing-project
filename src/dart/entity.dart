@@ -16,7 +16,7 @@ limitations under the License.
 part of Computer_Science_Project;
 
 abstract class Entity  {
-	PointSmart _position;
+	PointSmart _position = new PointSmart(0, 0);
 	Sprite _sprite;
 
 	void init();
@@ -85,7 +85,7 @@ class Mob extends Entity {
 class SpaceShip extends Mob {
 	bool _removed;
 
-	SpaceShip() : super (ResourceManager.getSprite("game.enities.ship.one")) {
+	SpaceShip() : super(ResourceManager.getSprite("game.enities.ship.one")) {
 
 	}
 
@@ -99,9 +99,9 @@ class SpaceShip extends Mob {
 }
 
 class SpaceStation extends Mob {
-	SpaceStation() : super (ResourceManager.getSprite("game.enities.station.one")) {
-		setX(((GameHost.width / 2) - (_width / 2)).round());
-		setY(((GameHost.height / 2) - (_height / 2)).round());
+	SpaceStation() : super(ResourceManager.getSprite("game.enities.station.one")) {
+		setX(((GameHost.width - _width) / 2).round());
+		setY(((GameHost.height - _height) / 2).round());
 	}
 
 	void render(CanvasRenderingContext2D context) {

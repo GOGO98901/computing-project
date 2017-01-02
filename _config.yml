@@ -7,7 +7,7 @@ source: "public"
 author: Rory Claasen
 author_url: "http://roryclaasen.me"
 
-url_dir: "computing-project"
+url_dir: "computing-project/"
 
 compress_html:
   comments: ["<!-- ", " -->"]

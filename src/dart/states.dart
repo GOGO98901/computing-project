@@ -156,12 +156,16 @@ class StateIntro extends State {
 
 class StateLogin extends State {
 
+	int _xPadding = 75;
+
 	StateLogin(StateManager _manager) : super(_manager);
 
+	Sprite _station = ResourceManager.getSprite("game.enities.station");
+
 	void init(CanvasElement canvas) {
-		_gui['play'] = new GuiButtonElement(_manager.canvas(), 100, 100, "Play");
-		_gui['token'] = new GuiButtonElement(_manager.canvas(), 100, 200, "Login");
-		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), 200, 200, "FullScreen", true);
+		_gui['play'] = new GuiButtonElement(_manager.canvas(), _xPadding, 200, "Play");
+		_gui['token'] = new GuiButtonElement(_manager.canvas(), _xPadding, 275, "Login");
+		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {
@@ -200,13 +204,18 @@ class StateLogin extends State {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		// TODO Create login page
+		context.setFillColorRgb(255, 255, 255);
+		context.fillText(document.title, _xPadding, 100);
+		if (_station.isComplete()) {
+			context..save()
+    		..translate(GameHost.width / 1.4, GameHost.height / 2)
+   			..rotate(45 * PI / 180)
+   			..drawImage(_station.getTexture(), -_station.width() / 2, -_station.height() / 2)
+   			..restore();
+		}
 	}
 
-	void update(final double delta) {
-		GuiButtonElement fullscreen = _gui['fullscreen'] as GuiButtonElement;
-		fullscreen.setPosition(GameHost.width - (fullscreen.getBounds().width + 30), GameHost.height - (GuiButtonElement.height + 30));
-	}
+	void update(final double delta) {}
 }
 
 class StateGame extends State {
