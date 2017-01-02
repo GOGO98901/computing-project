@@ -180,6 +180,12 @@ class Asteroid extends Mob {
 }
 
 class SpaceStation extends Mob {
+	double _shieldTime = -1.0;
+
+	Sprite _shield = ResourceManager.getSprite("game.enities.station.one.shield");
+
+	int _sXOff = 0, _sYOff = 0;
+
 	SpaceStation() : super(ResourceManager.getSprite("game.enities.station.one")) {
 		setX(((GameHost.width - _width) / 2).round());
 		setY(((GameHost.height - _height) / 4).round());
@@ -189,5 +195,25 @@ class SpaceStation extends Mob {
 		if (_sprite != null) {
 			if (_sprite.isComplete()) context.drawImage(_sprite.getTexture(), getX(), getY());
 		}
+		if (_shieldTime >= 0 && _shield != null) {
+			if (_shield.isComplete()) {
+				int xOff = ((_shield.width() - _width) / 2).round() - _sXOff;
+				int yOFf = ((_shield.height() - _height) / 2).round() - _sYOff;
+				context.drawImage(_shield.getTexture(), getX() - xOff, getY() - yOFf);
+			}
+		}
+	}
+
+	void update(final double delta) {
+		if (_shieldTime >= 0) {
+			_shieldTime += delta;
+			_sXOff = (1.5 * sin(50 * _shieldTime)).round();
+			_sYOff = (1.5 * cos(50 * _shieldTime)).round();
+			if (_shieldTime > 1.25) _shieldTime = -1.0;
+		}
+	}
+
+	void shieldsUp() {
+		_shieldTime = 0.0;
 	}
 }

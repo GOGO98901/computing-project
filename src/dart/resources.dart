@@ -46,6 +46,7 @@ class ResourceManager {
 
 		_sprites['game.enities.station'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
 		_sprites['game.enities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
+		_sprites['game.enities.station.one.shield'] = _loadSprite('game/entities/spaceStation_020_shield.png');
 		_sprites['game.enities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_021.png');
 		_sprites['game.enities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_024.png');
 

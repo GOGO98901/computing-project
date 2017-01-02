@@ -50,7 +50,10 @@ class GameLevel {
         List<Asteroid> toRemove = new List<Asteroid>();
         _asteroids.forEach((ship) {
             ship.update(delta);
-            if (ship.isRemoved()) toRemove.add(ship);
+            if (ship.isRemoved()) {
+                toRemove.add(ship);
+                // _baseStation.shieldsUp();
+            }
         });
         toRemove.forEach((ship) {
             _asteroids.remove(ship);
