@@ -18,17 +18,32 @@ part of Computer_Science_Project;
 class ProblemManager {
   JsonFile _dataFile;
 
+  HashMap<int, List<ProblemItem>> _problems;
+
   ProblemManager() {
+    _problems = new HashMap<int, List<ProblemItem>>();
     _dataFile = ResourceManager.sample;
 
     _dataFile.onLoad().then((e) {
-      log.info(e);
+        JsonList list = new JsonList.fromString(e['problems'].toString());
+        for (JsonObject problem in list) {
+            int level = problem.level;
+            String question = problem.data.question;
+            int answer = problem.data.answer;
+            List<String> questions = problem.data.options;
+
+            if (!_problems.containsKey(level)) _problems[level] = new List<ProblemItem>();
+            List<ProblemItem> list = _problems[level];
+            list.add(new ProblemItem(question, questions, answer));
+            _problems[level] = list;
+        }
+        // log.info(_problems);
     });
   }
 }
 
 class ProblemItem {
-  Sprite _question;
+  String _question;
 
   List<String> _questions;
 
@@ -36,7 +51,7 @@ class ProblemItem {
 
   ProblemItem(this._question, this._questions, this._answer);
 
-  Sprite getQuestion() {
+  String getQuestion() {
     return _question;
   }
 
@@ -46,5 +61,13 @@ class ProblemItem {
 
   int getAnswer() {
     return _answer;
+  }
+
+  String toString() {
+      return {
+          "question": _question,
+          "options": _questions,
+          "anseer": _answer
+      }.toString();
   }
 }
