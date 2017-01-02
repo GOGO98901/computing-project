@@ -15,9 +15,9 @@ limitations under the License.
 */
 part of Computer_Science_Project;
 
-class Level {
-    static Level newLevel([UserData data]) {
-        Level level = new Level();
+class GameLevel {
+    static GameLevel newLevel([UserData data]) {
+        GameLevel level = new GameLevel();
         if (data != null) level._setUser(data);
         return level;
     }
@@ -27,7 +27,7 @@ class Level {
 
     UserData _userData;
 
-    Level() {
+    GameLevel() {
         _baseStation = new SpaceStation();
     }
 

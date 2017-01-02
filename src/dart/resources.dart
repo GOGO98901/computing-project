@@ -44,9 +44,9 @@ class ResourceManager {
 		_sprites['background.purple.dark'] = _loadSprite('game/background/kenney/darkPurple.png');
 
 
-		_sprites['game.eneities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
-		_sprites['game.eneities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
-		_sprites['game.eneities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_026.png');
+		_sprites['game.enities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
+		_sprites['game.enities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
+		_sprites['game.enities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_026.png');
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {

@@ -85,7 +85,7 @@ class Mob extends Entity {
 class SpaceShip extends Mob {
 	bool _removed;
 
-	SpaceShip() : super (ResourceManager.getSprite("game.eneity.ship.one")) {
+	SpaceShip() : super (ResourceManager.getSprite("game.enities.ship.one")) {
 
 	}
 
@@ -99,7 +99,7 @@ class SpaceShip extends Mob {
 }
 
 class SpaceStation extends Mob {
-	SpaceStation() : super (ResourceManager.getSprite("game.eneity.station.one")) {
+	SpaceStation() : super (ResourceManager.getSprite("game.enities.station.one")) {
 		setX(((GameHost.width / 2) - (_width / 2)).round());
 		setY(((GameHost.height / 2) - (_height / 2)).round());
 	}

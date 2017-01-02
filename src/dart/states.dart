@@ -211,7 +211,7 @@ class StateLogin extends State {
 
 class StateGame extends State {
 
-	Level _level;
+	GameLevel _level;
 
 	StateGame(StateManager _manager) : super(_manager);
 
@@ -219,8 +219,8 @@ class StateGame extends State {
 	}
 
 	void onVisibilityChange() {
-		if (isVisible()) _level = Level.newLevel(_manager.host().userManagement.currentUser);
-		else _level = Level.newLevel();
+		if (isVisible()) _level = GameLevel.newLevel(_manager.host().userManagement.currentUser);
+		else _level = GameLevel.newLevel();
 	}
 
 	void render(CanvasRenderingContext2D context) {

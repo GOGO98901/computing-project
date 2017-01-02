@@ -23,6 +23,7 @@ echo   -  (2) Clean build directory
 echo   -  (3) Serve the build folder
 echo   -  (4) Open dartium
 echo   -  (5) Quick Start
+echo   -  (6) Develop Dart and open dartium (use only for developing the game.html/dart code)
 
 echo %bar%
 set option=-1
@@ -51,6 +52,20 @@ if %option%==5 (
 	:: Starts with 3 and 4
 	start %CD%\scripts\local.menu.bat 3
 	start %CD%\scripts\local.menu.bat 4
+)
+if %option%==6 (
+	rd /s /q "_site/assets/images"
+	rd /s /q "_site/assets/problems"
+	rd /s /q "_site/assets/script/dart"
+	rd /s /q "_site/assets/script/javascript"
+
+	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\images ..\..\src\images"
+	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\problems ..\..\src\problems"
+	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\dart ..\..\..\src\dart"
+	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\javascript ..\..\..\src\javascript"
+
+	start cmd /k "cd _site && python -m http.server 3694"
+	start "" "C:/Program Files/Dart/chromium/chrome.exe" --disable-web-security --use-spdy=off --allow-file-access-from-files --app=http://127.0.0.1:3694/game.html
 )
 if %doExit%==1 (
 	exit
