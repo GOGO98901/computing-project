@@ -157,7 +157,7 @@ class Asteroid extends Mob {
 		position += direction * speed * delta;
 
 		position -= center;
- 		if ((direction.dot(goal - position) + 1).abs() < 10.5) {
+ 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(_width, _height)) {
 			position = goal;
 			remove();
 		}
