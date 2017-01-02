@@ -133,7 +133,7 @@ class Asteroid extends Mob {
 		// log.info("using texture game.enities.metor.${type}.${texture}");
 		this.setSprite(ResourceManager.getSprite("game.enities.metor.${type}.${texture}"));
 
-		speed += random.nextInt(20) - 10;
+		speed += random.nextInt(20) - 5;
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -182,7 +182,7 @@ class Asteroid extends Mob {
 class SpaceStation extends Mob {
 	SpaceStation() : super(ResourceManager.getSprite("game.enities.station.one")) {
 		setX(((GameHost.width - _width) / 2).round());
-		setY(((GameHost.height - _height) / 2).round());
+		setY(((GameHost.height - _height) / 4).round());
 	}
 
 	void render(CanvasRenderingContext2D context) {

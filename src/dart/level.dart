@@ -65,8 +65,13 @@ class GameLevel {
             Asteroid asteroid = new Asteroid(_baseStation);
             int side = _random.nextInt(3);
             int x, y;
-            if (side % 2 == 0) y = _random.nextInt(GameHost.height);
-            else x = _random.nextInt(GameHost.width);
+            int margins = 200;
+            if (side % 2 == 0) y = _random.nextInt(GameHost.height - margins);
+            else {
+                int xP = _random.nextInt(margins);
+                if (_random.nextInt(2) == 0) x = xP;
+                else x = GameHost.width - margins + xP;
+            }
 
             int offset = 50;
             if (side == 0) x = -offset;
