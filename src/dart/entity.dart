@@ -137,7 +137,9 @@ class Asteroid extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context.drawImageToRect(_sprite.getTexture(), getBounds());
+		if (_sprite != null) {
+			if (_sprite.isComplete()) context.drawImage(_sprite.getTexture(), getX(), getY());
+		}
 	}
 
 	// See http://gamedev.stackexchange.com/a/28337 for refrence
@@ -160,7 +162,6 @@ class Asteroid extends Mob {
 		position += direction * speed * delta;
 
 		position -= center;
-		log.info(_life);
  		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(_width, _height) || _life >= 60) {
 			position = goal;
 			remove();
@@ -185,6 +186,8 @@ class SpaceStation extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context.drawImageToRect(_sprite.getTexture(), getBounds());
+		if (_sprite != null) {
+			if (_sprite.isComplete()) context.drawImage(_sprite.getTexture(), getX(), getY());
+		}
 	}
 }
