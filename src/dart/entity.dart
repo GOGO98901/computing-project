@@ -97,6 +97,7 @@ class Asteroid extends Mob {
 	bool _removed;
 
 	Mob _target;
+	double _life = 0.0;
 
 	Asteroid(this._target) : super(ResourceManager.getSprite("game.enities.metor.tiny.1")) {
 		Random random = new Random();
@@ -141,6 +142,8 @@ class Asteroid extends Mob {
 
 	// See http://gamedev.stackexchange.com/a/28337 for refrence
 	void update(final double delta) {
+		_life += delta;
+
 		double x1 = this.getX() + 0.0;
 		double x2 = _target.getX() + (_target.getWidth() / 2);
 		double y1 = this.getY() + 0.0;
@@ -157,7 +160,8 @@ class Asteroid extends Mob {
 		position += direction * speed * delta;
 
 		position -= center;
- 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(_width, _height)) {
+		log.info(_life);
+ 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(_width, _height) || _life >= 60) {
 			position = goal;
 			remove();
 		}
