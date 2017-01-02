@@ -218,7 +218,7 @@ class StateLogin extends State {
 		context.fillText(document.title, _xPadding, 100);
 		if (_station.isComplete()) {
 			context..save()
-    		..translate((GameHost.width / 1.4) + sin(_hover), (GameHost.height / 2) + (10 * sin(_hover * 1.5)))
+    		..translate((GameHost.width / 1.4) + (2 * sin(_hover)), (GameHost.height / 2) + (10 * sin(_hover * 1.5)))
    			..rotate(45 * PI / 180)
    			..drawImage(_station.getTexture(), -_station.width() / 2, -_station.height() / 2)
    			..restore();
