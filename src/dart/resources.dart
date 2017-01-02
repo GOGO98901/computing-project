@@ -172,8 +172,8 @@ class JsonFile extends BaseResource {
 		Completer<JsonObject> completer = new Completer<JsonObject>();
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("jsonLoad");
 		eventStreamProvider.forTarget(window).listen((e) {
-			if (e.detail['source'].equals(_source)) {
-				completer.complete(new JsonObject.fromJsonString(e.detail['data']));
+			if (e.detail['source'] == _source) {
+				completer.complete(e.detail['data']);
 			}
 		});
 		return completer.future;

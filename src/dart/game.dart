@@ -31,7 +31,7 @@ class GameHost {
 		width = _canvas.width;
 		height = _canvas.height;
 		_canvas.onResize.listen((event) {
-			updateSize(_canvas.width, _canvas.height);
+			// updateSize(_canvas.width, _canvas.height);
 		});
 		resources = new ResourceManager();
 		handler = new MasterHandler(_canvas);
