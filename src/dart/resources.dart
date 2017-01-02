@@ -48,6 +48,17 @@ class ResourceManager {
 		_sprites['game.enities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
 		_sprites['game.enities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_021.png');
 		_sprites['game.enities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_024.png');
+
+		_sprites['game.enities.metor.big.1'] = _loadSprite('game/entities/kenney/meteorBrown_big1.png');
+		_sprites['game.enities.metor.big.2'] = _loadSprite('game/entities/kenney/meteorBrown_big2.png');
+		_sprites['game.enities.metor.big.3'] = _loadSprite('game/entities/kenney/meteorBrown_big3.png');
+		_sprites['game.enities.metor.big.4'] = _loadSprite('game/entities/kenney/meteorBrown_big4.png');
+		_sprites['game.enities.metor.med.1'] = _loadSprite('game/entities/kenney/meteorBrown_med1.png');
+		_sprites['game.enities.metor.med.2'] = _loadSprite('game/entities/kenney/meteorBrown_med3.png');
+		_sprites['game.enities.metor.small.1'] = _loadSprite('game/entities/kenney/meteorBrown_small1.png');
+		_sprites['game.enities.metor.small.2'] = _loadSprite('game/entities/kenney/meteorBrown_small2.png');
+		_sprites['game.enities.metor.tiny.1'] = _loadSprite('game/entities/kenney/meteorBrown_tiny1.png');
+		_sprites['game.enities.metor.tiny.2'] = _loadSprite('game/entities/kenney/meteorBrown_tiny2.png');
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {

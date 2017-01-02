@@ -22,10 +22,16 @@ class GameLevel {
         return level;
     }
 
+    Random _random = new Random();
+
     SpaceStation _baseStation;
-    List<SpaceShip> _enemyShips = new List<SpaceShip>();
+    List<Asteroid> _asteroids = new List<Asteroid>();
 
     UserData _userData;
+
+    double _time = 0.0;
+    int _spawnTime = 2;
+    int _level = 0;
 
     GameLevel() {
         _baseStation = new SpaceStation();
@@ -33,7 +39,7 @@ class GameLevel {
 
     /// Renders the Level
     void render(CanvasRenderingContext2D context) {
-        _enemyShips.forEach((enemy) {
+        _asteroids.forEach((enemy) {
             enemy.render(context);
         });
         _baseStation.render(context);
@@ -41,15 +47,40 @@ class GameLevel {
 
     /// Updates the Level
     void update(final double delta) {
-        List<SpaceShip> toRemove = new List<SpaceShip>();
-        _enemyShips.forEach((ship) {
+        List<Asteroid> toRemove = new List<Asteroid>();
+        _asteroids.forEach((ship) {
             ship.update(delta);
             if (ship.isRemoved()) toRemove.add(ship);
         });
         toRemove.forEach((ship) {
-            _enemyShips.remove(ship);
+            _asteroids.remove(ship);
         });
         _baseStation.update(delta);
+
+        _updateShips(delta);
+    }
+
+    void _updateShips(final double delta) {
+        _time += delta;
+
+        if (_time > _spawnTime - (_level * 0.5)) {
+            Asteroid asteroid = new Asteroid(_baseStation);
+            int side = 1 + _random.nextInt(4);
+            int x, y;
+            if (side % 2 == 0) x = _random.nextInt(GameHost.width);
+            else  y = _random.nextInt(GameHost.height);
+
+            int offset = 100;
+            if (side == 1) x = -offset;
+            if (side == 2) y = -offset;
+            if (side == 3) x = GameHost.width + offset;
+            if (side == 4) y = GameHost.height + offset;
+
+            asteroid.setX(x);
+            asteroid.setY(y);
+            log.info("Spawned new asteroid");
+            _asteroids.add(asteroid);
+        }
     }
 
     void _setUser(UserData data) {
