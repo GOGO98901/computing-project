@@ -97,9 +97,7 @@ abstract class BaseResource {
 	void _start();
 
 	/// Gets the current status of the resource
-	Status getStatus() {
-		return _status;
-	}
+	Status get status => _status;
 
 	/// Returns `true` if the current status equals complete
 	bool isComplete() {
@@ -132,26 +130,22 @@ class Sprite extends BaseResource {
 	}
 
 	/// Returns the width of the image only if it is loaded
-	int width() {
+	int get width {
 		if (isComplete()) return _image.width;
 		return 0;
 	}
 
 	/// Returns the height of the image only if it is loaded
-	int height() {
+	int get height {
 		if (isComplete()) return _image.height;
 		return 0;
 	}
 
 	/// Returns the image element of the source
-	ImageElement getTexture() {
-		return _image;
-	}
+	ImageElement get texture => _image;
 
 	/// Returns the source that was entered when created
-	String getSource() {
-		return _source;
-	}
+	String get source => _source;
 }
 
 class JsonFile extends BaseResource {
@@ -198,12 +192,8 @@ class JsonFile extends BaseResource {
 	}
 
 	/// Returns the source that was entered when created
-	String getSource() {
-		return _source;
-	}
+	String get source => _source;
 
 	/// Returns Json file contents
-	JsonObject getData() {
-		return _data;
-	}
+	JsonObject get data => _data;
 }

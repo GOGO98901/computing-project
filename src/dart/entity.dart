@@ -25,56 +25,41 @@ abstract class Entity  {
 		_position.setX(x);
 	}
 
-	int getX() {
-		return _position.getX();
-	}
-
 	void setY(int y) {
 		_position.setY(y);
 	}
 
-	int getY() {
-		return _position.getY();
-	}
+	int get x => _position.x;
+	int get y => _position.y;
 
-	Sprite getSprite() {
-		return _sprite;
-	}
+	Vector2 get vector2 => _position.vector2;
+
+	Sprite get sprite => _sprite;
 }
 
 class Mob extends Entity {
 	int _width, _height;
 
-	Sprite _sprite;
-
-	Mob(this._sprite) {
+	Mob(Sprite sprite) {
+		this._sprite = sprite;
 		init();
 	}
 
 	void init() {
 		if (_sprite.isComplete()) {
-			_width = _sprite.width();
-			_height = _sprite.height();
-		} else 	_sprite.getTexture().onLoad.listen((e) {
-			_width = _sprite.width();
-			_height = _sprite.height();
+			_width = _sprite.width;
+			_height = _sprite.height;
+		} else 	_sprite.texture.onLoad.listen((e) {
+			_width = _sprite.width;
+			_height = _sprite.height;
 		});
 	}
 
-	int getWidth()  {
-		return _width;
-	}
-
-	int getHeight() {
-		return _height;
-	}
-
-	Sprite getSprite() {
-		return _sprite;
-	}
+	int get width => _width;
+	int get height => _height;
 
 	Rectangle getBounds() {
-		return new Rectangle(this.getX(), this.getY(), this._width, this._height);
+		return new Rectangle(x, y, this._width, this._height);
 	}
 
 	void render(CanvasRenderingContext2D context) {}
@@ -83,11 +68,11 @@ class Mob extends Entity {
 	void setSprite(Sprite sprite) {
 		this._sprite = sprite;
 		if (_sprite.isComplete()) {
-			_width = _sprite.width();
-			_height = _sprite.height();
-		} else 	_sprite.getTexture().onLoad.listen((e) {
-			_width = _sprite.width();
-			_height = _sprite.height();
+			_width = _sprite.width;
+			_height = _sprite.height;
+		} else 	_sprite.texture.onLoad.listen((e) {
+			_width = _sprite.width;
+			_height = _sprite.height;
 		});
 	}
 }
@@ -138,7 +123,7 @@ class Asteroid extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_sprite != null) {
-			if (_sprite.isComplete()) context.drawImage(_sprite.getTexture(), getX(), getY());
+			if (_sprite.isComplete()) context.drawImage(_sprite.texture, x, y);
 		}
 	}
 
@@ -146,13 +131,13 @@ class Asteroid extends Mob {
 	void update(final double delta) {
 		_life += delta;
 
-		double x1 = this.getX() + 0.0;
-		double x2 = _target.getX() + (_target.getWidth() / 2);
-		double y1 = this.getY() + 0.0;
-		double y2 = _target.getY() + (_target.getHeight() / 2);
+		double x1 = this.x + 0.0;
+		double x2 = _target.x + (_target.width / 2);
+		double y1 = this.y + 0.0;
+		double y2 = _target.y + (_target.height / 2);
 
 		Vector2 position = new Vector2(x1, y1);
-		Vector2 center = new Vector2(_width / 2, _height / 2);
+		Vector2 center = new Vector2(width / 2, height / 2);
 		position += center;
 		Vector2 goal = new Vector2(x2, y2);
 
@@ -162,7 +147,7 @@ class Asteroid extends Mob {
 		position += direction * speed * delta;
 
 		position -= center;
- 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(_width, _height) || _life >= 60) {
+ 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(width, height) || _life >= 60) {
 			position = goal;
 			remove();
 		}
@@ -193,13 +178,13 @@ class SpaceStation extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_sprite != null) {
-			if (_sprite.isComplete()) context.drawImage(_sprite.getTexture(), getX(), getY());
+			if (_sprite.isComplete()) context.drawImage(_sprite.texture, x, y);
 		}
 		if (_shieldTime >= 0 && _shield != null) {
 			if (_shield.isComplete()) {
-				int xOff = ((_shield.width() - _width) / 2).round() - _sXOff;
-				int yOFf = ((_shield.height() - _height) / 2).round() - _sYOff;
-				context.drawImage(_shield.getTexture(), getX() - xOff, getY() - yOFf);
+				int xOff = ((_shield.width - _width) / 2).round() - _sXOff;
+				int yOFf = ((_shield.height - _height) / 2).round() - _sYOff;
+				context.drawImage(_shield.texture, x - xOff, y - yOFf);
 			}
 		}
 	}

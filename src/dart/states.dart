@@ -94,9 +94,9 @@ abstract class State {
 
 	void renderBackground(CanvasRenderingContext2D context) {
 		if (_background != null) if (_background.isComplete()) {
-			ImageElement image = _background.getTexture();
-			for (int y = 0; y < GameHost.height + _background.height(); y += _background.height()) {
-				for (int x = 0; x < GameHost.width; x += _background.width()) {
+			ImageElement image = _background.texture;
+			for (int y = 0; y < GameHost.height + _background.height; y += _background.height) {
+				for (int x = 0; x < GameHost.width; x += _background.width) {
 					context.drawImage(image, x, y - _starOffset);
 				}
 			}
@@ -117,7 +117,7 @@ abstract class State {
 	void updateBackground(final double delta) {
 		if (_background != null) {
 			_starOffset += delta * 5;
-			if (_starOffset >= _background.height()) _starOffset = 0.0;
+			if (_starOffset >= _background.height) _starOffset = 0.0;
 		}
 	}
 
@@ -148,9 +148,9 @@ class StateIntro extends State {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_logo.isComplete()) {
-			int w = (_logo.width() * 0.75).toInt();
-			int h = (_logo.width() * 0.75).toInt();
-			context.drawImageScaled(_logo.getTexture(), (GameHost.width / 2) - (w / 2), (GameHost.height / 2) - (h / 2), w, h);
+			int w = (_logo.width * 0.75).toInt();
+			int h = (_logo.width * 0.75).toInt();
+			context.drawImageScaled(_logo.texture, (GameHost.width / 2) - (w / 2), (GameHost.height / 2) - (h / 2), w, h);
 		}
 	}
 
@@ -220,7 +220,7 @@ class StateLogin extends State {
 			context..save()
     		..translate((GameHost.width / 1.4) + (2 * sin(_hover)), (GameHost.height / 2) + (10 * sin(_hover * 1.5)))
    			..rotate(45 * PI / 180)
-   			..drawImage(_station.getTexture(), -_station.width() / 2, -_station.height() / 2)
+   			..drawImage(_station.texture, -_station.width / 2, -_station.height / 2)
    			..restore();
 		}
 	}
@@ -253,7 +253,7 @@ class StateGame extends State {
 	void update(final double delta) {
 		if (_level != null){
 			_level.update(delta);
-			(_gui['score'] as GuiText).setText(_level.getFormattedScore());
+			(_gui['score'] as GuiText).setText(_level.formattedScore);
 		}
 	}
 }

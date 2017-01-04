@@ -54,22 +54,19 @@ class PointSmart {
 		this._x = x;
 	}
 
-	int getX()  {
-		return _x;
-	}
-
 	void setY(int y) {
 		this._y = y;
 	}
 
-	int getY()  {
-		return _y;
-	}
+	int get x => _x;
+	int get y => _y;
 
 	void set(int x, int y) {
 		this._x = x;
 		this._y = y;
 	}
+
+	Vector2 get vector2 => new Vector2(0.0 + _x, 0.0 + _y);
 
 	Point toPoint() {
 		return new Point(_x, _y);

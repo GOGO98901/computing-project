@@ -51,17 +51,21 @@ class GameLevel {
     /// Updates the Level
     void update(final double delta) {
         List<Asteroid> toRemove = new List<Asteroid>();
-        _asteroids.forEach((ship) {
-            ship.update(delta);
-            if (ship.isRemoved()) {
-                toRemove.add(ship);
-                // _baseStation.shieldsUp();
+        _asteroids.forEach((asteroid) {
+            asteroid.update(delta);
+            if (asteroid.isRemoved()) {
+                toRemove.add(asteroid);
+                 //_baseStation.shieldsUp();
             }
         });
-        toRemove.forEach((ship) {
-            _asteroids.remove(ship);
+        toRemove.forEach((asteroid) {
+            _asteroids.remove(asteroid);
         });
         _baseStation.update(delta);
+
+        if (_asteroids.isNotEmpty) {
+            // TODO load problems
+        }
 
         _updateShips(delta);
     }
@@ -94,13 +98,37 @@ class GameLevel {
         if (_time > _spawnTime - (_level * 0.5)) _time = 0.0;
     }
 
-    String getFormattedScore() {
-        return _score.toString().padLeft(5, '0');
+    Asteroid getNearestAsteroid() {
+        Asteroid nearest;
+        double distance = 0.0;
+        _asteroids.forEach((asteroid) {
+            double d = getDistanceFromEntity(asteroid);
+            if (d > distance) {
+                d = distance;
+                nearest = asteroid;
+            }
+        });
+        return nearest;
     }
 
-    int getScore() {
-        return _score;
+    double getNearestAsteroidDistance() {
+        double distance = 0.0;
+        _asteroids.forEach((asteroid) {
+            double d = getDistanceFromEntity(asteroid);
+            if (d > distance) {
+                d = distance;
+            }
+        });
+        return distance;
     }
+
+    double getDistanceFromEntity(Entity goal, [Entity start]) {
+        if (start == null) start = _baseStation;
+        return start.vector2.distanceTo(goal.vector2);
+    }
+
+    int get score => _score;
+    String get formattedScore => _score.toString().padLeft(5, '0');
 
     void _setUser(UserData data) {
         this._userData = data;
