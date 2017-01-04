@@ -30,11 +30,11 @@ class ProblemManager {
             int level = problem.level;
             String question = problem.data.question;
             int answer = problem.data.answer;
-            List<String> questions = problem.data.options;
+            List<String> options = problem.data.options;
 
             if (!_problems.containsKey(level)) _problems[level] = new List<ProblemItem>();
             List<ProblemItem> list = _problems[level];
-            list.add(new ProblemItem(question, questions, answer));
+            list.add(new ProblemItem(question, options, answer));
             _problems[level] = list;
         }
         // log.info(_problems);
@@ -45,28 +45,22 @@ class ProblemManager {
 class ProblemItem {
   String _question;
 
-  List<String> _questions;
+  List<String> _options;
 
   int _answer;
 
-  ProblemItem(this._question, this._questions, this._answer);
+  ProblemItem(this._question, this._options, this._answer);
 
-  String getQuestion() {
-    return _question;
-  }
+  String get question => _question;
 
-  List<String> getQuestions() {
-    return _questions;
-  }
+  List<String> get questions => _options;
 
-  int getAnswer() {
-    return _answer;
-  }
+  int get answer => _answer;
 
   String toString() {
       return {
           "question": _question,
-          "options": _questions,
+          "options": _options,
           "anseer": _answer
       }.toString();
   }

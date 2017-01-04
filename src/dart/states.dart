@@ -60,13 +60,9 @@ class StateManager {
 		_current..updateBackground(delta)..update(delta)..updateGui(delta);
 	}
 
-	GameHost host() {
-		return _host;
-	}
+	GameHost get host => _host;
 
-	CanvasElement canvas() {
-		return  _canvas;
-	}
+	CanvasElement get canvas => _canvas;
 }
 
 abstract class State {
@@ -82,7 +78,7 @@ abstract class State {
 
 	State(this._manager)  {
 		_gui = new HashMap<String, GuiElement>();
-		init(_manager.canvas());
+		init(_manager.canvas);
 		if (_background == null) _background = ResourceManager.getSprite("background.blue");
 	}
 
@@ -121,9 +117,7 @@ abstract class State {
 		}
 	}
 
-	bool isVisible() {
-		return _visible;
-	}
+	bool get visible => _visible;
 
 	void setVisible(bool vis) {
 		this._visible = vis;
@@ -173,13 +167,13 @@ class StateLogin extends State {
 	Sprite _station = ResourceManager.getSprite("game.enities.station");
 
 	void init(CanvasElement canvas) {
-		_gui['play'] = new GuiButtonElement(_manager.canvas(), _xPadding, 200, "Play");
-		_gui['token'] = new GuiButtonElement(_manager.canvas(), _xPadding, 275, "Login");
+		_gui['play'] = new GuiButtonElement(_manager.canvas, _xPadding, 200, "Play");
+		_gui['token'] = new GuiButtonElement(_manager.canvas, _xPadding, 275, "Login");
 		// _gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {
-			if (isVisible()) {
+			if (this.visible) {
 				if (e.detail['type'] == 'button') {
 					if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
 						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
@@ -198,7 +192,7 @@ class StateLogin extends State {
 			InputElement input = querySelector('#gameToken') as InputElement;
 			String token = input.value;
 			if (token != null) if (token.length > 0) {
-				_manager.host().userManagement.login(token).then((connected) {
+				_manager.host.userManagement.login(token).then((connected) {
 					if (connected) {
 						input.parent.classes.remove('has-error');
 						Notify.info("Logged in");
@@ -242,7 +236,7 @@ class StateGame extends State {
 	}
 
 	void onVisibilityChange() {
-		if (isVisible()) _level = GameLevel.newLevel(_manager.host().userManagement.currentUser);
+		if (this.visible) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
 		else _level = GameLevel.newLevel();
 	}
 
