@@ -175,7 +175,7 @@ class StateLogin extends State {
 	void init(CanvasElement canvas) {
 		_gui['play'] = new GuiButtonElement(_manager.canvas(), _xPadding, 200, "Play");
 		_gui['token'] = new GuiButtonElement(_manager.canvas(), _xPadding, 275, "Login");
-		_gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
+		// _gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
 
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
 		eventStreamProvider.forTarget(canvas).listen((e) {

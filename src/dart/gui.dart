@@ -148,3 +148,17 @@ class GuiButtonElement extends GuiElement {
 		return _text;
 	}
 }
+
+class GuiQuestionElement extends GuiElement {
+	static final int width = 200, height = 500;
+	
+	GuiQuestionElement(int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, width, height), canvas) {
+
+	}
+
+	void _init([CanvasElement canvas]) {}
+
+	void render(CanvasRenderingContext2D context) {}
+
+	void update(final double delta) {}
+}

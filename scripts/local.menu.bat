@@ -1,5 +1,6 @@
 @echo off
 set title=Development manager - Computing Project
+cd ../
 :menu
 title %title%
 cls
