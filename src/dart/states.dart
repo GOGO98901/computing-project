@@ -237,7 +237,9 @@ class StateGame extends State {
 
 	StateGame(StateManager _manager) : super(_manager);
 
-	void init(CanvasElement canvas) {}
+	void init(CanvasElement canvas) {
+		_gui['score'] = new GuiText("0000", 20, 20 + 25);
+	}
 
 	void onVisibilityChange() {
 		if (isVisible()) _level = GameLevel.newLevel(_manager.host().userManagement.currentUser);
@@ -249,6 +251,9 @@ class StateGame extends State {
 	}
 
 	void update(final double delta) {
-		if (_level != null) _level.update(delta);
+		if (_level != null){
+			_level.update(delta);
+			(_gui['score'] as GuiText).setText(_level.getFormattedScore());
+		}
 	}
 }

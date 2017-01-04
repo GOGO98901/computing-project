@@ -24,6 +24,8 @@ class GameLevel {
 
     Random _random = new Random();
 
+    int _score;
+
     SpaceStation _baseStation;
     List<Asteroid> _asteroids = new List<Asteroid>();
 
@@ -35,6 +37,7 @@ class GameLevel {
 
     GameLevel() {
         _baseStation = new SpaceStation();
+        _score = 0;
     }
 
     /// Renders the Level
@@ -89,6 +92,14 @@ class GameLevel {
         }
         _time += delta;
         if (_time > _spawnTime - (_level * 0.5)) _time = 0.0;
+    }
+
+    String getFormattedScore() {
+        return _score.toString().padLeft(5, '0');
+    }
+
+    int getScore() {
+        return _score;
     }
 
     void _setUser(UserData data) {

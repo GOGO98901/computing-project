@@ -149,9 +149,32 @@ class GuiButtonElement extends GuiElement {
 	}
 }
 
+class GuiText extends GuiElement {
+
+	String _text;
+
+	GuiText(this._text, int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, 0, 0), canvas);
+
+	void _init([CanvasElement canvas]) {}
+
+	void render(CanvasRenderingContext2D context) {
+		context.fillText(_text, _bounds.left, _bounds.top);
+	}
+
+	void update(final double delta) {}
+
+	void setText(String text) {
+		this._text = text;
+	}
+
+	String getText() {
+		return _text;
+	}
+}
+
 class GuiQuestionElement extends GuiElement {
 	static final int width = 200, height = 500;
-	
+
 	GuiQuestionElement(int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, width, height), canvas) {
 
 	}
