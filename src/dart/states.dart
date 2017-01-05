@@ -142,16 +142,18 @@ class StateIntro extends State {
 	}
 
 	void render(CanvasRenderingContext2D context) {
+		context.setFillColorRgb(255, 255, 255);
+		context.fillText(document.title, 75, 100);
 		if (_logo.isComplete()) {
 			int w = (_logo.width * 0.75).toInt();
 			int h = (_logo.width * 0.75).toInt();
-			context.drawImageScaled(_logo.texture, (GameHost.width / 2) - (w / 2), (GameHost.height / 2) - (h / 2), w, h);
+			context.drawImageScaled(_logo.texture, 75, 100 + ((GameHost.height - 120) - h) / 2, w, h);
 		}
 	}
 
 	void update(final double delta) {
 		if(_time >= 0)_time += delta;
-		if (_time > 3) {
+		if (_time > 5) {
 			_time = -1.0;
 			_manager.changeState('login');
 		}
