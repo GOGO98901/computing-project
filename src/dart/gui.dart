@@ -185,3 +185,15 @@ class GuiQuestionElement extends GuiElement {
 
 	void update(final double delta) {}
 }
+
+class GuiTypeSelector extends GuiElement {
+	static final int width = 500, height = 200;
+
+	GuiTypeSelector(int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, width, height), canvas);
+
+	void _init([CanvasElement canvas]) {}
+
+	void render(CanvasRenderingContext2D context) {}
+
+	void update(final double delta) {}
+}

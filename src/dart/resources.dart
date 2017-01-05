@@ -156,28 +156,20 @@ class JsonFile extends BaseResource {
 
 	void _start() {
 		_status = Status.started;
+		HttpRequest.getString(_source).then((String dataString) {
+			_data = new JsonObject.fromJsonString(dataString);
+			_status = Status.complete;
 
-		HttpRequest req = new HttpRequest();
-		req.open("GET", _source);
-		req.onLoadEnd.first.then((e) {
-			if(req.status == 200 || req.status == 0) {
-				String data = req.response as String;
-				_data = new JsonObject.fromJsonString(data);
-				_status = Status.complete;
+			var detail = {
+				"source": _source,
+				"data": _data
+			};
 
-				var detail = {
-					"source": _source,
-					"data": _data
-				};
-
-		    	window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
-			} else {
-				_data = new JsonObject();
-				_status = Status.failed;
-			}
+			window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
+		}).catchError((Error error) {
+			_data = new JsonObject();
+			_status = Status.failed;
 		});
-		_status = Status.started;
-		req.send();
 	}
 
 	Future<JsonObject> onLoad() {

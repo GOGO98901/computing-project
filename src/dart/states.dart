@@ -30,8 +30,8 @@ class StateManager {
 		_states['login'] = new StateLogin(this);
 		_states['game'] = new StateGame(this);
 
-		//_current = _states['intro'];
-		_current = _states['login'];
+		_current = _states['intro'];
+		//_current = _states['login'];
 		_current.setVisible(true);
 	}
 
@@ -137,7 +137,8 @@ class StateIntro extends State {
 	double _time = 0.0;
 
 	void init(CanvasElement canvas) {
-		_logo = ResourceManager.getSprite('logo.roryclaasen.black');
+		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
+		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -150,7 +151,7 @@ class StateIntro extends State {
 
 	void update(final double delta) {
 		if(_time >= 0)_time += delta;
-		if (_time > 2) {
+		if (_time > 3) {
 			_time = -1.0;
 			_manager.changeState('login');
 		}
