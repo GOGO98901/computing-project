@@ -50,7 +50,7 @@ if %option%==6 (
 	rd /s /q "_site/assets/script/javascript"
 
 	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\images ..\..\src\images"
-	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\problems ..\..\src\problems"
+	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\json ..\..\src\json"
 	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\dart ..\..\..\src\dart"
 	runas /user:Administrator /savecred "cmd /c mklink /d %CD%\_site\assets\script\javascript ..\..\..\src\javascript"
 

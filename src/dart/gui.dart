@@ -41,9 +41,9 @@ abstract class GuiElement {
 		_bounds = bounds;
 	}
 
-	Rectangle getBounds() {
-		return _bounds;
-	}
+	Rectangle get bounds => _bounds;
+	int get x => _bounds.left;
+	int get y => _bounds.top;
 
 	void setParentVisible(bool vis) {
 		this._parentVisible = vis;
@@ -144,6 +144,10 @@ class GuiButtonElement extends GuiElement {
 		this.setBounds(new Rectangle(x, y, _bounds.width, _bounds.height));
 	}
 
+	void setText(String text) {
+		this._text = text;
+	}
+
 	String getText() {
 		return _text;
 	}
@@ -170,6 +174,28 @@ class GuiText extends GuiElement {
 	String getText() {
 		return _text;
 	}
+}
+
+class GuiTextMessage extends GuiText {
+	GuiButtonElement _close;
+
+	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) :super(text, x, y, canvas);
+
+	void _init([CanvasElement canvas]) {
+		_close = new GuiButtonElement(canvas, x, y, "close");
+	}
+
+	String getButtonText() {
+		return _close.getText();
+	}
+
+	void setButtonText(String text) {
+		_close.setText(text);
+	}
+
+	void render(CanvasRenderingContext2D context) {}
+
+	void update(final double delta) {}
 }
 
 class GuiQuestionElement extends GuiElement {

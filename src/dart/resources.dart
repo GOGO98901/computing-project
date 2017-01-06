@@ -19,13 +19,35 @@ class ResourceManager {
 
 	static HashMap<String, Sprite> _sprites;
 
+	static HashMap<String, String> _strings;
+	JsonFile _lang;
+
 	static JsonFile sample;
 
 	ResourceManager() {
 		_sprites = new HashMap<String, Sprite>();
+		_strings = new HashMap<String, String>();
+
+		_lang = _loadJsonFile('lang.json');
+		_lang.onLoad.then((data) {
+			_addStringsInMap(JSON.decode(data.toString()), "");
+				log.info(_strings);
+		});
 		_initSprites();
 
-		sample = _loadJsonFile('problems/sample.json');
+		sample = _loadJsonFile('problem.sample.json');
+	}
+
+	void _addStringsInMap(Map map, String key) {
+		map.forEach((k, v) {
+			JsonObject object = new JsonObject.fromJsonString(JSON.encode(v));
+			Object test = JSON.decode(object.toString());
+			if (test is String) {
+				_strings[key + "${k}"] = v;
+			} else {
+				_addStringsInMap(test, key + "${k}.");
+			}
+		});
 	}
 
 	/// All sprites get loaded at this point in the program
@@ -68,8 +90,12 @@ class ResourceManager {
 	}
 
 	JsonFile _loadJsonFile(String name, {String dir}) {
-			if (dir == null) return new JsonFile("${getAssetsDir()}/${name}");
+			if (dir == null) return new JsonFile("${getAssetsDir()}/json/${name}");
 			else return new JsonFile("${dir}/${name}");
+	}
+
+	static String getString(String key) {
+		return _strings[key];
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]
@@ -172,7 +198,7 @@ class JsonFile extends BaseResource {
 		});
 	}
 
-	Future<JsonObject> onLoad() {
+	Future<JsonObject> get onLoad {
 		Completer<JsonObject> completer = new Completer<JsonObject>();
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("jsonLoad");
 		eventStreamProvider.forTarget(window).listen((e) {

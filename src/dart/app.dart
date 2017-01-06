@@ -19,6 +19,7 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:math';
 import 'dart:collection';
+import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:yaml/yaml.dart';
 import 'package:json_object/json_object.dart';
@@ -76,7 +77,7 @@ bool _init() {
 		log.info("Found canvas node");
 	} else {
 		log.severe("DID NOT FIND CANVAS NODE!");
-		Notify.warn("Unable to find canvas node");
+		Notify.warn("Unable to find canvas node", "Contact system administrator");
 		return false;
 	}
 	return true;

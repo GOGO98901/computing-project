@@ -85,14 +85,16 @@ class Spec {
 	YamlMap _map;
 
 	Spec() {
-		_load().then((map) {
-			if (map != null) {
-				_loaded = true;
-				_map = map;
+		if (Util.isLive()) {
+			_load().then((map) {
+				if (map != null) {
+					_loaded = true;
+					_map = map;
 
-				log.info("[${name()}] ${version()}#${build()}");
-			}
-		});
+					log.info("[${name()}] ${version()}#${build()}");
+				}
+			});
+		} else log.warning("skiped loading pubspec due to runnign local host");
 	}
 
 	String name() {

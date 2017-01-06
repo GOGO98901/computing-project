@@ -236,10 +236,16 @@ class StateGame extends State {
 
 	void init(CanvasElement canvas) {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
+
+
+
+		if (!Util.isLive()) {
+			_gui['temp'] = new GuiTypeSelector(100, 100);
+		}
 	}
 
 	void onVisibilityChange() {
-		if (this.visible) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
+		if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
 		else _level = GameLevel.newLevel();
 	}
 

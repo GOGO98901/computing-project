@@ -24,7 +24,7 @@ class ProblemManager {
     _problems = new HashMap<int, List<ProblemItem>>();
     _dataFile = ResourceManager.sample;
 
-    _dataFile.onLoad().then((e) {
+    _dataFile.onLoad.then((e) {
         JsonList list = new JsonList.fromString(e['problems'].toString());
         for (JsonObject problem in list) {
             int level = problem.level;

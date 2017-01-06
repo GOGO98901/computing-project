@@ -47,6 +47,8 @@ class UserManagement {
 		});
 		return completer.future;
 	}
+
+	bool get loggedIn => _current != null;
 }
 
 class UserData {
@@ -60,19 +62,8 @@ class UserData {
 		this._class = classId;
 	}
 
-	int getId() {
-		return _id;
-	}
-
-	String getName() {
-		return _name;
-	}
-
-	String getToken() {
-		return _token;
-	}
-
-	int getClassId() {
-		return _class;
-	}
+	int get id => _id;
+	String get name => _name;
+	String get token => _token;
+	int get classId => _class;
 }
