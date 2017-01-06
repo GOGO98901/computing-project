@@ -29,25 +29,11 @@ class ResourceManager {
 		_strings = new HashMap<String, String>();
 
 		_lang = _loadJsonFile('lang.json');
-		_lang.onLoad.then((data) {
-			_addStringsInMap(JSON.decode(data.toString()), "");
-				log.info(_strings);
-		});
+		_lang.onLoad.then((data) => _addStringsInMap(JSON.decode(data.toString())));
+
 		_initSprites();
 
 		sample = _loadJsonFile('problem.sample.json');
-	}
-
-	void _addStringsInMap(Map map, String key) {
-		map.forEach((k, v) {
-			JsonObject object = new JsonObject.fromJsonString(JSON.encode(v));
-			Object test = JSON.decode(object.toString());
-			if (test is String) {
-				_strings[key + "${k}"] = v;
-			} else {
-				_addStringsInMap(test, key + "${k}.");
-			}
-		});
 	}
 
 	/// All sprites get loaded at this point in the program
@@ -60,11 +46,12 @@ class ResourceManager {
 		_sprites['ui.button.up.blue'] = _loadSprite('game/ui/kenney/blue_button02.png');
 		_sprites['ui.button.down.blue'] = _loadSprite('game/ui/kenney/blue_button03.png');
 
+		_sprites['ui.glass.tr'] = _loadSprite('game/ui/kenney/glassPanel_cornerTL.png');
+
 		_sprites['background.black'] = _loadSprite('game/background/kenney/black.png');
 		_sprites['background.blue'] = _loadSprite('game/background/kenney/blue.png');
 		_sprites['background.purple'] = _loadSprite('game/background/kenney/purple.png');
 		_sprites['background.purple.dark'] = _loadSprite('game/background/kenney/darkPurple.png');
-
 
 		_sprites['game.enities.station'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
 		_sprites['game.enities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
@@ -82,6 +69,18 @@ class ResourceManager {
 		_sprites['game.enities.metor.small.2'] = _loadSprite('game/entities/kenney/meteorBrown_small2.png');
 		_sprites['game.enities.metor.tiny.1'] = _loadSprite('game/entities/kenney/meteorBrown_tiny1.png');
 		_sprites['game.enities.metor.tiny.2'] = _loadSprite('game/entities/kenney/meteorBrown_tiny2.png');
+	}
+
+	void _addStringsInMap(Map map, [String key]) {
+		map.forEach((k, v) {
+			JsonObject object = new JsonObject.fromJsonString(JSON.encode(v));
+			Object test = JSON.decode(object.toString());
+			if (test is String) {
+				_strings[key + "${k}"] = v;
+			} else {
+				_addStringsInMap(test, key + "${k}.");
+			}
+		});
 	}
 
 	Sprite _loadSprite(String name, {String dir}) {

@@ -75,7 +75,7 @@ class GuiButtonElement extends GuiElement {
 	}
 
 	void _init([CanvasElement canvas]) {
-		canvas.onClick.listen((e) {
+		if (canvas != null) canvas.onClick.listen((e) {
 			if (isParentVisible()) {
 				if (_hover) {
 					var detail = {
@@ -177,12 +177,20 @@ class GuiText extends GuiElement {
 }
 
 class GuiTextMessage extends GuiText {
+	Sprite _container;
 	GuiButtonElement _close;
+
+	int _guiWidth = 0;
+	int _imgWidth, _imgHeight;
 
 	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) :super(text, x, y, canvas);
 
 	void _init([CanvasElement canvas]) {
+		_container = ResourceManager.getSprite('ui.glass.tr');
 		_close = new GuiButtonElement(canvas, x, y, "close");
+		_guiWidth = (GameHost.width * 0.9).toInt();
+		_imgWidth = _container.width;
+		_imgHeight = _container.height;
 	}
 
 	String getButtonText() {
@@ -193,7 +201,18 @@ class GuiTextMessage extends GuiText {
 		_close.setText(text);
 	}
 
-	void render(CanvasRenderingContext2D context) {}
+	void render(CanvasRenderingContext2D context) {
+		//int step = (_imgWidth / 3).ceil();
+		//context.drawImage(_container.texture, x, y);
+		//context.drawImageScaledFromSource(_container.texture, 0, 0, step, _imgHeight, x, y, step, _imgHeight);
+		//for (int xI = step; xI < _guiWidth - step; xI += step) {
+		//	if (xI > _guiWidth - step) {
+		//		xI = _guiWidth - step;
+		//	}
+		//	context.drawImageScaledFromSource(_container.texture, step, 0, step, _imgHeight, x + xI, y, step, _imgHeight);
+		//}
+		//context.drawImageScaledFromSource(_container.texture, step * 2, 0, step, _imgHeight, x + _guiWidth - step, y, step, _imgHeight);
+	}
 
 	void update(final double delta) {}
 }

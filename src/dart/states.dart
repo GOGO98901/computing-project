@@ -139,6 +139,17 @@ class StateIntro extends State {
 	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
+
+		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
+		eventStreamProvider.forTarget(canvas).listen((e) {
+			if (this.visible) {
+				if (e.detail['type'] == 'button') {
+					if (e.detail['text'] == (_gui['skip'] as GuiButtonElement).getText()) {
+						_manager.changeState('login');
+					}
+				}
+			}
+		});
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -238,7 +249,7 @@ class StateGame extends State {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
 
 		if (!Util.isLive()) {
-			_gui['temp'] = new GuiTypeSelector(100, 100);
+			//_gui['temp'] = new GuiTextMessage(ResourceManager.getString('game.msg.intro'), 100, 100, canvas);
 		}
 	}
 
