@@ -1,0 +1,7 @@
+{
+    "game": {
+        "msg" :{
+            "intro": "Welcome $1"
+        }
+    }
+}
