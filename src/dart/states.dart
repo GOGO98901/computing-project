@@ -184,9 +184,9 @@ class StateLogin extends State {
 					if (e.detail['text'] == (_gui['play'] as GuiButtonElement).getText()) {
 						_manager.changeState('game');
 					}
-					if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
-						screenHandler.setFullScreen(!screenHandler.isFullScreen());
-					}
+					// if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
+					//  	screenHandler.setFullScreen(!screenHandler.isFullScreen());
+					// }
 				}
 			}
 		});
@@ -236,8 +236,6 @@ class StateGame extends State {
 
 	void init(CanvasElement canvas) {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
-
-
 
 		if (!Util.isLive()) {
 			_gui['temp'] = new GuiTypeSelector(100, 100);
