@@ -143,3 +143,62 @@ class Spec {
 		return completer.future;
 	}
 }
+
+enum AnimationStage {
+	idle, running, stopped
+}
+
+abstract class Animation {
+	AnimationStage _stage = AnimationStage.idle;
+	final Object _source;
+	Object _output;
+
+	Animation(this._source);
+
+	void start() {
+		_stage = AnimationStage.running;
+	}
+
+	void stop() {
+		_stage = AnimationStage.stopped;
+	}
+
+	void update(final double delta);
+
+	AnimationStage get stage => _stage;
+	Object get source => _source;
+	Object get output => _output;
+}
+
+class TextAnimation extends Animation {
+
+	double _time = 0.0;
+	double _interval = 0.05;
+
+	int _char = 1;
+
+	TextAnimation(String source, [double interval]) : super(source) {
+		if (interval != null) _interval = interval;
+		_output = "";
+	}
+
+	void update(final double delta) {
+		if (stage == AnimationStage.running) {
+			_time += delta;
+			if (_time > _interval) {
+				_char++;
+				if (_char >= (_source as String).length) {
+					_char = (_source as String).length;
+					stage == AnimationStage.stopped;
+				}
+				_output = (_source as String).substring(0, _char);
+				_time %= _interval;
+			}
+		}
+	}
+
+	String get source => _source;
+	String get output => _output;
+
+	// noSuchMethod(Invocation i) => super.noSuchMethod(i);
+}

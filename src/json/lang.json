@@ -1,5 +1,8 @@
 {
     "game": {
+        "misc": {
+            "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit quam a augue congue sollicitudin. Fusce massa lectus, mollis non imperdiet vitae, posuere et augue."
+        },
         "msg" :{
             "intro": "Welcome $1"
         }

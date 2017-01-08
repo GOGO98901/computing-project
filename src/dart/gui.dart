@@ -47,11 +47,12 @@ abstract class GuiElement {
 
 	void setParentVisible(bool vis) {
 		this._parentVisible = vis;
+		onVisibilityChange();
 	}
 
-	bool isParentVisible() {
-		return _parentVisible;
-	}
+	void onVisibilityChange() {}
+
+	bool get visible => _parentVisible;
 }
 
 class GuiButtonElement extends GuiElement {
@@ -76,7 +77,7 @@ class GuiButtonElement extends GuiElement {
 
 	void _init([CanvasElement canvas]) {
 		if (canvas != null) canvas.onClick.listen((e) {
-			if (isParentVisible()) {
+			if (visible) {
 				if (_hover) {
 					var detail = {
 						"type": "button",
@@ -177,20 +178,37 @@ class GuiText extends GuiElement {
 }
 
 class GuiTextMessage extends GuiText {
+	TextAnimation anim;
 	Sprite _container;
 	GuiButtonElement _close;
 
 	int _guiWidth = 0;
-	int _imgWidth, _imgHeight;
+	int _imgWidth, _imgHeight, _imgStep;
 
 	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) :super(text, x, y, canvas);
 
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
 		_close = new GuiButtonElement(canvas, x, y, "close");
-		_guiWidth = (GameHost.width * 0.9).toInt();
-		_imgWidth = _container.width;
-		_imgHeight = _container.height;
+		_guiWidth = (GameHost.width - (x * 2)).toInt();
+		_container.texture.onLoad.listen((e) {
+			_imgWidth = _container.width;
+			_imgHeight = _container.height;
+			_imgStep = (_imgWidth / 3).ceil();
+		});
+	}
+
+	void onVisibilityChange() {
+		if (anim != null) {
+			if (visible) anim.start();
+			else anim.stop();
+		}
+	}
+
+	void setText(String text) {
+		this._text = text;
+		anim = new TextAnimation(text);
+		if (visible) anim.start();
 	}
 
 	String getButtonText() {
@@ -202,19 +220,49 @@ class GuiTextMessage extends GuiText {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		//int step = (_imgWidth / 3).ceil();
-		//context.drawImage(_container.texture, x, y);
-		//context.drawImageScaledFromSource(_container.texture, 0, 0, step, _imgHeight, x, y, step, _imgHeight);
-		//for (int xI = step; xI < _guiWidth - step; xI += step) {
-		//	if (xI > _guiWidth - step) {
-		//		xI = _guiWidth - step;
-		//	}
-		//	context.drawImageScaledFromSource(_container.texture, step, 0, step, _imgHeight, x + xI, y, step, _imgHeight);
-		//}
-		//context.drawImageScaledFromSource(_container.texture, step * 2, 0, step, _imgHeight, x + _guiWidth - step, y, step, _imgHeight);
+		context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
+		for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
+			if (xI + _imgStep > _guiWidth - _imgStep) {
+				int length = _guiWidth - _imgStep - xI;
+				context.drawImageScaledFromSource(_container.texture, _imgStep, 0, length, _imgHeight, x + xI, y, length, _imgHeight);
+				continue;
+			}
+			context.drawImageScaledFromSource(_container.texture, _imgStep, 0, _imgStep, _imgHeight, x + xI, y, _imgStep, _imgHeight);
+		}
+		context.drawImageScaledFromSource(_container.texture, _imgStep * 2, 0, _imgStep, _imgHeight, x + _guiWidth - _imgStep, y, _imgStep, _imgHeight);
+
+
+		if (anim != null) {
+			context.font = "18pt KenVector Future";
+
+			List<String> words = anim.output.split(" ");
+			String output = "";
+			String line = null;
+			for (String word in words) {
+				if (line == null) {
+					line = word;
+					continue;
+				}
+				int width = Util.getTextMetrics(context, "${line} ${word}", context.font).width;
+				if (width >= _guiWidth - 20) {
+					output += "\n${word}";
+					line = word;
+				} else {
+					line += " ${word}";
+					output += " ${word}";
+				}
+			}
+			int l = 0;
+			for (String outputLine in output.split("\n")) {
+				l++;
+				context.fillText(outputLine, x + 10, y + (25 * l));
+			}
+		}
 	}
 
-	void update(final double delta) {}
+	void update(final double delta) {
+		if (anim != null) anim.update(delta);
+	}
 }
 
 class GuiQuestionElement extends GuiElement {

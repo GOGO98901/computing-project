@@ -249,13 +249,16 @@ class StateGame extends State {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
 
 		if (!Util.isLive()) {
-			//_gui['temp'] = new GuiTextMessage(ResourceManager.getString('game.msg.intro'), 100, 100, canvas);
+			_gui['temp'] = new GuiTextMessage("", 50, GameHost.height - 140, canvas);
 		}
 	}
 
 	void onVisibilityChange() {
-		if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
-		else _level = GameLevel.newLevel();
+		if (visible) {
+			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
+			else _level = GameLevel.newLevel();
+			(_gui['temp'] as GuiTextMessage).setText(ResourceManager.getString('game.misc.lorem'));
+		}
 	}
 
 	void render(CanvasRenderingContext2D context) {

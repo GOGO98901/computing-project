@@ -72,13 +72,14 @@ class ResourceManager {
 	}
 
 	void _addStringsInMap(Map map, [String key]) {
+		if (key == null) key = "";
 		map.forEach((k, v) {
 			JsonObject object = new JsonObject.fromJsonString(JSON.encode(v));
 			Object test = JSON.decode(object.toString());
 			if (test is String) {
-				_strings[key + "${k}"] = v;
+				_strings["${key}${k}"] = v;
 			} else {
-				_addStringsInMap(test, key + "${k}.");
+				_addStringsInMap(test, "${key}${k}.");
 			}
 		});
 	}
