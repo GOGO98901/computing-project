@@ -8,7 +8,7 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |branch|status|
 |:----:|:----:|
 |[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![alt text][branch-prototype]](http://travis-ci.org/GOGO98901/computing-project/branches)|
-|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project/branches)|
+|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project/branches)![alt text][project-deps]|
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
@@ -130,4 +130,5 @@ Copyright 2016 Marcelo Dolce
 
 [branch-prototype]: https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square "Build Status"
 [branch-project]: https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square "Build Status"
+[project-deps]: https://img.shields.io/librariesio/github/GOGO98901/computing-project.svg?style=flat-square "Dependencies"
 [license]: https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square "license"
