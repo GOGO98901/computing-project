@@ -1,8 +1,8 @@
 # Computing Project (2016-2017)
 This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advanced_Level_(United_Kingdom)) [Computer Science](http://www.aqa.org.uk/subjects/computer-science-and-it/as-and-a-level) project.
 
-|title|institution|development period|language|license/
-|:----:|:---------:|:----------------:|:------:|
+|title|institution|development period|language|license|
+|:----:|:---------:|:----------------:|:------:|:------:|
 |To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![alt text][license]](LICENSE)|
 
 |branch|status|
