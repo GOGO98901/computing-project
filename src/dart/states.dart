@@ -100,7 +100,7 @@ abstract class State {
 	}
 
 	void renderGui(CanvasRenderingContext2D context) {
-		_gui.values.forEach((element) =>	element.render(context));
+		_gui.values.forEach((element) => element.render(context));
 	}
 
 	/// Abstrcat update method
@@ -139,16 +139,8 @@ class StateIntro extends State {
 	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
-
-		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
-		eventStreamProvider.forTarget(canvas).listen((e) {
-			if (this.visible) {
-				if (e.detail['type'] == 'button') {
-					if (e.detail['text'] == (_gui['skip'] as GuiButtonElement).getText()) {
-						_manager.changeState('login');
-					}
-				}
-			}
+		(_gui['skip'] as GuiButtonElement).listen(canvas, (e) {
+			_manager.changeState('login');
 		});
 	}
 
@@ -184,23 +176,15 @@ class StateLogin extends State {
 		_gui['play'] = new GuiButtonElement(_manager.canvas, _xPadding, 200, "Play");
 		_gui['token'] = new GuiButtonElement(_manager.canvas, _xPadding, 275, "Login");
 		// _gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
-
-		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("GuiEvent");
-		eventStreamProvider.forTarget(canvas).listen((e) {
-			if (this.visible) {
-				if (e.detail['type'] == 'button') {
-					if (e.detail['text'] == (_gui['token'] as GuiButtonElement).getText()) {
-						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
-					}
-					if (e.detail['text'] == (_gui['play'] as GuiButtonElement).getText()) {
-						_manager.changeState('game');
-					}
-					// if (e.detail['text'] == (_gui['fullscreen'] as GuiButtonElement).getText()) {
-					//  	screenHandler.setFullScreen(!screenHandler.isFullScreen());
-					// }
-				}
-			}
+		(_gui['token'] as GuiButtonElement).listen(canvas, (e) {
+			js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
 		});
+		(_gui['play'] as GuiButtonElement).listen(canvas, (e) {
+			_manager.changeState('game');
+		});
+		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, (e) {
+		//		screenHandler.setFullScreen(!screenHandler.isFullScreen());
+		//});
 
 		querySelector('#gameLogin').onClick.listen((event) {
 			InputElement input = querySelector('#gameToken') as InputElement;
@@ -250,6 +234,12 @@ class StateGame extends State {
 
 		if (!Util.isLive()) {
 			_gui['temp'] = new GuiTextMessage("", 50, GameHost.height - 140, canvas);
+			int s = 0;
+			(_gui['temp'] as GuiTextMessage).listen(canvas, (e) {
+				(_gui['temp'] as GuiTextMessage).setText(ResourceManager.getString('game.msg.intro'));
+				if (s==1)(_gui['temp'] as GuiTextMessage).setParentVisible(false);
+				s=1;
+			});
 		}
 	}
 

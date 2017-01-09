@@ -184,14 +184,17 @@ class TextAnimation extends Animation {
 
 	void update(final double delta) {
 		if (stage == AnimationStage.running) {
+
 			_time += delta;
 			if (_time > _interval) {
 				_char++;
-				if (_char >= (_source as String).length) {
-					_char = (_source as String).length;
-					stage == AnimationStage.stopped;
+				if (_source != null) {
+					if (_char >= (_source as String).length) {
+						_char = (_source as String).length;
+						stage == AnimationStage.stopped;
+					}
+					_output = (_source as String).substring(0, _char);
 				}
-				_output = (_source as String).substring(0, _char);
 				_time %= _interval;
 			}
 		}

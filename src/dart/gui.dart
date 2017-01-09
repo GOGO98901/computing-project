@@ -16,6 +16,8 @@ limitations under the License.
 part of Computer_Science_Project;
 
 abstract class GuiElement {
+
+	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("GuiEvent");
 	Rectangle _bounds;
 
 	bool _parentVisible;
@@ -52,6 +54,8 @@ abstract class GuiElement {
 
 	void onVisibilityChange() {}
 
+	void listen(CanvasElement canvas, Function function);
+
 	bool get visible => _parentVisible;
 }
 
@@ -71,7 +75,7 @@ class GuiButtonElement extends GuiElement {
 		this._x = x;
 		this._y = y;
 		this._offset = 0;
-		this._text = text;
+		this._text = text ?? "";
 		this._long = long ?? false;
 	}
 
@@ -95,6 +99,18 @@ class GuiButtonElement extends GuiElement {
 		_down = ResourceManager.getSprite('ui.button.down.blue');
 
 		_current = _up;
+	}
+
+	void listen(CanvasElement canvas, Function function) {
+		_esp.forTarget(canvas).listen((e) {
+			if (this.visible) {
+				if (e.detail['type'] == 'button') {
+					if (e.detail['text'] == _text) {
+						function(e);
+					}
+				}
+			}
+		});
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -172,6 +188,8 @@ class GuiText extends GuiElement {
 		this._text = text;
 	}
 
+	void listen(CanvasElement canvas, Function function) {}
+
 	String getText() {
 		return _text;
 	}
@@ -195,10 +213,12 @@ class GuiTextMessage extends GuiText {
 			_imgWidth = _container.width;
 			_imgHeight = _container.height;
 			_imgStep = (_imgWidth / 3).ceil();
+			_close.setPosition(x + _guiWidth - GuiButtonElement.width ~/ 1.25, y + _imgHeight - GuiButtonElement.height ~/ 2);
 		});
 	}
 
 	void onVisibilityChange() {
+		_close.setParentVisible(visible);
 		if (anim != null) {
 			if (visible) anim.start();
 			else anim.stop();
@@ -220,48 +240,59 @@ class GuiTextMessage extends GuiText {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
-		for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
-			if (xI + _imgStep > _guiWidth - _imgStep) {
-				int length = _guiWidth - _imgStep - xI;
-				context.drawImageScaledFromSource(_container.texture, _imgStep, 0, length, _imgHeight, x + xI, y, length, _imgHeight);
-				continue;
-			}
-			context.drawImageScaledFromSource(_container.texture, _imgStep, 0, _imgStep, _imgHeight, x + xI, y, _imgStep, _imgHeight);
-		}
-		context.drawImageScaledFromSource(_container.texture, _imgStep * 2, 0, _imgStep, _imgHeight, x + _guiWidth - _imgStep, y, _imgStep, _imgHeight);
-
-
-		if (anim != null) {
-			context.font = "18pt KenVector Future";
-
-			List<String> words = anim.output.split(" ");
-			String output = "";
-			String line = null;
-			for (String word in words) {
-				if (line == null) {
-					line = word;
+		if (visible) {
+			context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
+			for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
+				if (xI + _imgStep > _guiWidth - _imgStep) {
+					int length = _guiWidth - _imgStep - xI;
+					context.drawImageScaledFromSource(_container.texture, _imgStep, 0, length, _imgHeight, x + xI, y, length, _imgHeight);
 					continue;
 				}
-				int width = Util.getTextMetrics(context, "${line} ${word}", context.font).width;
-				if (width >= _guiWidth - 20) {
-					output += "\n${word}";
-					line = word;
-				} else {
-					line += " ${word}";
-					output += " ${word}";
+				context.drawImageScaledFromSource(_container.texture, _imgStep, 0, _imgStep, _imgHeight, x + xI, y, _imgStep, _imgHeight);
+			}
+			context.drawImageScaledFromSource(_container.texture, _imgStep * 2, 0, _imgStep, _imgHeight, x + _guiWidth - _imgStep, y, _imgStep, _imgHeight);
+
+
+			if (anim != null) {
+				context.font = "18pt KenVector Future";
+
+				List<String> words = anim.output.split(" ");
+				String output = "";
+				String line = null;
+				for (String word in words) {
+					if (line == null) {
+						line = word;
+						output = word;
+						continue;
+					}
+					int width = Util.getTextMetrics(context, "$line $word", context.font).width;
+					if (width >= _guiWidth - 20) {
+						output += "\n$word";
+						line = word;
+					} else {
+						line += " $word";
+						output += " $word";
+					}
+				}
+				int l = 0;
+				for (String outputLine in output.split("\n")) {
+					l++;
+					context.fillText(outputLine, x + 10, y + (25 * l));
 				}
 			}
-			int l = 0;
-			for (String outputLine in output.split("\n")) {
-				l++;
-				context.fillText(outputLine, x + 10, y + (25 * l));
-			}
+			_close.render(context);
 		}
 	}
 
+	void listen(CanvasElement canvas, Function function) {
+		_close.listen(canvas, function);
+	}
+
 	void update(final double delta) {
-		if (anim != null) anim.update(delta);
+		if (visible) {
+			if (anim != null) anim.update(delta);
+			_close.update(delta);
+		}
 	}
 }
 
@@ -277,6 +308,8 @@ class GuiQuestionElement extends GuiElement {
 	void render(CanvasRenderingContext2D context) {}
 
 	void update(final double delta) {}
+
+	void listen(CanvasElement canvas, Function function) {}
 }
 
 class GuiTypeSelector extends GuiElement {
@@ -289,4 +322,6 @@ class GuiTypeSelector extends GuiElement {
 	void render(CanvasRenderingContext2D context) {}
 
 	void update(final double delta) {}
+
+	void listen(CanvasElement canvas, Function function) {}
 }
