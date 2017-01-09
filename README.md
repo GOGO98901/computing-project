@@ -1,9 +1,9 @@
 # Computing Project (2016-2017)
 This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advanced_Level_(United_Kingdom)) [Computer Science](http://www.aqa.org.uk/subjects/computer-science-and-it/as-and-a-level) project.
 
-|title|institution|development period|language|
+|title|institution|development period|language|license/
 |:----:|:---------:|:----------------:|:------:|
-|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|
+|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![alt text][license]](LICENSE)|
 
 |branch|status|
 |:----:|:----:|
@@ -128,5 +128,6 @@ Copyright 2016 Marcelo Dolce
 
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
-[branch-prototype]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=prototype "Build Status"
-[branch-project]: https://travis-ci.org/GOGO98901/computing-project.svg?branch=project "Build Status"
+[branch-prototype]: https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square "Build Status"
+[branch-project]: https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square "Build Status"
+[license]: https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square "license"
