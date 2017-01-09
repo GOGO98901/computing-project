@@ -235,10 +235,10 @@ class StateGame extends State {
 		if (!Util.isLive()) {
 			_gui['temp'] = new GuiTextMessage("", 50, GameHost.height - 140, canvas);
 			int s = 0;
-			(_gui['temp'] as GuiTextMessage).listen(canvas, (e) {
-				(_gui['temp'] as GuiTextMessage).setText(ResourceManager.getString('game.msg.intro'));
-				if (s==1)(_gui['temp'] as GuiTextMessage).setParentVisible(false);
-				s=1;
+			(_gui['temp'] as GuiTextMessage).listen(canvas, (e, source) {
+				source.setText(ResourceManager.getString('game.msg.intro'));
+				if (s == 1) source.setParentVisible(false);
+				s = 1;
 			});
 		}
 	}

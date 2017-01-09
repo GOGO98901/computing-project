@@ -106,7 +106,7 @@ class GuiButtonElement extends GuiElement {
 			if (this.visible) {
 				if (e.detail['type'] == 'button') {
 					if (e.detail['text'] == _text) {
-						function(e);
+						function(e, this);
 					}
 				}
 			}
