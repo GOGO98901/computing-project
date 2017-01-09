@@ -176,13 +176,13 @@ class StateLogin extends State {
 		_gui['play'] = new GuiButtonElement(_manager.canvas, _xPadding, 200, "Play");
 		_gui['token'] = new GuiButtonElement(_manager.canvas, _xPadding, 275, "Login");
 		// _gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
-		(_gui['token'] as GuiButtonElement).listen(canvas, (e) {
+		(_gui['token'] as GuiButtonElement).listen(canvas, () {
 			js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
 		});
-		(_gui['play'] as GuiButtonElement).listen(canvas, (e) {
+		(_gui['play'] as GuiButtonElement).listen(canvas, () {
 			_manager.changeState('game');
 		});
-		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, (e) {
+		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, () {
 		//		screenHandler.setFullScreen(!screenHandler.isFullScreen());
 		//});
 
