@@ -4,7 +4,10 @@
             "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit quam a augue congue sollicitudin. Fusce massa lectus, mollis non imperdiet vitae, posuere et augue."
         },
         "msg" :{
-            "intro": "Welcome $1"
+            "intro": {
+                "1":"Welcome $1, you have been stranded in space",
+                "2": "You must collect the shapes to rebuild your station.\nGood Luck"
+            }
         }
     }
 }

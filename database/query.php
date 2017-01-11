@@ -35,7 +35,7 @@ if (in_array($orign, $access)) {
       $dbpassword = constant("DB_PASS");
       $db_name = constant("DB_NAME");
 
-      $link = mysql_connect($dbhost, $dbusername, $dbpassword)  or die('{"error": "Could not connect: " '. mysql_error(). '"}');
+      $link = mysql_connect($dbhost, $dbusername, $dbpassword) or die('{"error": "Could not connect: " '. mysql_error(). '"}');
 
       mysql_select_db($db_name) or die('{"error": "Could not select database"}');
 

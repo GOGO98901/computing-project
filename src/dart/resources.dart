@@ -95,7 +95,9 @@ class ResourceManager {
 	}
 
 	static String getString(String key) {
-		return _strings[key];
+		if (_strings.containsKey(key)) return _strings[key];
+		log.warning("Key [$key] not found in strings array. May still be loading or missing");
+		return 'missing';
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]
