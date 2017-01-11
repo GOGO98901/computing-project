@@ -208,5 +208,5 @@ class TextAnimation extends Animation {
 }
 
 class Regex {
-	RegExp get vars => new RegExp(r'\$[^0]\d+|\$[1-9]');
+	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
 }
