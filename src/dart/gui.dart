@@ -174,7 +174,7 @@ class GuiText extends GuiElement {
 
 	String _text;
 
-	GuiText(this._text, int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, 0, 0), canvas);
+	GuiText(this._text, int x, int y, [CanvasElement canvas]) : super(new Rectangle(x, y, 0, 0), canvas);
 
 	void _init([CanvasElement canvas]) {}
 
@@ -203,22 +203,50 @@ class GuiTextMessage extends GuiText {
 	int _guiWidth = 0;
 	int _imgWidth, _imgHeight, _imgStep;
 
-	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) :super(text, x, y, canvas);
+	bool _hover = false;
+
+	String _exitMsg;
+
+	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) : super(text, x, y, canvas);
 
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
-		_close = new GuiButtonElement(canvas, x, y, "close");
+		// _close = new GuiButtonElement(canvas, x, y, "close");
 		_guiWidth = (GameHost.width - (x * 2)).toInt();
 		_container.texture.onLoad.listen((e) {
 			_imgWidth = _container.width;
 			_imgHeight = _container.height;
 			_imgStep = (_imgWidth / 3).ceil();
-			_close.setPosition(x + _guiWidth - GuiButtonElement.width ~/ 1.25, y + _imgHeight - GuiButtonElement.height ~/ 2);
+			_bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
+			// _close.setPosition(x + _guiWidth - GuiButtonElement.width ~/ 1.25, y + _imgHeight - GuiButtonElement.height ~/ 2);
+		});
+
+		ResourceManager.listenForStringFinsh((e) {
+			_exitMsg = ResourceManager.getString('game.msg.help.skip');
+		});
+		if (canvas != null) canvas.onClick.listen((e) {
+			if (visible) {
+				if (_hover) {
+					if (anim.stage == AnimationStage.running) {
+						anim.skip();
+						_exitMsg = ResourceManager.getString('game.msg.help.close');
+					} else if (anim.stage == AnimationStage.stopped) {
+						var detail = {
+							"type": "textMsg",
+							"x": y,
+							"y": x,
+							"text": _text
+						};
+						var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
+						canvas.dispatchEvent(event);
+					}
+				}
+			}
 		});
 	}
 
 	void onVisibilityChange() {
-		_close.setParentVisible(visible);
+		// _close.setParentVisible(visible);
 		if (anim != null) {
 			if (visible) anim.start();
 			else anim.stop();
@@ -232,11 +260,12 @@ class GuiTextMessage extends GuiText {
 	}
 
 	String getButtonText() {
-		return _close.getText();
+		return "";
+		//return _close.getText();
 	}
 
 	void setButtonText(String text) {
-		_close.setText(text);
+		//_close.setText(text);
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -280,18 +309,32 @@ class GuiTextMessage extends GuiText {
 					context.fillText(outputLine, x + 10, y + (25 * l));
 				}
 			}
-			_close.render(context);
+			//_close.render(context);
+			int width = Util.getTextMetrics(context, _exitMsg, context.font).width;
+			context.fillText(_exitMsg, x + _guiWidth - width - 10, y + _imgHeight - 20);
 		}
 	}
 
 	void listen(CanvasElement canvas, Function function) {
-		_close.listen(canvas, function, this);
+		_esp.forTarget(canvas).listen((e) {
+			if (this.visible) {
+				if (e.detail['type'] == 'textMsg') {
+					if (e.detail['text'] == _text) {
+						function(e, this);
+					}
+				}
+			}
+		});
 	}
 
 	void update(final double delta) {
 		if (visible) {
 			if (anim != null) anim.update(delta);
-			_close.update(delta);
+			//_close.update(delta);
+			if (Mouse.inCanvas())  {
+				if (_bounds.containsPoint(Mouse.getPoint())) _hover = true;
+				else _hover = false;
+			} else _hover = false;
 		}
 	}
 }

@@ -17,6 +17,8 @@ part of Computer_Science_Project;
 
 class ResourceManager {
 
+	static EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("resourceSafety");
+
 	static HashMap<String, Sprite> _sprites;
 
 	static HashMap<String, String> _strings;
@@ -29,8 +31,11 @@ class ResourceManager {
 		_strings = new HashMap<String, String>();
 
 		_lang = _loadJsonFile('lang.json');
-		_lang.onLoad.then((data) => _addStringsInMap(JSON.decode(data.toString())));
-
+		_lang.onLoad.then((data) {
+	 		_addStringsInMap(JSON.decode(data.toString()));
+			var event = new CustomEvent("resourceSafety", canBubble: false, cancelable: false);
+			window.dispatchEvent(event);
+		});
 		_initSprites();
 
 		sample = _loadJsonFile('problem.sample.json');
@@ -103,6 +108,12 @@ class ResourceManager {
 	/// Gets the sprite from the hash map with the corresponding [key]
 	static Sprite getSprite(String key) {
 		return _sprites[key];
+	}
+
+	static void listenForStringFinsh(Function function) {
+		_esp.forTarget(window).listen((e) {
+			function(e);
+		});
 	}
 
 	static String getAssetsDir() {

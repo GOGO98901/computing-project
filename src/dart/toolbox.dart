@@ -201,6 +201,11 @@ class TextAnimation extends Animation {
 		}
 	}
 
+	void skip() {
+		_output = _source;
+		_stage = AnimationStage.stopped;
+	}
+
 	String get source => _source;
 	String get output => _output;
 
