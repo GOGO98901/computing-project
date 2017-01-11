@@ -17,6 +17,7 @@ part of Computer_Science_Project;
 
 class Util {
 	static final Spec spec = new Spec();
+	static final Regex regex = new Regex();
 
 	/// Gets the Uri that the system is connected from
 	static Uri getUri() {
@@ -204,4 +205,8 @@ class TextAnimation extends Animation {
 	String get output => _output;
 
 	// noSuchMethod(Invocation i) => super.noSuchMethod(i);
+}
+
+class Regex {
+	RegExp get vars => new RegExp(r'\$[^0]\d+|\$[1-9]');
 }

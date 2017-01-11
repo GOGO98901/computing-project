@@ -101,12 +101,12 @@ class GuiButtonElement extends GuiElement {
 		_current = _up;
 	}
 
-	void listen(CanvasElement canvas, Function function) {
+	void listen(CanvasElement canvas, Function function, [GuiElement source]) {
 		_esp.forTarget(canvas).listen((e) {
 			if (this.visible) {
 				if (e.detail['type'] == 'button') {
 					if (e.detail['text'] == _text) {
-						function(e, this);
+						function(e, source ?? this);
 					}
 				}
 			}
@@ -285,7 +285,7 @@ class GuiTextMessage extends GuiText {
 	}
 
 	void listen(CanvasElement canvas, Function function) {
-		_close.listen(canvas, function);
+		_close.listen(canvas, function, this);
 	}
 
 	void update(final double delta) {

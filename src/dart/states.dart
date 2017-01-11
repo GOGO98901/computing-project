@@ -139,7 +139,7 @@ class StateIntro extends State {
 	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
-		(_gui['skip'] as GuiButtonElement).listen(canvas, (e) {
+		(_gui['skip'] as GuiButtonElement).listen(canvas, (e, s) {
 			_manager.changeState('login');
 		});
 	}
@@ -176,13 +176,13 @@ class StateLogin extends State {
 		_gui['play'] = new GuiButtonElement(_manager.canvas, _xPadding, 200, "Play");
 		_gui['token'] = new GuiButtonElement(_manager.canvas, _xPadding, 275, "Login");
 		// _gui['fullscreen'] = new GuiButtonElement(_manager.canvas(), _xPadding, GameHost.height - 100, "FullScreen", true);
-		(_gui['token'] as GuiButtonElement).listen(canvas, () {
+		(_gui['token'] as GuiButtonElement).listen(canvas, (e, s) {
 			js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['show']);
 		});
-		(_gui['play'] as GuiButtonElement).listen(canvas, () {
+		(_gui['play'] as GuiButtonElement).listen(canvas, (e, s) {
 			_manager.changeState('game');
 		});
-		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, () {
+		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, (e, s) {
 		//		screenHandler.setFullScreen(!screenHandler.isFullScreen());
 		//});
 
@@ -234,11 +234,16 @@ class StateGame extends State {
 
 		if (!Util.isLive()) {
 			_gui['temp'] = new GuiTextMessage("", 50, GameHost.height - 140, canvas);
-			int s = 0;
-			(_gui['temp'] as GuiTextMessage).listen(canvas, (e, source) {
-				source.setText(ResourceManager.getString('game.msg.intro'));
-				if (s == 1) source.setParentVisible(false);
-				s = 1;
+			int t = 0;
+			(_gui['temp'] as GuiTextMessage).listen(canvas, (e, s) {
+				String temp = ResourceManager.getString('game.msg.intro');
+				// temp = temp.replaceFirst('\$[^0]\d+|\$[1-9]', _manager.host.userManagement.playerName);
+				temp = temp.replaceFirstMapped(Util.regex.vars, (match) {
+  					return _manager.host.userManagement.playerName;
+				});
+				s.setText(temp);
+				if (t == 1) s.setParentVisible(false);
+				t = 1;
 			});
 		}
 	}

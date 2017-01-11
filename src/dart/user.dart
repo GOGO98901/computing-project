@@ -49,6 +49,11 @@ class UserManagement {
 	}
 
 	bool get loggedIn => _current != null;
+
+	String get playerName {
+		if (loggedIn) return _current.name;
+		return "Player";
+	}
 }
 
 class UserData {
