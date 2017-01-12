@@ -30,8 +30,6 @@ class UserManagement {
 		problems = new ProblemManager();
 	}
 
-	UserData _current;
-
 	Future<bool> login(String token) {
 		Completer<bool> completer = new Completer();
 		database.getStudentFromToken(token).then((json) {
@@ -48,10 +46,10 @@ class UserManagement {
 		return completer.future;
 	}
 
-	bool get loggedIn => _current != null;
+	bool get loggedIn => currentUser != null;
 
 	String get playerName {
-		if (loggedIn) return _current.name;
+		if (loggedIn) return currentUser.name;
 		return "Player";
 	}
 }
