@@ -88,6 +88,8 @@ abstract class State {
 	/// Abstrcat render method
 	void render(CanvasRenderingContext2D context);
 
+	/// Function that renders the background
+	/// Using a small image, the image is rendered next to each other to fill the screen
 	void renderBackground(CanvasRenderingContext2D context) {
 		if (_background != null) if (_background.isComplete()) {
 			ImageElement image = _background.texture;
@@ -99,6 +101,7 @@ abstract class State {
 		}
 	}
 
+	/// Function to render all the gui elements in the state
 	void renderGui(CanvasRenderingContext2D context) {
 		_gui.values.forEach((element) => element.render(context));
 	}
@@ -106,6 +109,7 @@ abstract class State {
 	/// Abstrcat update method
 	void update(final double delta);
 
+	/// Function to update all the gui elements in the state
 	void updateGui(final double delta) {
 		_gui.values.forEach((element) => element.update(delta));
 	}
@@ -119,12 +123,15 @@ abstract class State {
 
 	bool get visible => _visible;
 
+	/// Notifies all elements in the state of [vis]
 	void setVisible(bool vis) {
 		this._visible = vis;
 		this._gui.values.forEach((element) => element.setParentVisible(vis));
 		onVisibilityChange();
 	}
 
+	/// Function that can be overwriten
+	/// Called when the value of [visible] changes
 	void onVisibilityChange() {}
 }
 

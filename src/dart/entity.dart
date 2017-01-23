@@ -164,6 +164,12 @@ class Asteroid extends Mob {
 	}
 }
 
+class Shape extends Mob {
+	// TODO Create Shape Class
+	Shape() : super(ResourceManager.getSprite("null"));
+		
+}
+
 class SpaceStation extends Mob {
 	double _shieldTime = -1.0;
 

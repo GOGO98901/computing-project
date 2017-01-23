@@ -23,6 +23,7 @@ class ResourceManager {
 
 	static HashMap<String, String> _strings;
 	JsonFile _lang;
+	static bool _langLoaded = false;
 
 	static JsonFile sample;
 
@@ -35,6 +36,7 @@ class ResourceManager {
 	 		_addStringsInMap(JSON.decode(data.toString()));
 			var event = new CustomEvent("resourceSafety", canBubble: false, cancelable: false);
 			window.dispatchEvent(event);
+			_langLoaded = true;
 		});
 		_initSprites();
 
@@ -43,7 +45,7 @@ class ResourceManager {
 
 	/// All sprites get loaded at this point in the program
 	///
-	/// This means that images wont have to be craeted mroe than once
+	/// This means that images will not have to be created more than once
 	void _initSprites() {
 		_sprites['logo.roryclaasen.white'] = _loadSprite('project white.png');
 		_sprites['logo.roryclaasen.black'] = _loadSprite('project black.png');
@@ -76,6 +78,8 @@ class ResourceManager {
 		_sprites['game.enities.metor.tiny.2'] = _loadSprite('game/entities/kenney/meteorBrown_tiny2.png');
 	}
 
+	/// Recursive function that goes though every level of a json file
+	/// When the function finds a `String` the string is put in to a hashmap with a key of all the levels it is from
 	void _addStringsInMap(Map map, [String key]) {
 		if (key == null) key = "";
 		map.forEach((k, v) {
@@ -89,16 +93,20 @@ class ResourceManager {
 		});
 	}
 
+	/// Simple function to create a `Sprite` instance from [name] and [dir]
 	Sprite _loadSprite(String name, {String dir}) {
 		if (dir == null) return new Sprite("${getAssetsDir()}/images/${name}");
 		else return new Sprite("${dir}/${name}");
 	}
 
+	/// Simple function to create a `JsonFile` instance from [name] and [dir]
 	JsonFile _loadJsonFile(String name, {String dir}) {
 			if (dir == null) return new JsonFile("${getAssetsDir()}/json/${name}");
 			else return new JsonFile("${dir}/${name}");
 	}
 
+	/// Fucntion to get a `String` from the strings array
+	/// If key does not exist then the function will return "missing" rather than `null`
 	static String getString(String key) {
 		if (_strings.containsKey(key)) return _strings[key];
 		log.warning("Key [$key] not found in strings array. May still be loading or missing");
@@ -106,22 +114,32 @@ class ResourceManager {
 	}
 
 	/// Gets the sprite from the hash map with the corresponding [key]
+	/// If key does not exist then the function will return `null`
 	static Sprite getSprite(String key) {
-		return _sprites[key];
+		if (_sprites.containsKey(key)) return _sprites[key];
+		log.warning("Key [$key] not found in sprites array. May still be loading or missing");
+		return null;
 	}
 
+	/// Event funtion allowing for execuation when the strings array has been loaded
+	/// If the file has allready been loaded the the function will be called regardless
 	static void listenForStringFinsh(Function function) {
+		if (_langLoaded) function();
+
 		_esp.forTarget(window).listen((e) {
 			function(e);
 		});
 	}
 
+	/// Returns the directory for the assets folder
 	static String getAssetsDir() {
 		// if (Util.isLive()) return "computing-project/assets";
 		return "assets";
 	}
 }
 
+/// Resource enumerator
+/// Helps with loading the file/resource
 enum Status {
 	initialized, started, failed, complete
 }
@@ -133,6 +151,7 @@ abstract class BaseResource {
 		_start();
 	}
 
+	/// Abstract function that starts the loading process
 	void _start();
 
 	/// Gets the current status of the resource
@@ -211,6 +230,7 @@ class JsonFile extends BaseResource {
 		});
 	}
 
+	/// Future function that can be used to help with collecting the contents after being loaded into the program
 	Future<JsonObject> get onLoad {
 		Completer<JsonObject> completer = new Completer<JsonObject>();
 		EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("jsonLoad");

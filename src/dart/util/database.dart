@@ -181,7 +181,7 @@ class DataBaseConnection {
 		return completer.future;
 	}
 
-	/// Gets the next id from the table `cp_students` from the database
+	/// Gets the next id from the table [cp_students] from the database
 	Future<int> _getNextId() {
 		Completer<int> completer = new Completer();
 		_getQueryResultAsQueryList("SHOW TABLE STATUS LIKE 'cp_students'").then((list) {
