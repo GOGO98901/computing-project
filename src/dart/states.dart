@@ -240,12 +240,14 @@ class StateGame extends State {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
 
 		if (!Util.isLive()) {
-			_gui['temp'] = new GuiTextMessage(ResourceManager.getString('game.msg.intro.1'), 50, GameHost.height - 140, canvas);
-			int t = 0;
-			(_gui['temp'] as GuiTextMessage).listen(canvas, (e, s) {
-				s.setText(ResourceManager.getString('game.msg.intro.2'));
-				if (t == 1) s.setParentVisible(false);
-				t = 1;
+			ResourceManager.listenForStringFinsh((e) {
+				Queue<String> queue = new Queue<String>();
+				String msg = ResourceManager.getString('game.msg.intro.1');
+				queue.add((msg.replaceFirstMapped(Util.regex.vars, (match) {
+					return _manager.host.userManagement.playerName;
+				})));
+				queue.add(ResourceManager.getString('game.msg.intro.2'));
+				_gui['temp'] = new GuiTextMessage(null, 50, GameHost.height - 140,queue, canvas);
 			});
 		}
 	}
@@ -254,10 +256,6 @@ class StateGame extends State {
 		if (visible) {
 			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
 			else _level = GameLevel.newLevel();
-			String msg = ResourceManager.getString('game.msg.intro.1');
-			(_gui['temp'] as GuiTextMessage).setText(msg.replaceFirstMapped(Util.regex.vars, (match) {
-				return _manager.host.userManagement.playerName;
-			}));
 		}
 	}
 

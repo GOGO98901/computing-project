@@ -198,7 +198,6 @@ class GuiText extends GuiElement {
 class GuiTextMessage extends GuiText {
 	TextAnimation anim;
 	Sprite _container;
-	GuiButtonElement _close;
 
 	int _guiWidth = 0;
 	int _imgWidth, _imgHeight, _imgStep;
@@ -207,9 +206,14 @@ class GuiTextMessage extends GuiText {
 
 	String _exitMsg;
 
-	Queue _queue = Queue();
+	Queue<String> _queue;
 
-	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) : super(text, x, y, canvas);
+	GuiTextMessage(String text, int x, int y, [Queue<String> queue, CanvasElement canvas]) : super(text, x, y, canvas) {
+		if (queue == null) _queue = new Queue<String>();
+		else _queue = queue;
+		if (text != null) _queue.addFirst(text);
+		next();
+	}
 
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
@@ -220,18 +224,17 @@ class GuiTextMessage extends GuiText {
 			_imgHeight = _container.height;
 			_imgStep = (_imgWidth / 3).ceil();
 			_bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
-			// _close.setPosition(x + _guiWidth - GuiButtonElement.width ~/ 1.25, y + _imgHeight - GuiButtonElement.height ~/ 2);
 		});
 
-		ResourceManager.listenForStringFinsh((e) {
-			_exitMsg = ResourceManager.getString('game.msg.help.skip');
-		});
+		_exitMsg = ResourceManager.getString('game.msg.help.skip');
+		if (_queue != null) if (_queue.length == 1) _exitMsg = ResourceManager.getString('game.msg.help.close');
+
 		if (canvas != null) canvas.onClick.listen((e) {
 			if (visible) {
 				if (_hover) {
 					if (anim.stage == AnimationStage.running) {
 						anim.skip();
-						_exitMsg = ResourceManager.getString('game.msg.help.close');
+						_exitMsg = ResourceManager.getString('game.msg.help.continue');
 					} else if (anim.stage == AnimationStage.stopped) {
 						var detail = {
 							"type": "textMsg",
@@ -241,6 +244,10 @@ class GuiTextMessage extends GuiText {
 						};
 						var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
 						canvas.dispatchEvent(event);
+
+						if (_queue.length == 0) {
+							setParentVisible(false);
+						} else next();
 					}
 				}
 			}
@@ -250,24 +257,27 @@ class GuiTextMessage extends GuiText {
 	void onVisibilityChange() {
 		// _close.setParentVisible(visible);
 		if (anim != null) {
-			if (visible) anim.start();
+			if (this.visible) anim.start();
 			else anim.stop();
 		}
 	}
 
+	void next() {
+		// ignore: deprecated_member_use
+		this.setText(this._queue.removeFirst());
+	}
+
+	@deprecated
 	void setText(String text) {
 		this._text = text;
 		anim = new TextAnimation(text);
+		anim.listen((e, stage) {
+			if (stage == AnimationStage.stopped) {
+				 if (_queue.length >= 1)  _exitMsg = ResourceManager.getString('game.msg.help.continue');
+				 else  _exitMsg = ResourceManager.getString('game.msg.help.close');
+			}
+		});
 		if (visible) anim.start();
-	}
-
-	String getButtonText() {
-		return "";
-		//return _close.getText();
-	}
-
-	void setButtonText(String text) {
-		//_close.setText(text);
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -331,7 +341,9 @@ class GuiTextMessage extends GuiText {
 
 	void update(final double delta) {
 		if (visible) {
-			if (anim != null) anim.update(delta);
+			if (anim != null) {
+				anim.update(delta);
+			}
 			//_close.update(delta);
 			if (Mouse.inCanvas())  {
 				if (_bounds.containsPoint(Mouse.getPoint())) _hover = true;

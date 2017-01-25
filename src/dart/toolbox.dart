@@ -154,14 +154,26 @@ abstract class Animation {
 	final Object _source;
 	Object _output;
 
+	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("GuiEvent");
+
 	Animation(this._source);
 
 	void start() {
 		_stage = AnimationStage.running;
+		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false);
+		window.dispatchEvent(event);
 	}
 
 	void stop() {
 		_stage = AnimationStage.stopped;
+		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false);
+		window.dispatchEvent(event);
+	}
+
+	void listen(Function function) {
+		_esp.forTarget(window).listen((e) {
+			function(e, _stage);
+		});
 	}
 
 	void update(final double delta);
@@ -192,7 +204,7 @@ class TextAnimation extends Animation {
 				if (_source != null) {
 					if (_char >= (_source as String).length) {
 						_char = (_source as String).length;
-						stage == AnimationStage.stopped;
+						stop();
 					}
 					_output = (_source as String).substring(0, _char);
 				}
@@ -203,7 +215,7 @@ class TextAnimation extends Animation {
 
 	void skip() {
 		_output = _source;
-		_stage = AnimationStage.stopped;
+		stop();
 	}
 
 	String get source => _source;
