@@ -28,15 +28,15 @@ import 'dart:js' as js;
 
 import 'util/database.dart';
 
-part 'game.dart';
-part 'handler.dart';
-part 'toolbox.dart';
-part 'gui.dart';
-part 'resources.dart';
-part 'states.dart';
 part 'entity.dart';
+part 'game.dart';
+part 'gui.dart';
+part 'handler.dart';
 part 'level.dart';
 part 'problem.dart';
+part 'resources.dart';
+part 'states.dart';
+part 'toolbox.dart';
 part 'user.dart';
 
 final Logger log = new Logger('project');

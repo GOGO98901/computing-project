@@ -207,6 +207,8 @@ class GuiTextMessage extends GuiText {
 
 	String _exitMsg;
 
+	Queue _queue = Queue();
+
 	GuiTextMessage(String text, int x, int y, [CanvasElement canvas]) : super(text, x, y, canvas);
 
 	void _init([CanvasElement canvas]) {
