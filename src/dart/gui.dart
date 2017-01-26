@@ -234,7 +234,8 @@ class GuiTextMessage extends GuiText {
 				if (_hover) {
 					if (anim.stage == AnimationStage.running) {
 						anim.skip();
-						_exitMsg = ResourceManager.getString('game.msg.help.continue');
+						if (_queue.length == 0) _exitMsg = ResourceManager.getString('game.msg.help.close');
+						else _exitMsg = ResourceManager.getString('game.msg.help.continue');
 					} else if (anim.stage == AnimationStage.stopped) {
 						var detail = {
 							"type": "textMsg",
@@ -244,6 +245,7 @@ class GuiTextMessage extends GuiText {
 						};
 						var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
 						canvas.dispatchEvent(event);
+						_exitMsg = ResourceManager.getString('game.msg.help.skip');
 
 						if (_queue.length == 0) {
 							setParentVisible(false);
@@ -273,8 +275,12 @@ class GuiTextMessage extends GuiText {
 		anim = new TextAnimation(text);
 		anim.listen((e, stage) {
 			if (stage == AnimationStage.stopped) {
-				 if (_queue.length >= 1)  _exitMsg = ResourceManager.getString('game.msg.help.continue');
-				 else  _exitMsg = ResourceManager.getString('game.msg.help.close');
+				log.info(_queue.length);
+				 if (_queue.length >= 1) _exitMsg = ResourceManager.getString('game.msg.help.continue');
+				 else _exitMsg = ResourceManager.getString('game.msg.help.close');
+			}
+			if (stage == AnimationStage.running) {
+				_exitMsg = ResourceManager.getString('game.msg.help.skip');
 			}
 		});
 		if (visible) anim.start();

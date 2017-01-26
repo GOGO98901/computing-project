@@ -154,7 +154,7 @@ abstract class Animation {
 	final Object _source;
 	Object _output;
 
-	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("GuiEvent");
+	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("AnimationStageUpdate");
 
 	Animation(this._source);
 
