@@ -239,17 +239,16 @@ class StateGame extends State {
 	void init(CanvasElement canvas) {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
 
-		if (!Util.isLive()) {
-			ResourceManager.listenForStringFinsh((e) {
-				Queue<String> queue = new Queue<String>();
-				String msg = ResourceManager.getString('game.msg.intro.1');
-				queue.add((msg.replaceFirstMapped(Util.regex.vars, (match) {
-					return _manager.host.userManagement.playerName;
-				})));
-				queue.add(ResourceManager.getString('game.msg.intro.2'));
-				_gui['temp'] = new GuiTextMessage(null, 50, GameHost.height - 140,queue, canvas);
-			});
-		}
+		ResourceManager.listenForStringFinsh((e) {
+			Queue<String> queue = new Queue<String>();
+			String msg = ResourceManager.getString('game.msg.intro.1');
+			queue.add((msg.replaceFirstMapped(Util.regex.vars, (match) {
+				return _manager.host.userManagement.playerName;
+			})));
+			queue.add(ResourceManager.getString('game.msg.intro.2'));
+			_gui['temp'] = new GuiTextMessage(null, 50, GameHost.height - 140,queue, canvas);
+		});
+
 	}
 
 	void onVisibilityChange() {
