@@ -197,6 +197,7 @@ class StateLogin extends State {
 			InputElement input = querySelector('#gameToken') as InputElement;
 			String token = input.value;
 			if (token != null) if (token.length > 0) {
+				// TODO check regex.token
 				_manager.host.userManagement.login(token).then((connected) {
 					if (connected) {
 						input.parent.classes.remove('has-error');
