@@ -22,7 +22,10 @@ abstract class GuiElement {
 
 	bool _parentVisible;
 
+	String _uuid;
+
 	GuiElement(this._bounds, [CanvasElement canvas]) {
+		_uuid = Util.generateUuid();
 		_init(canvas);
 	}
 
@@ -57,6 +60,8 @@ abstract class GuiElement {
 	void listen(CanvasElement canvas, Function function);
 
 	bool get visible => _parentVisible;
+
+	String get uuid => _uuid;
 }
 
 class GuiButtonElement extends GuiElement {
@@ -87,7 +92,8 @@ class GuiButtonElement extends GuiElement {
 						"type": "button",
 						"x": _x,
 						"y": _y,
-						"text": _text
+						"text": _text,
+						"uuid": uuid
 					};
 					var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
 					canvas.dispatchEvent(event);
@@ -104,10 +110,8 @@ class GuiButtonElement extends GuiElement {
 	void listen(CanvasElement canvas, Function function, [GuiElement source]) {
 		_esp.forTarget(canvas).listen((e) {
 			if (this.visible) {
-				if (e.detail['type'] == 'button') {
-					if (e.detail['text'] == _text) {
-						function(e, source ?? this);
-					}
+				if (e.detail['uuid'] == uuid) {
+					function(e, source ?? this);
 				}
 			}
 		});
@@ -241,7 +245,8 @@ class GuiTextMessage extends GuiText {
 							"type": "textMsg",
 							"x": y,
 							"y": x,
-							"text": _text
+							"text": _text,
+							"uuid": uuid
 						};
 						var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail: detail);
 						canvas.dispatchEvent(event);
@@ -274,13 +279,15 @@ class GuiTextMessage extends GuiText {
 		this._text = text;
 		anim = new TextAnimation(text);
 		anim.listen((e, stage) {
-			if (stage == AnimationStage.stopped) {
-				log.info(_queue.length);
-				 if (_queue.length >= 1) _exitMsg = ResourceManager.getString('game.msg.help.continue');
-				 else _exitMsg = ResourceManager.getString('game.msg.help.close');
-			}
-			if (stage == AnimationStage.running) {
-				_exitMsg = ResourceManager.getString('game.msg.help.skip');
+			if (e.detial['uuid'] == anim.uuid) {
+				if (stage == AnimationStage.stopped) {
+					log.info(_queue.length);
+					 if (_queue.length >= 1) _exitMsg = ResourceManager.getString('game.msg.help.continue');
+					 else _exitMsg = ResourceManager.getString('game.msg.help.close');
+				}
+				if (stage == AnimationStage.running) {
+					_exitMsg = ResourceManager.getString('game.msg.help.skip');
+				}
 			}
 		});
 		if (visible) anim.start();
@@ -336,10 +343,8 @@ class GuiTextMessage extends GuiText {
 	void listen(CanvasElement canvas, Function function) {
 		_esp.forTarget(canvas).listen((e) {
 			if (this.visible) {
-				if (e.detail['type'] == 'textMsg') {
-					if (e.detail['text'] == _text) {
-						function(e, this);
-					}
+				if (e.detail['uuid'] == uuid) {
+					function(e, this);
 				}
 			}
 		});

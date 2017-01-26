@@ -16,6 +16,7 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class Util {
+	static final Uuid uuid = new Uuid();
 	static final Spec spec = new Spec();
 	static final Regex regex = new Regex();
 
@@ -43,6 +44,10 @@ class Util {
 		if (font == null) font = "30pt KenVector Future";
 		context.font = font;
 		return context.measureText(text);
+	}
+
+	static String generateUuid() {
+		return uuid.v1();
 	}
 }
 
@@ -154,25 +159,33 @@ abstract class Animation {
 	final Object _source;
 	Object _output;
 
+	String _uuid;
+
 	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("AnimationStageUpdate");
 
-	Animation(this._source);
+	Animation(this._source) {
+		this._uuid = Util.generateUuid();
+	}
 
 	void start() {
 		_stage = AnimationStage.running;
-		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false);
-		window.dispatchEvent(event);
+		sendEvent();
 	}
 
 	void stop() {
 		_stage = AnimationStage.stopped;
-		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false);
+		sendEvent();
+	}
+
+	void sendEvent() {
+		var detail = { "uuid": uuid };
+		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false, detail: detail);
 		window.dispatchEvent(event);
 	}
 
 	void listen(Function function) {
 		_esp.forTarget(window).listen((e) {
-			function(e, _stage);
+			if (e.detail['uuid'] == uuid) function(e, _stage);
 		});
 	}
 
@@ -181,6 +194,8 @@ abstract class Animation {
 	AnimationStage get stage => _stage;
 	Object get source => _source;
 	Object get output => _output;
+
+	String get uuid => _uuid;
 }
 
 class TextAnimation extends Animation {
