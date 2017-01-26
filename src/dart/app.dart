@@ -71,7 +71,7 @@ bool _init() {
 
 	log.info("Running from ${Util.getUri()}");
 
-	Util.spec.isLoaded();
+	Util.spec.loaded;
 
 	_canvas = document.querySelector('#game-canvas');
 	if (_canvas != null) {

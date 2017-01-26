@@ -97,31 +97,21 @@ class Spec {
 					_loaded = true;
 					_map = map;
 
-					log.info("[${name()}] ${version()}#${build()}");
+					log.info("[${name}] ${version}#${build}");
 				}
 			});
 		} else log.warning("skiped loading pubspec due to runnign local host");
 	}
 
-	String name() {
-		return _get('name');
-	}
+	String get name => _get('name');
 
-	String description() {
-		return _get('description');
-	}
+	String get description => _get('description');
 
-	String homepage() {
-		return _get('homepage');
-	}
+	String get homepage => _get('homepage');
 
-	String version() {
-		return _get('version');
-	}
+	String get version => _get('version');
 
-	String build() {
-		return _get('build');
-	}
+	String get build => _get('build');
 
 	String _get(String key){
 		if (_loaded) return _map[key];
@@ -133,9 +123,7 @@ class Spec {
 		return _map;
 	}
 
-	bool isLoaded() {
-		return _loaded;
-	}
+	bool get loaded => _loaded;
 
 	Future<YamlMap> _load() {
 		Completer<YamlMap> completer = new Completer();
