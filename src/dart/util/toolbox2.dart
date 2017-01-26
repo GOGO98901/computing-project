@@ -50,3 +50,7 @@ class JsonList extends JsonObject implements List {
 		return new JsonObject.fromJsonString(jsonString, new JsonList());
 	}
 }
+
+class Regex {
+	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
+}
