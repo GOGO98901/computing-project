@@ -319,7 +319,7 @@ class GuiTextMessage extends GuiText {
 						output = word;
 						continue;
 					}
-					int width = Util.getTextMetrics(context, "$line $word", context.font).width;
+					int width = Util.getTextMetrics(context, "$line $word", context.font).width.round();
 					if (width >= _guiWidth - 20) {
 						output += "\n$word";
 						line = word;
@@ -335,7 +335,7 @@ class GuiTextMessage extends GuiText {
 				}
 			}
 			//_close.render(context);
-			int width = Util.getTextMetrics(context, _exitMsg, context.font).width;
+			int width = Util.getTextMetrics(context, _exitMsg, context.font).width.round();
 			context.fillText(_exitMsg, x + _guiWidth - width - 10, y + _imgHeight - 20);
 		}
 	}
