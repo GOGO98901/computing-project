@@ -162,7 +162,9 @@ class StateIntro extends State {
 
 	void update(final double delta) {
 		if (_time >= 0) _time += delta;
-		if (_time > 1) (_gui['skip'] as GuiButtonElement).setDisabled(false);
+		// TODO At some point add a check for resource loading
+		//		Till then the time will suffice
+		if (_time > 1.75) (_gui['skip'] as GuiButtonElement).setDisabled(false);
 		if (_time > 5) {
 			_time = -1.0;
 			_manager.changeState('login');

@@ -118,12 +118,12 @@ class GuiButtonElement extends GuiElement {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		if (!_disabled) context.globalAlpha = 0.75;
+		if (_disabled) context.globalAlpha = 0.5;
 		_renderButton(context);
 		context.setFillColorRgb(255, 255, 255);
 		if (_long) Util.drawCenteredText(_text, _x, _y + _offset, _longWidth, height, context);
 		else Util.drawCenteredText(_text, _x, _y + _offset, width, height, context);
-		if (!_disabled) context.globalAlpha = 1;
+		if (_disabled) context.globalAlpha = 1;
 	}
 
 	void _renderButton(CanvasRenderingContext2D context) {
