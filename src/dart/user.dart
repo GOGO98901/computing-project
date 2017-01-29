@@ -21,7 +21,7 @@ class UserManagement {
 
 	DataBaseConnection database;
 
-	UserData currentUser;
+	UserData currentUser = null;
 
 	ProblemManager problems;
 
