@@ -55,14 +55,25 @@ class Regex {
 	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
 	RegExp get token => new RegExp(r'admin\d*|(\b\w{3,4}[1-9]\d*)');
 
-	String replaceMatch(String str, String replace, RegExp exp) {
+	// Have not tested
+	String replace(String str, List<String> array, RegExp exp) {
+		if (matches(str, exp)) {
+			Iterable<Match> matches = allMatches(str, exp);
+			int iteration = 0;
+			matches.forEach((match) {
+				if (iteration < array.length) {
+					str = replaceFirst(str, array[iteration], exp);
+					iteration++;
+				} // Can't break out of forEach loop
+			});
+		}
+		return str;
+	}
+
+	String replaceFirst(String str, String replace, RegExp exp) {
 		return str.replaceFirstMapped(exp, (match) {
 			return replace;
 		});
-	}
-
-	bool matches(String str, RegExp exp) {
-		return firstMatch(str, exp) != null;
 	}
 
 	Match firstMatch(String str, RegExp exp) {
@@ -78,5 +89,9 @@ class Regex {
 
 	Iterable<Match> allMatches(String str, RegExp exp) {
 		return exp.allMatches(str);
+	}
+
+	bool matches(String str, RegExp exp) {
+		return firstMatch(str, exp) != null;
 	}
 }

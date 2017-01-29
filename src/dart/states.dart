@@ -196,19 +196,21 @@ class StateLogin extends State {
 		querySelector('#gameLogin').onClick.listen((event) {
 			InputElement input = querySelector('#gameToken') as InputElement;
 			String token = input.value;
-			if (token != null) if (token.length > 0) {
-				// TODO check regex.token
+			if (token != null) if (Util.regex.matches(token, Util.regex.token)) {
 				_manager.host.userManagement.login(token).then((connected) {
-					if (connected) {
-						input.parent.classes.remove('has-error');
-						Notify.info("Logged in");
-						js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
-						_manager.changeState('game');
-					} else {
-						input.parent.classes.add('has-error');
-						Notify.warn("Unable to login");
-					}
-				});
+				if (connected) {
+					input.parent.classes.remove('has-error');
+					Notify.info("Logged in");
+					js.context.callMethod(r'$', ['#modelGameLogin']).callMethod('modal', ['hide']);
+					_manager.changeState('game');
+				} else {
+					input.parent.classes.add('has-error');
+					Notify.warn("Unable to login");
+				}
+			});
+			} else {
+				input.parent.classes.add('has-error');
+				Notify.warn("Unable to login", "Incorrect login token");
 			}
 		});
 	}
@@ -242,7 +244,7 @@ class StateGame extends State {
 
 		ResourceManager.listenForStringFinsh((e) {
 			Queue<String> queue = new Queue<String>();
-			queue.add(Util.regex.replaceMatch(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
+			queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
 			queue.add(ResourceManager.getString('game.msg.intro.2'));
 			_gui['temp'] = new GuiTextMessage(null, 50, GameHost.height - 140,queue, canvas);
 		});
