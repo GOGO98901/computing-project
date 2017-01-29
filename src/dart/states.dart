@@ -146,14 +146,13 @@ class StateIntro extends State {
 	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
-		(_gui['skip'] as GuiButtonElement).listen(canvas, (e, s) {
+		(_gui['skip'] as GuiButtonElement)..setDisabled(true)..listen(canvas, (e, s) {
 			_manager.changeState('login');
 		});
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context.setFillColorRgb(255, 255, 255);
-		context.fillText(document.title, 75, 100);
+		context..setFillColorRgb(255, 255, 255)..fillText(document.title, 75, 100);
 		if (_logo.isComplete()) {
 			int w = (_logo.width * 0.75).toInt();
 			int h = (_logo.width * 0.75).toInt();
@@ -162,7 +161,8 @@ class StateIntro extends State {
 	}
 
 	void update(final double delta) {
-		if(_time >= 0)_time += delta;
+		if (_time >= 0) _time += delta;
+		if (_time > 1) (_gui['skip'] as GuiButtonElement).setDisabled(false);
 		if (_time > 5) {
 			_time = -1.0;
 			_manager.changeState('login');
@@ -216,8 +216,7 @@ class StateLogin extends State {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context.setFillColorRgb(255, 255, 255);
-		context.fillText(document.title, _xPadding, 100);
+		context..setFillColorRgb(255, 255, 255)..fillText(document.title, _xPadding, 100);
 		if (_station.isComplete()) {
 			context..save()
     		..translate((GameHost.width / 1.4) + (2 * sin(_hover)), (GameHost.height / 2) + (10 * sin(_hover * 1.5)))

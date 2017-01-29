@@ -72,7 +72,7 @@ class GuiButtonElement extends GuiElement {
 	int _x, _y, _offset;
 	String _text;
 
-	bool _long = false, _hover = false;
+	bool _long = false, _hover = false, _disabled = false;
 
 	Sprite _up, _down, _current;
 
@@ -86,7 +86,7 @@ class GuiButtonElement extends GuiElement {
 
 	void _init([CanvasElement canvas]) {
 		if (canvas != null) canvas.onClick.listen((e) {
-			if (visible) {
+			if (visible && !_disabled) {
 				if (_hover) {
 					var detail = {
 						"type": "button",
@@ -118,10 +118,12 @@ class GuiButtonElement extends GuiElement {
 	}
 
 	void render(CanvasRenderingContext2D context) {
+		if (!_disabled) context.globalAlpha = 0.75;
 		_renderButton(context);
 		context.setFillColorRgb(255, 255, 255);
 		if (_long) Util.drawCenteredText(_text, _x, _y + _offset, _longWidth, height, context);
 		else Util.drawCenteredText(_text, _x, _y + _offset, width, height, context);
+		if (!_disabled) context.globalAlpha = 1;
 	}
 
 	void _renderButton(CanvasRenderingContext2D context) {
@@ -144,18 +146,20 @@ class GuiButtonElement extends GuiElement {
 		if (_long) {
 			_bounds = new Rectangle(_x, _y, _longWidth, height);
 		}
-		if (Mouse.inCanvas())  {
-			if (_bounds.containsPoint(Mouse.getPoint())) {
-				_hover = true;
+		if (!_disabled) {
+			if (Mouse.inCanvas())  {
+				if (_bounds.containsPoint(Mouse.getPoint())) {
+					_hover = true;
+				} else _hover = false;
 			} else _hover = false;
-		} else _hover = false;
 
-		if (_hover) {
-			_current = _down;
-			_offset = offset;
-		} else {
-			_current = _up;
-			_offset = 0;
+			if (_hover) {
+				_current = _down;
+				_offset = offset;
+			} else {
+				_current = _up;
+				_offset = 0;
+			}
 		}
 	}
 
@@ -168,6 +172,12 @@ class GuiButtonElement extends GuiElement {
 	void setText(String text) {
 		this._text = text;
 	}
+
+	void setDisabled(bool disabled) {
+		this._disabled = disabled;
+	}
+
+	bool get disabled => _disabled;
 
 	String getText() {
 		return _text;
@@ -221,7 +231,6 @@ class GuiTextMessage extends GuiText {
 
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
-		// _close = new GuiButtonElement(canvas, x, y, "close");
 		_guiWidth = (GameHost.width - (x * 2)).toInt();
 		_container.texture.onLoad.listen((e) {
 			_imgWidth = _container.width;
