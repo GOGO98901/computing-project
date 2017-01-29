@@ -53,6 +53,5 @@ class JsonList extends JsonObject implements List {
 
 class Regex {
 	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
-	RegExp get token => new RegExp(r'(\b\w{3,4}\B|admin)\d+');
-	// TODO make sure that it wont except 'test01' but wil 'test1'
+	RegExp get token => new RegExp(r'admin\d*|(\b\w{3,4}[1-9]\d*)');
 }
