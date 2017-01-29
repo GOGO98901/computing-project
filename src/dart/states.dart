@@ -242,10 +242,7 @@ class StateGame extends State {
 
 		ResourceManager.listenForStringFinsh((e) {
 			Queue<String> queue = new Queue<String>();
-			String msg = ResourceManager.getString('game.msg.intro.1');
-			queue.add((msg.replaceFirstMapped(Util.regex.vars, (match) {
-				return _manager.host.userManagement.playerName;
-			})));
+			queue.add(Util.regex.replaceMatch(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
 			queue.add(ResourceManager.getString('game.msg.intro.2'));
 			_gui['temp'] = new GuiTextMessage(null, 50, GameHost.height - 140,queue, canvas);
 		});

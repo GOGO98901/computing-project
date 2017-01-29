@@ -54,4 +54,29 @@ class JsonList extends JsonObject implements List {
 class Regex {
 	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
 	RegExp get token => new RegExp(r'admin\d*|(\b\w{3,4}[1-9]\d*)');
+
+	String replaceMatch(String str, String replace, RegExp exp) {
+		return str.replaceFirstMapped(exp, (match) {
+			return replace;
+		});
+	}
+
+	bool matches(String str, RegExp exp) {
+		return firstMatch(str, exp) != null;
+	}
+
+	Match firstMatch(String str, RegExp exp) {
+		Iterable<Match> matches = allMatches(str, exp);
+		if (matches.length == 0) {
+			log.warning("String did not match regex expression");
+    		// String didn't match regex; throw error.
+			return null;
+		} else {
+    		return matches.first;
+		}
+	}
+
+	Iterable<Match> allMatches(String str, RegExp exp) {
+		return exp.allMatches(str);
+	}
 }

@@ -108,8 +108,11 @@ class DataBaseConnection {
 	final String queryPage = "http://database.roryclaasen.me/query.php";
 	final Random _random = new Random();
 
+	Regex _regex;
+
 	DataBaseConnection() {
 		log.info('Database connection setting up with url [${queryPage}]');
+		_regex = new Regex();
 	}
 
 	/// Adds the user with the [name] to the databse
@@ -199,7 +202,10 @@ class DataBaseConnection {
 	/// Returns a random prefix word with the [id] appended on to the end
 	String _randomLogin(int id) {
 		List prefixes = ['car', 'lion', 'cat', 'cube', 'gem'];
-		return prefixes[_random.nextInt(prefixes.length)] + id.toString();
+		String test = prefixes[_random.nextInt(prefixes.length)] + id.toString();
+		if (_regex.matches(test, _regex.token)) return test;
+		// Try till it does match. This may restult in a infine loop if all prefixes don't match the regex expression
+		return _randomLogin(id);
 	}
 
 	/// Carries out the query then returns the result as a `JsonList`
