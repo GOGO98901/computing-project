@@ -166,7 +166,7 @@ abstract class Animation {
 	}
 
 	void sendEvent() {
-		var detail = { "uuid": uuid };
+		var detail = { "uuid": uuid, "source": _source, "output": _output };
 		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false, detail: detail);
 		window.dispatchEvent(event);
 	}

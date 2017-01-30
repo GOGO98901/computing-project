@@ -288,7 +288,7 @@ class GuiTextMessage extends GuiText {
 		this._text = text;
 		anim = new TextAnimation(text);
 		anim.listen((e, stage) {
-			if (e.detial['uuid'] == anim.uuid) {
+			// if (e.detial['uuid'] == anim.uuid) {
 				if (stage == AnimationStage.stopped) {
 					log.info(_queue.length);
 					 if (_queue.length >= 1) _exitMsg = ResourceManager.getString('game.msg.help.continue');
@@ -297,7 +297,7 @@ class GuiTextMessage extends GuiText {
 				if (stage == AnimationStage.running) {
 					_exitMsg = ResourceManager.getString('game.msg.help.skip');
 				}
-			}
+			// }
 		});
 		if (visible) anim.start();
 	}

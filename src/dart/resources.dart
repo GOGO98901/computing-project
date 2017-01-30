@@ -22,7 +22,7 @@ class ResourceManager {
 	static HashMap<String, Sprite> _sprites;
 
 	static HashMap<String, String> _strings;
-	JsonFile _lang;
+	static JsonFile _lang;
 	static bool _langLoaded = false;
 
 	static JsonFile sample;
@@ -124,7 +124,7 @@ class ResourceManager {
 	/// Event funtion allowing for execuation when the strings array has been loaded
 	/// If the file has allready been loaded the the function will be called regardless
 	static void listenForStringFinsh(Function function) {
-		if (_langLoaded) function();
+		if (_langLoaded) function(_lang);
 
 		_esp.forTarget(window).listen((e) {
 			function(e);
