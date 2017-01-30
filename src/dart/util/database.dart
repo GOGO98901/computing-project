@@ -19,11 +19,10 @@ import 'dart:html';
 import 'dart:math';
 import 'package:logging/logging.dart';
 import 'dart:async';
-// import 'dart:convert';
 import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
 
-part 'toolbox2.dart';
+import 'toolbox.dart';
 
 final Logger log = new Logger('project');
 
