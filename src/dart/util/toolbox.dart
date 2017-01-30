@@ -21,6 +21,7 @@ import 'dart:async';
 
 import 'package:logging/logging.dart';
 import 'package:json_object/json_object.dart';
+import 'package:vector_math/vector_math.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yaml/yaml.dart';
 
