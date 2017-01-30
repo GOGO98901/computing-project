@@ -304,17 +304,18 @@ class GuiTextMessage extends GuiText {
 
 	void render(CanvasRenderingContext2D context) {
 		if (visible) {
-			context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
-			for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
-				if (xI + _imgStep > _guiWidth - _imgStep) {
-					int length = _guiWidth - _imgStep - xI;
-					context.drawImageScaledFromSource(_container.texture, _imgStep, 0, length, _imgHeight, x + xI, y, length, _imgHeight);
-					continue;
+			if (_container.isComplete()) {
+				context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
+				for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
+					if (xI + _imgStep > _guiWidth - _imgStep) {
+						int length = _guiWidth - _imgStep - xI;
+						context.drawImageScaledFromSource(_container.texture, _imgStep, 0, length, _imgHeight, x + xI, y, length, _imgHeight);
+						continue;
+					}
+					context.drawImageScaledFromSource(_container.texture, _imgStep, 0, _imgStep, _imgHeight, x + xI, y, _imgStep, _imgHeight);
 				}
-				context.drawImageScaledFromSource(_container.texture, _imgStep, 0, _imgStep, _imgHeight, x + xI, y, _imgStep, _imgHeight);
+				context.drawImageScaledFromSource(_container.texture, _imgStep * 2, 0, _imgStep, _imgHeight, x + _guiWidth - _imgStep, y, _imgStep, _imgHeight);
 			}
-			context.drawImageScaledFromSource(_container.texture, _imgStep * 2, 0, _imgStep, _imgHeight, x + _guiWidth - _imgStep, y, _imgStep, _imgHeight);
-
 
 			if (anim != null) {
 				context.font = "18pt KenVector Future";

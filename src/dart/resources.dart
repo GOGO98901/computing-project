@@ -124,7 +124,8 @@ class ResourceManager {
 	/// Event funtion allowing for execuation when the strings array has been loaded
 	/// If the file has allready been loaded the the function will be called regardless
 	static void listenForStringFinsh(Function function) {
-		if (_langLoaded) function(_lang);
+		// Try not to call this when  they are loaded as _langLoaded does not seam to work
+		// if (_langLoaded) function(_lang);
 
 		_esp.forTarget(window).listen((e) {
 			function(e);
