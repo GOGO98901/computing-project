@@ -96,7 +96,7 @@ class Util {
 }
 
 class Regex {
-	RegExp get vars => new RegExp(r'\$([^0]\d+|[1-9])');
+	RegExp get vars => new RegExp(r'\$[1-9]\d*');
 	RegExp get token => new RegExp(r'admin\d*|(\b\w{3,4}[1-9]\d*)');
 
 	// Have not tested
