@@ -36,7 +36,6 @@ part 'level.dart';
 part 'problem.dart';
 part 'resources.dart';
 part 'states.dart';
-part 'toolbox.dart';
 part 'user.dart';
 
 final Logger log = new Logger('project');
