@@ -50,16 +50,6 @@ function pingDatabase() {
 	}
 }
 
-$(window).bind('scroll', function () {
-	if ($(window).scrollTop() > 24) {
-		$('#navigation').addClass('fixed');
-		$('div.content').addClass('offset');
-	} else {
-		$('#navigation').removeClass('fixed');
-		$('div.content').removeClass('offset');
-	}
-});
-
 function notif(type, title, message) {
 	var defaultMap = {
 		position: 'bottomLeft',

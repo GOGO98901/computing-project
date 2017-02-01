@@ -44,18 +44,6 @@ html, body {
 		font-family: $font-family-base;
 	}
 }
-body.modal-open {
-	nav#navigation.fixed {
-		@include MQ(L) {
-			$width: $screen-lg-min - 17px;
-			margin-right: calc(#{-$width} / 2);
-		}
-		@include MQ(M) {
-			$width: $screen-md-min - 17px;
-			margin-right: calc(#{-$width} / 2);
-		}
-	}
-}
 nav#navigation {
 	width: 100%;
 	margin: auto;
@@ -71,33 +59,19 @@ nav#navigation {
 			}
 		}
 	}
-	&.fixed {
-		position: fixed;
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-	}
 	@include MQ(L) {
 		position: relative;
 		width: $screen-lg-min;
 		margin-top: 1.5em;
-		&.fixed {
-			margin-top: 0;
-			right: 50%;
-			margin-right: calc(#{-$screen-lg-min} / 2);
-		}
 	}
 	@include MQ(M) {
 		position: relative;
 		width: $screen-md-min;
 		margin-top: 1.5em;
-		&.fixed {
-			margin-top: 0;
-			right: 50%;
-			margin-right: calc(#{-$screen-md-min} / 2);
-		}
 	}
 }
 footer {
+	margin-top: 1.5em;
 	pre {
 		white-space: pre-line;
 		padding-bottom: 0;
