@@ -24,13 +24,9 @@ import 'package:json_object/json_object.dart';
 
 import 'toolbox.dart';
 
-final Logger log = new Logger('project');
+final Logger log = Util.createdLogger('project');
 
 void main() {
-	Logger.root.level = Level.ALL;
-	Logger.root.onRecord.listen((LogRecord rec) {
-		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
-	});
 	DataBaseConnection db = new DataBaseConnection();
 
 	// ADD USER

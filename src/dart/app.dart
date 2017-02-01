@@ -38,7 +38,7 @@ part 'resources.dart';
 part 'states.dart';
 part 'user.dart';
 
-final Logger log = new Logger('project');
+final Logger log =  Util.createdLogger('project');
 
 CanvasElement _canvas;
 
@@ -62,11 +62,6 @@ void main() {
 ///
 /// This function checks to make sure that the canvas iss visible and creates crucial objects
 bool _init() {
-	Logger.root.level = Level.ALL;
-	Logger.root.onRecord.listen((LogRecord rec) {
-		print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
-	});
-
 	log.info("Running from ${Util.getUri()}");
 
 	Util.spec.loaded;

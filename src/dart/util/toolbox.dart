@@ -30,7 +30,7 @@ import 'dart:js' as js;
 part 'toolbox/animation.dart';
 part 'toolbox/math.dart';
 
-final Logger log = new Logger('utilities');
+final Logger log = Util.createdLogger('utilities');
 
 class Notify {
 	static final String keyInfo = "info";
@@ -93,6 +93,15 @@ class Util {
 
 	static String generateUuid() {
 		return uuid.v1();
+	}
+
+	static Logger createdLogger(String name) {
+		Logger logger = new Logger(name);
+		Logger.root.level = Level.ALL;
+		Logger.root.onRecord.listen((LogRecord rec) {
+			print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
+		});
+		return logger;
 	}
 }
 
