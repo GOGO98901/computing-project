@@ -39,6 +39,7 @@ class GameHost {
 		stateManager = new StateManager(this, _canvas);
 	}
 
+	@deprecated
 	void updateSize(int width, int height) {
 		GameHost.width = width;
 		GameHost.height = height;
@@ -47,7 +48,7 @@ class GameHost {
 	/// Method to start the gameloop
 	///
 	/// Stops when `running` is set to `false`
-	run() {
+	void run() {
 		_running = true;
 		_canvas.focus();
 		window.requestAnimationFrame(_gameLoop);
@@ -84,7 +85,5 @@ class GameHost {
 		stateManager.update(delta);
 	}
 
-	CanvasElement getCanvas() {
-		return _canvas;
-	}
+	CanvasElement get canvas => _canvas;
 }

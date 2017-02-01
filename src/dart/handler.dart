@@ -90,10 +90,12 @@ class ScreenHandler {
 
 	bool _fullScreen = false;
 
+	@deprecated
 	ScreenHandler(this._host) {
 		updateCanvasSize();
-		_startWidth = _host.getCanvas().getBoundingClientRect().width;
-		_startHeight = _host.getCanvas().getBoundingClientRect().height;
+		_startWidth = _host.canvas.getBoundingClientRect().width;
+		_startHeight = _host.canvas.getBoundingClientRect().height;
+		// ignore: deprecated_member_use
 		_host.updateSize(_startWidth, _startHeight);
 	}
 
@@ -110,12 +112,13 @@ class ScreenHandler {
 			height = _startHeight;
 		}
 		updateCanvasSize(width, height);
+		// ignore: deprecated_member_use
 		_host.updateSize(_canvas.width, _canvas.height);
 	}
 
 	void updateCanvasSize([int width, int height]) {
-		if (width == null) width = _host.getCanvas().getBoundingClientRect().width;
-		if (height == null) height = _host.getCanvas().getBoundingClientRect().height;
+		if (width == null) width = _host.canvas.getBoundingClientRect().width;
+		if (height == null) height = _host.canvas.getBoundingClientRect().height;
 		log.info("Setting game canvas attribute size [${width}px x ${height}px]");
 		_canvas.attributes['width'] = "${width}px";
 		_canvas.attributes['height'] = "${height}px";

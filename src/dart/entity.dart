@@ -165,9 +165,27 @@ class Asteroid extends Mob {
 }
 
 class Shape extends Mob {
+
+	double _time = 0.0;
+	double _fX, _fY;
+
 	// TODO Create Shape Class
-	Shape() : super(ResourceManager.getSprite("null"));
-		
+	Shape() : super(ResourceManager.getSprite("null")) {
+		this._fX = this._fY = 0.0;
+	}
+
+	void update(final double delta) {
+		_time += delta;
+
+		_applyFloat();
+	}
+
+	/// Applies a floating effect by offsetting the shape
+	void _applyFloat() {
+		_fX = cos(_time);
+		_fY = sin(_time);
+	}
+
 }
 
 class SpaceStation extends Mob {
