@@ -133,9 +133,9 @@ class ResourceManager {
 	/// Checks that all resources are loaded or have errored
 	/// Will return `false` when a resource is still loading or has not started loading
 	static bool resourcesLoaded() {
-		if (!(_lang.isFailed() || _lang.isComplete())) return false;
+		if (!_lang.ended) return false;
 		_sprites.values.forEach((s) {
-			if (!(s.isComplete() || s.isFailed())) return false;
+			if (!s.ended) return false;
 		});
 		return true;
 	}
@@ -166,15 +166,14 @@ abstract class BaseResource {
 	/// Gets the current status of the resource
 	Status get status => _status;
 
-	/// Returns `true` if the current status equals complete
-	bool isComplete() {
-		return _status == Status.complete;
-	}
+	/// Set to `true` if the current status equals complete
+	bool get complete => _status == Status.complete;
 
-	/// Returns `true` if the current status equals failed
-	bool isFailed() {
-		return _status == Status.failed;
-	}
+	/// Set to `true` if the current status equals failed
+	bool get failed => _status == Status.failed;
+
+	/// Set to `true` when either status is equal to [complete] or [failed]
+	bool get ended => complete || failed;
 }
 
 
@@ -198,13 +197,13 @@ class Sprite extends BaseResource {
 
 	/// Returns the width of the image only if it is loaded
 	int get width {
-		if (isComplete()) return _image.width;
+		if (complete) return _image.width;
 		return 0;
 	}
 
 	/// Returns the height of the image only if it is loaded
 	int get height {
-		if (isComplete()) return _image.height;
+		if (complete) return _image.height;
 		return 0;
 	}
 

@@ -91,7 +91,7 @@ abstract class State {
 	/// Function that renders the background
 	/// Using a small image, the image is rendered next to each other to fill the screen
 	void renderBackground(CanvasRenderingContext2D context) {
-		if (_background != null) if (_background.isComplete()) {
+		if (_background != null) if (_background.complete) {
 			ImageElement image = _background.texture;
 			for (int y = 0; y < GameHost.height + _background.height; y += _background.height) {
 				for (int x = 0; x < GameHost.width; x += _background.width) {
@@ -153,7 +153,7 @@ class StateIntro extends State {
 
 	void render(CanvasRenderingContext2D context) {
 		context..setFillColorRgb(255, 255, 255)..fillText(document.title, 75, 100);
-		if (_logo.isComplete()) {
+		if (_logo.complete) {
 			int w = (_logo.width * 0.75).toInt();
 			int h = (_logo.width * 0.75).toInt();
 			context.drawImageScaled(_logo.texture, 75, 100 + ((GameHost.height - 120) - h) / 2, w, h);
@@ -162,11 +162,10 @@ class StateIntro extends State {
 
 	void update(final double delta) {
 		if (_time >= 0) _time += delta;
-		// TODO At some point add a check for resource loading
-		//		Till then the time will suffice
+		// Skip button will only allways be disabled unless all resources are loaded
 		GuiButtonElement btn = (_gui['skip'] as GuiButtonElement);
 		if (btn.disabled) {
-			if (ResourceManager.resourcesLoaded() || (_time > 1.75 && _time < 2)) btn.setDisabled(false);
+			if (ResourceManager.resourcesLoaded()) btn.setDisabled(false);
 		}
 		if (_time > 5) {
 			_time = -1.0;
@@ -222,7 +221,7 @@ class StateLogin extends State {
 
 	void render(CanvasRenderingContext2D context) {
 		context..setFillColorRgb(255, 255, 255)..fillText(document.title, _xPadding, 100);
-		if (_station.isComplete()) {
+		if (_station.complete) {
 			context..save()
     		..translate((GameHost.width / 1.4) + (2 * sin(_hover)), (GameHost.height / 2) + (10 * sin(_hover * 1.5)))
    			..rotate(45 * PI / 180)

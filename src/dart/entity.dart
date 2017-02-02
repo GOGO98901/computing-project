@@ -46,7 +46,7 @@ class Mob extends Entity {
 	}
 
 	void init() {
-		if (_sprite.isComplete()) {
+		if (_sprite.complete {
 			_width = _sprite.width;
 			_height = _sprite.height;
 		} else 	_sprite.texture.onLoad.listen((e) {
@@ -67,7 +67,7 @@ class Mob extends Entity {
 
 	void setSprite(Sprite sprite) {
 		this._sprite = sprite;
-		if (_sprite.isComplete()) {
+		if (_sprite.complete {
 			_width = _sprite.width;
 			_height = _sprite.height;
 		} else 	_sprite.texture.onLoad.listen((e) {
@@ -123,7 +123,7 @@ class Asteroid extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_sprite != null) {
-			if (_sprite.isComplete()) context.drawImage(_sprite.texture, x, y);
+			if (_sprite.complete context.drawImage(_sprite.texture, x, y);
 		}
 	}
 
@@ -202,10 +202,10 @@ class SpaceStation extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_sprite != null) {
-			if (_sprite.isComplete()) context.drawImage(_sprite.texture, x, y);
+			if (_sprite.complete) context.drawImage(_sprite.texture, x, y);
 		}
 		if (_shieldTime >= 0 && _shield != null) {
-			if (_shield.isComplete()) {
+			if (_shield.complete) {
 				int xOff = ((_shield.width - _width) / 2).round() - _sXOff;
 				int yOFf = ((_shield.height - _height) / 2).round() - _sYOff;
 				context.drawImage(_shield.texture, x - xOff, y - yOFf);

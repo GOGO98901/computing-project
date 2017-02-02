@@ -239,7 +239,7 @@ class GuiTextMessage extends GuiText {
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
 		_guiWidth = (GameHost.width - (x * 2)).toInt();
-		if (_container.isComplete()) _setUpImage(_container.texture);
+		if (_container.complete) _setUpImage(_container.texture);
 		else _container.texture.onLoad.listen((e) {
 			_setUpImage(_container.texture);
 		});
@@ -308,7 +308,7 @@ class GuiTextMessage extends GuiText {
 
 	void render(CanvasRenderingContext2D context) {
 		if (visible) {
-			if (_container.isComplete()) {
+			if (_container.complete) {
 				context.drawImageScaledFromSource(_container.texture, 0, 0, _imgStep, _imgHeight, x, y, _imgStep, _imgHeight);
 				for (int xI = _imgStep; xI < _guiWidth - _imgStep; xI += _imgStep) {
 					if (xI + _imgStep > _guiWidth - _imgStep) {
