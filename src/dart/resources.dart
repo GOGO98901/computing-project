@@ -23,7 +23,6 @@ class ResourceManager {
 
 	static HashMap<String, String> _strings;
 	static JsonFile _lang;
-	static bool _langLoaded = false;
 
 	static JsonFile sample;
 
@@ -36,7 +35,6 @@ class ResourceManager {
 	 		_addStringsInMap(JSON.decode(data.toString()));
 			var event = new CustomEvent("resourceSafety", canBubble: false, cancelable: false);
 			window.dispatchEvent(event);
-			_langLoaded = true;
 		});
 		_initSprites();
 
@@ -86,9 +84,9 @@ class ResourceManager {
 			JsonObject object = new JsonObject.fromJsonString(JSON.encode(v));
 			Object test = JSON.decode(object.toString());
 			if (test is String) {
-				_strings["${key}${k}"] = v;
+				_strings["$key$k"] = v;
 			} else {
-				_addStringsInMap(test, "${key}${k}.");
+				_addStringsInMap(test, "$key$k.");
 			}
 		});
 	}
@@ -130,6 +128,16 @@ class ResourceManager {
 		_esp.forTarget(window).listen((e) {
 			function(e);
 		});
+	}
+
+	/// Checks that all resources are loaded or have errored
+	/// Will return `false` when a resource is still loading or has not started loading
+	static bool resourcesLoaded() {
+		if (!(_lang.isFailed() || _lang.isComplete())) return false;
+		_sprites.values.forEach((s) {
+			if (!(s.isComplete() || s.isFailed())) return false;
+		});
+		return true;
 	}
 
 	/// Returns the directory for the assets folder
