@@ -229,14 +229,19 @@ class GuiTextMessage extends GuiText {
 		next();
 	}
 
+	void _setUpImage(ImageElement img) {
+		_imgWidth = img.width;
+		_imgHeight = img.height;
+		_imgStep = (_imgWidth / 3).ceil();
+		_bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
+	}
+
 	void _init([CanvasElement canvas]) {
 		_container = ResourceManager.getSprite('ui.glass.tr');
 		_guiWidth = (GameHost.width - (x * 2)).toInt();
-		_container.texture.onLoad.listen((e) {
-			_imgWidth = _container.width;
-			_imgHeight = _container.height;
-			_imgStep = (_imgWidth / 3).ceil();
-			_bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
+		if (_container.isComplete()) _setUpImage(_container.texture);
+		else _container.texture.onLoad.listen((e) {
+			_setUpImage(_container.texture);
 		});
 
 		_exitMsg = ResourceManager.getString('game.msg.help.skip');
@@ -290,7 +295,6 @@ class GuiTextMessage extends GuiText {
 		anim.listen((e, stage) {
 			// if (e.detial['uuid'] == anim.uuid) {
 				if (stage == AnimationStage.stopped) {
-					log.info(_queue.length);
 					 if (_queue.length >= 1) _exitMsg = ResourceManager.getString('game.msg.help.continue');
 					 else _exitMsg = ResourceManager.getString('game.msg.help.close');
 				}
@@ -344,7 +348,6 @@ class GuiTextMessage extends GuiText {
 					context.fillText(outputLine, x + 10, y + (25 * l));
 				}
 			}
-			//_close.render(context);
 			int width = Util.getTextMetrics(context, _exitMsg, context.font).width.round();
 			context.fillText(_exitMsg, x + _guiWidth - width - 10, y + _imgHeight - 20);
 		}
@@ -362,10 +365,8 @@ class GuiTextMessage extends GuiText {
 
 	void update(final double delta) {
 		if (visible) {
-			if (anim != null) {
-				anim.update(delta);
-			}
-			//_close.update(delta);
+			if (anim != null) anim.update(delta);
+
 			if (Mouse.inCanvas())  {
 				if (_bounds.containsPoint(Mouse.getPoint())) _hover = true;
 				else _hover = false;
