@@ -27,7 +27,8 @@ class GameLevel {
     int _score;
 
     SpaceStation _baseStation;
-    List<Asteroid> _asteroids = new List<Asteroid>();
+
+    EntityHandler<Asteroid> _asteroids;
 
     UserData _userData;
 
@@ -38,40 +39,8 @@ class GameLevel {
     GameLevel() {
         _baseStation = new SpaceStation();
         _score = 0;
-    }
 
-    /// Renders the Level
-    void render(CanvasRenderingContext2D context) {
-        _asteroids.forEach((enemy) {
-            enemy.render(context);
-        });
-        _baseStation.render(context);
-    }
-
-    /// Updates the Level
-    void update(final double delta) {
-        List<Asteroid> toRemove = new List<Asteroid>();
-        _asteroids.forEach((asteroid) {
-            asteroid.update(delta);
-            if (asteroid.isRemoved()) {
-                toRemove.add(asteroid);
-                 //_baseStation.shieldsUp();
-            }
-        });
-        toRemove.forEach((asteroid) {
-            _asteroids.remove(asteroid);
-        });
-        _baseStation.update(delta);
-
-        if (_asteroids.isNotEmpty) {
-            // TODO load problems
-        }
-
-        _updateShips(delta);
-    }
-
-    void _updateShips(final double delta) {
-        if (_time == 0.0) {
+        _asteroids = new EntityHandler<Asteroid>(2.0, () {
             Asteroid asteroid = new Asteroid(_baseStation);
             int side = _random.nextInt(3);
             int x, y;
@@ -91,17 +60,30 @@ class GameLevel {
 
             asteroid.setX(x);
             asteroid.setY(y);
-            log.info("Spawned new asteroid");
-            _asteroids.add(asteroid);
-        }
-        _time += delta;
-        if (_time > _spawnTime - (_level * 0.5)) _time = 0.0;
+            return asteroid;
+        });
+
+
+        _asteroids.delay = _spawnTime - (_level * 0.5);
+    }
+
+    /// Renders the Level
+    void render(CanvasRenderingContext2D context) {
+        _asteroids.render(context);
+        _baseStation.render(context);
+    }
+
+    /// Updates the Level
+    void update(final double delta) {
+        _asteroids.update(delta);
+
+        _baseStation.update(delta);
     }
 
     Asteroid getNearestAsteroid() {
         Asteroid nearest;
         double distance = 0.0;
-        _asteroids.forEach((asteroid) {
+        _asteroids.entities.forEach((asteroid) {
             double d = getDistanceFromEntity(asteroid);
             if (d > distance) {
                 d = distance;
@@ -113,7 +95,7 @@ class GameLevel {
 
     double getNearestAsteroidDistance() {
         double distance = 0.0;
-        _asteroids.forEach((asteroid) {
+        _asteroids.entities.forEach((asteroid) {
             double d = getDistanceFromEntity(asteroid);
             if (d > distance) {
                 d = distance;
@@ -133,4 +115,59 @@ class GameLevel {
     void _setUser(UserData data) {
         this._userData = data;
     }
+}
+
+typedef Entity SpawnEntity();
+
+class EntityHandler<T> {
+    final Random _random = new Random();
+
+    double _time = 0.0, _delay =0.0;
+
+    List<T> _entities;
+
+    SpawnEntity _spawn;
+
+    EntityHandler(this._delay, this._spawn) {
+        _entities = new List<T>();
+    }
+
+    void forceSpawn() {
+        if (_spawn != null) {
+            Entity entity = _spawn();
+            if (entity is T) {
+                _entities.add(entity as T);
+                log.info("Spawned new $T");
+            } else log.warning('Entity is not type $T');
+        } else log.severe("Spawn is null!");
+    }
+
+    void render(CanvasRenderingContext2D context) {
+        _entities.forEach((entity) {
+            entity.render(context);
+        });
+    }
+
+    void update(final double delta) {
+        _time += delta;
+        if (_time >= _delay) {
+            _time = 0.0;
+            forceSpawn();
+        }
+
+        List<T> removed = new List<T>();
+        _entities.forEach((entity) {
+            entity.update(delta);
+            if (entity.isRemoved()) removed.add(entity);
+        });
+
+        removed.forEach((entity) => _entities.remove(entity));
+    }
+
+    double get delay => _delay;
+    void set delay(double new_delay) {
+        _delay = new_delay;
+    }
+
+    List<T> get entities => _entities;
 }

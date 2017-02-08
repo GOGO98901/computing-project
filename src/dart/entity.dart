@@ -168,10 +168,15 @@ class Shape extends Mob {
 
 	double _time = 0.0;
 	double _fX, _fY;
+	int _width = 40, _height = 40;
 
 	// TODO Create Shape Class
 	Shape() : super(ResourceManager.getSprite("null")) {
 		this._fX = this._fY = 0.0;
+	}
+
+	void render(CanvasRenderingContext2D context) {
+		context..setFillColorRgb(10, 20, 30)..fillRect(x + _fX, y + _fY, _width, _height);
 	}
 
 	void update(final double delta) {
