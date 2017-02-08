@@ -30,7 +30,7 @@ import 'dart:js' as js;
 part 'toolbox/animation.dart';
 part 'toolbox/math.dart';
 
-final Logger log = Util.createdLogger('utilities');
+final Logger logUtil = Util.createdLogger('utilities');
 
 class Notify {
 	static final String keyInfo = "info";
@@ -133,7 +133,7 @@ class Regex {
 	Match firstMatch(String str, RegExp exp) {
 		Iterable<Match> matches = allMatches(str, exp);
 		if (matches.length == 0) {
-			log.warning("String did not match regex expression");
+			logUtil.warning("String did not match regex expression");
     		// String didn't match regex; throw error.
 			return null;
 		} else {
@@ -163,10 +163,10 @@ class Spec {
 					_loaded = true;
 					_map = map;
 
-					log.info("[${name}] ${version}#${build}");
+					logUtil.info("[${name}] ${version}#${build}");
 				}
 			});
-		} else log.warning("skiped loading pubspec due to runnign local host");
+		} else logUtil.warning("skiped loading pubspec due to runnign local host");
 	}
 
 	String get name => _get('name');
@@ -194,10 +194,10 @@ class Spec {
 	Future<YamlMap> _load() {
 		Completer<YamlMap> completer = new Completer();
 		HttpRequest.getString('pubspec.yaml').then((String yaml) {
-			log.info("loaded pubspec");
+			logUtil.info("loaded pubspec");
 			completer.complete(loadYaml(yaml));
 		}).catchError((Error error) {
-			log.warning("failed to load pubspec");
+			logUtil.warning("failed to load pubspec");
 			completer.complete(null);
 		});
 		return completer.future;

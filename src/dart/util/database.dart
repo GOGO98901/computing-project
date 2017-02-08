@@ -24,7 +24,7 @@ import 'package:json_object/json_object.dart';
 
 import 'toolbox.dart';
 
-final Logger log = Util.createdLogger('project');
+final Logger logDatabase = Util.createdLogger('project');
 
 void main() {
 	DataBaseConnection db = new DataBaseConnection();
@@ -90,7 +90,7 @@ void main() {
 	querySelector('#removeStudentConfirm').onClick.listen((event) {
 		var name = rmSelector.item(rmSelector.selectedIndex).attributes['name'];
 		db.removeUser(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
-			log.info(json);
+			logDatabase.info(json);
 			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
 
@@ -106,7 +106,7 @@ class DataBaseConnection {
 	Regex _regex;
 
 	DataBaseConnection() {
-		log.info('Database connection setting up with url [${queryPage}]');
+		logDatabase.info('Database connection setting up with url [${queryPage}]');
 		_regex = new Regex();
 	}
 
@@ -117,7 +117,7 @@ class DataBaseConnection {
 		Completer<JsonObject> completer = new Completer();
 		_getNextId().then((id) {
 			String login = _randomLogin(id);
-			log.info("New login token " + login);
+			logDatabase.info("New login token " + login);
 			_getQueryResult("INSERT INTO `cp_students`(`name`, `login`) VALUES ('${name}', '${login}')").then((json) {
 				json.isExtendable = true;
 				json.name = name;
@@ -187,7 +187,7 @@ class DataBaseConnection {
 			try  {
 				id = int.parse(list[0].Auto_increment);
 			} catch(error) {
-				log.warning(error);
+				logDatabase.warning(error);
 			}
 			completer.complete(id);
 		});
@@ -211,7 +211,7 @@ class DataBaseConnection {
 			try {
 				list = new JsonList.fromString(json.output.toString());
 			} catch (e) {
-				log.warning("Query failed: ${e} ${json}");
+				logDatabase.warning("Query failed: ${e} ${json}");
 			}
 			completer.complete(list);
 		});
@@ -229,7 +229,7 @@ class DataBaseConnection {
 
 	/// Carries out the query then returns the result as a `String` formatted like Json
 	Future<String> _getQueryResultAsString(String query) {
-		log.info('Sending query "' + query + '"');
+		logDatabase.info('Sending query "' + query + '"');
 		Completer<String> completer = new Completer();
 		HttpRequest req = new HttpRequest();
 		req.open("POST", queryPage);
