@@ -46,7 +46,7 @@ class Mob extends Entity {
 	}
 
 	void init() {
-		if (_sprite.complete {
+		if (_sprite.complete) {
 			_width = _sprite.width;
 			_height = _sprite.height;
 		} else 	_sprite.texture.onLoad.listen((e) {
@@ -67,7 +67,7 @@ class Mob extends Entity {
 
 	void setSprite(Sprite sprite) {
 		this._sprite = sprite;
-		if (_sprite.complete {
+		if (_sprite.complete) {
 			_width = _sprite.width;
 			_height = _sprite.height;
 		} else 	_sprite.texture.onLoad.listen((e) {
@@ -123,7 +123,7 @@ class Asteroid extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		if (_sprite != null) {
-			if (_sprite.complete context.drawImage(_sprite.texture, x, y);
+			if (_sprite.complete) context.drawImage(_sprite.texture, x, y);
 		}
 	}
 

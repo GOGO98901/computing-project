@@ -255,7 +255,7 @@ class StateGame extends State {
 				Queue<String> queue = new Queue<String>();
 				queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
 				queue.add(ResourceManager.getString('game.msg.intro.2'));
-				_gui['welcome'] = new GuiTextMessage(null, 50, GameHost.height - 140, queue);
+				_gui['welcome'] = new GuiTextMessage(null, 50, GameHost.height - 140, queue, _manager.canvas);
 				_gui['welcome'].setParentVisible(visible);
 			//});
 		}
