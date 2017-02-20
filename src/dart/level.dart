@@ -62,7 +62,7 @@ class GameLevel {
             if (spawnSide == 3) oppositeSide = 1;
             shape.target = genericSpawnLocation(side: oppositeSide);
             shape.action((e) {
-                if (e.detail.action == MobAction.click) {
+                if (e.detail['action']  == MobAction.click) {
                     _freeze = true;
                     // TODO Show the rotation properties
                 }
