@@ -32,6 +32,7 @@ class GameLevel {
     EntityHandler<Shape> _shapes;
     EntityHandler<Mob> _currentMob;
 
+    // ignore: unused_field
     UserData _userData;
 
     double _time = 0.0;

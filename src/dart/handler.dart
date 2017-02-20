@@ -26,13 +26,9 @@ class MasterHandler {
 		_mouse = new Mouse(_canvas);
 	}
 
-	Mouse getMouse()  {
-		return _mouse;
-	}
+	Mouse get mouse => _mouse;
 
-	Keyboard getKeyboard() {
-		return _keyboard;
-	}
+	Keyboard get keyboard => _keyboard;
 }
 
 class Keyboard {
@@ -70,17 +66,10 @@ class Mouse {
 		return _inside;
 	}
 
-	static int getX() {
-		return _x;
-	}
+	static int get x => _x;
+	static int get y => _y;
 
-	static int getY() {
-		return _y;
-	}
-
-	static Point getPoint() {
-		return new Point(_x, _y);
-	}
+	static Point get point => new Point(_x, _y);
 }
 
 class ScreenHandler {

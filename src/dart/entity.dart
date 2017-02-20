@@ -46,25 +46,13 @@ class Mob extends Entity {
 	bool _removed;
 
 	Mob(Sprite sprite, {int width, int height}) {
-		this._sprite = sprite;
+		this.sprite = sprite;
 		init();
 		if (width != null) _width = width;
 		if (height != null) _height = height;
 	}
 
-	void init() {
-		if (_sprite == null) {
-			_width = _height = 0;
-			return;
-		}
-		if (_sprite.complete) {
-			_width = _sprite.width;
-			_height = _sprite.height;
-		} else 	_sprite.texture.onLoad.listen((e) {
-			_width = _sprite.width;
-			_height = _sprite.height;
-		});
-	}
+	void init() {}
 
 	int get width => _width;
 	int get height => _height;
@@ -77,6 +65,10 @@ class Mob extends Entity {
 	void update(final double delta) {}
 
 	void set sprite(Sprite sprite) {
+		if (_sprite == null) {
+			_width = _height = 0;
+			return;
+		}
 		this._sprite = sprite;
 		if (_sprite.complete) {
 			_width = _sprite.width;
@@ -176,7 +168,6 @@ class Asteroid extends Mob {
 class Shape extends Mob {
 
 	double _time = 0.0, speed = 50.0;
-	double _fX, _fY;
 
 	int _dirrection = 0, _rotSpeed;
 
@@ -184,9 +175,7 @@ class Shape extends Mob {
 
 	// TODO Create Shape Class
 	// - In progress
-	Shape() : super(ResourceManager.getSprite("null"), width: 40, height: 40) {
-		this._fX = this._fY = 0.0;
-
+	Shape() : super(null, width: 40, height: 40) {
 		Random rand = new Random();
 		_dirrection = rand.nextInt(2) - 1;
 		if (_dirrection == 0) _dirrection = -1;
@@ -195,9 +184,9 @@ class Shape extends Mob {
 
 	void render(CanvasRenderingContext2D context) {
 		context..save()
-		..translate(x + _fX, y + _fY)
+		..translate(x, y)
 		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
-		..setFillColorRgb(10, 20, 30)
+		..setFillColorRgb(10, 20, 30) // TODO load images
 		..fillRect(-(width / 2), -(height / 2), width, height)
 		..restore();
 	}
@@ -226,14 +215,6 @@ class Shape extends Mob {
 			remove();
 		}
 		vector2 = position;
-
-		_applyFloat();
-	}
-
-	/// Applies a floating effect by offsetting the shape
-	void _applyFloat() {
-		_fX = cos(_time);
-		_fY = sin(_time);
 	}
 
 	Vector2 get target => _target;

@@ -185,9 +185,7 @@ class Spec {
 	}
 
 	@deprecated
-	YamlMap map() {
-		return _map;
-	}
+	YamlMap get map => _map;
 
 	bool get loaded => _loaded;
 

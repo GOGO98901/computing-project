@@ -39,18 +39,19 @@ abstract class GuiElement {
 	void update(final double delta);
 
 	void setPosition(int x, int y) {
-		setBounds(new Rectangle(x, y, _bounds.width, _bounds.height));
-	}
-
-	void setBounds(Rectangle bounds) {
-		_bounds = bounds;
+		bounds = new Rectangle(x, y, _bounds.width, _bounds.height);
 	}
 
 	Rectangle get bounds => _bounds;
+	void set bounds(Rectangle bounds) {
+		_bounds = bounds;
+	}
+
 	int get x => _bounds.left;
 	int get y => _bounds.top;
 
-	void setParentVisible(bool vis) {
+	bool get visible => _parentVisible;
+	void set visible(bool vis) {
 		this._parentVisible = vis;
 		onVisibilityChange();
 	}
@@ -59,7 +60,6 @@ abstract class GuiElement {
 
 	void listen(CanvasElement canvas, Function function);
 
-	bool get visible => _parentVisible;
 
 	String get uuid => _uuid;
 }
@@ -148,7 +148,7 @@ class GuiButtonElement extends GuiElement {
 		}
 		if (!_disabled) {
 			if (Mouse.inCanvas())  {
-				if (_bounds.containsPoint(Mouse.getPoint())) {
+				if (_bounds.containsPoint(Mouse.point)) {
 					_hover = true;
 				} else _hover = false;
 			} else _hover = false;
@@ -166,21 +166,17 @@ class GuiButtonElement extends GuiElement {
 	void setPosition(int x, int y) {
 		this._x = x;
 		this._y = y;
-		this.setBounds(new Rectangle(x, y, _bounds.width, _bounds.height));
+		this.bounds = new Rectangle(x, y, _bounds.width, _bounds.height);
 	}
 
-	void setText(String text) {
+	String get text => _text;
+	void set text(String text) {
 		this._text = text;
 	}
 
-	void setDisabled(bool disabled) {
-		this._disabled = disabled;
-	}
-
 	bool get disabled => _disabled;
-
-	String getText() {
-		return _text;
+	void set disabled(bool disabled) {
+		this._disabled = disabled;
 	}
 }
 
@@ -198,15 +194,12 @@ class GuiText extends GuiElement {
 
 	void update(final double delta) {}
 
-	void setText(String text) {
+	String get text => _text;
+	void set text(String text) {
 		this._text = text;
 	}
 
 	void listen(CanvasElement canvas, Function function) {}
-
-	String getText() {
-		return _text;
-	}
 }
 
 class GuiTextMessage extends GuiText {
@@ -267,7 +260,7 @@ class GuiTextMessage extends GuiText {
 						_exitMsg = ResourceManager.getString('game.msg.help.skip');
 
 						if (_queue.length == 0) {
-							setParentVisible(false);
+							visible = false;
 						} else next();
 					}
 				}
@@ -368,7 +361,7 @@ class GuiTextMessage extends GuiText {
 			if (anim != null) anim.update(delta);
 
 			if (Mouse.inCanvas())  {
-				if (_bounds.containsPoint(Mouse.getPoint())) _hover = true;
+				if (_bounds.containsPoint(Mouse.point)) _hover = true;
 				else _hover = false;
 			} else _hover = false;
 		}

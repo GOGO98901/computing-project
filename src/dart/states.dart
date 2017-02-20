@@ -126,7 +126,7 @@ abstract class State {
 	/// Notifies all elements in the state of [vis]
 	void setVisible(bool vis) {
 		this._visible = vis;
-		this._gui.values.forEach((element) => element.setParentVisible(vis));
+		this._gui.values.forEach((element) => element.visible = vis);
 		onVisibilityChange();
 	}
 
@@ -146,7 +146,8 @@ class StateIntro extends State {
 	void init(CanvasElement canvas) {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.width - 20, GameHost.height - GuiButtonElement.height - 20, "skip");
-		(_gui['skip'] as GuiButtonElement)..setDisabled(true)..listen(canvas, (e, s) {
+		(_gui['skip'] as GuiButtonElement).disabled = false;
+		(_gui['skip'] as GuiButtonElement)..listen(canvas, (e, s) {
 			_manager.changeState('login');
 		});
 	}
@@ -165,7 +166,7 @@ class StateIntro extends State {
 		// Skip button will only allways be disabled unless all resources are loaded
 		GuiButtonElement btn = (_gui['skip'] as GuiButtonElement);
 		if (btn.disabled) {
-			if (ResourceManager.resourcesLoaded()) btn.setDisabled(false);
+			if (ResourceManager.resourcesLoaded()) btn.disabled = false;
 		}
 		if (_time > 5) {
 			_time = -1.0;
@@ -256,7 +257,7 @@ class StateGame extends State {
 				queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
 				queue.add(ResourceManager.getString('game.msg.intro.2'));
 				_gui['welcome'] = new GuiTextMessage(null, 50, GameHost.height - 140, queue, _manager.canvas);
-				_gui['welcome'].setParentVisible(visible);
+				_gui['welcome'].visible = visible;
 			//});
 		}
 	}
@@ -268,7 +269,7 @@ class StateGame extends State {
 	void update(final double delta) {
 		if (_level != null) {
 			_level.update(delta);
-			(_gui['score'] as GuiText).setText(_level.formattedScore);
+			(_gui['score'] as GuiText).text = _level.formattedScore;
 		}
 	}
 }
