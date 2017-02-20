@@ -35,6 +35,8 @@ class GameLevel {
     // ignore: unused_field
     UserData _userData;
 
+    bool _freeze = false;
+
     double _time = 0.0;
     double _spawnTime = 2.3;
     int _level = 0;
@@ -73,7 +75,7 @@ class GameLevel {
 
     /// Updates the Level
     void update(final double delta) {
-        _currentMob.update(delta);
+        if (!_freeze) _currentMob.update(delta);
 
         _baseStation.update(delta);
     }
