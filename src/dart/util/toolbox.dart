@@ -99,7 +99,7 @@ class Util {
 		Logger logger = new Logger(name);
 		Logger.root.level = Level.ALL;
 		Logger.root.onRecord.listen((LogRecord rec) {
-			print('[DART][${rec.time}] ${rec.level.name}: ${rec.message}');
+			if (name == rec.loggerName)	print('[DART][${rec.time}][${rec.loggerName}] ${rec.level.name}: ${rec.message}');
 		});
 		return logger;
 	}

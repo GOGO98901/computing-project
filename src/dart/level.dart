@@ -30,6 +30,7 @@ class GameLevel {
 
     EntityHandler<Asteroid> _asteroids;
     EntityHandler<Shape> _shapes;
+    EntityHandler<Mob> _currentMob;
 
     UserData _userData;
 
@@ -48,22 +49,30 @@ class GameLevel {
         });
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
-        _shapes = new EntityHandler<Shape>(2.0, () {
+        _shapes = new EntityHandler<Shape>(5.0, () {
             Shape shape = new Shape();
-            shape.vector2 = genericSpawnLocation();
+            int spawnSide = _random.nextInt(4), oppositeSide = -1;
+            shape.vector2 = genericSpawnLocation(side: spawnSide);
+            if (spawnSide == 0) oppositeSide = 2;
+            if (spawnSide == 1) oppositeSide = 3;
+            if (spawnSide == 2) oppositeSide = 0;
+            if (spawnSide == 3) oppositeSide = 1;
+            shape.target = genericSpawnLocation(side: oppositeSide);
             return shape;
         });
+
+        _currentMob = _shapes;
     }
 
     /// Renders the Level
     void render(CanvasRenderingContext2D context) {
-        _asteroids.render(context);
+        _currentMob.render(context);
         _baseStation.render(context);
     }
 
     /// Updates the Level
     void update(final double delta) {
-        _asteroids.update(delta);
+        _currentMob.update(delta);
 
         _baseStation.update(delta);
     }
@@ -104,8 +113,8 @@ class GameLevel {
         this._userData = data;
     }
 
-    Vector2 genericSpawnLocation() {
-        int side = _random.nextInt(3);
+    Vector2 genericSpawnLocation({int side}) {
+        if (side == null) side = _random.nextInt(4);
         int x, y;
         int margins = 200;
         if (side % 2 == 0) y = _random.nextInt(GameHost.height - margins);
@@ -119,7 +128,7 @@ class GameLevel {
         if (side == 0) x = -offset;
         if (side == 1) y = -offset;
         if (side == 2) x = GameHost.width + offset;
-        // if (side == 3) y = GameHost.height + offset;
+        if (side == 3) y = GameHost.height + offset;
 
         return new Vector2(0.0 + x, 0.0 + y);
     }
@@ -157,10 +166,10 @@ class EntityHandler<T> {
     }
 
     void update(final double delta) {
+        if (_time == 0.0) forceSpawn();
         _time += delta;
         if (_time >= _delay) {
             _time = 0.0;
-            forceSpawn();
         }
 
         List<T> removed = new List<T>();

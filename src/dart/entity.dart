@@ -43,13 +43,20 @@ abstract class Entity  {
 
 class Mob extends Entity {
 	int _width, _height;
+	bool _removed;
 
-	Mob(Sprite sprite) {
+	Mob(Sprite sprite, {int width, int height}) {
 		this._sprite = sprite;
 		init();
+		if (width != null) _width = width;
+		if (height != null) _height = height;
 	}
 
 	void init() {
+		if (_sprite == null) {
+			_width = _height = 0;
+			return;
+		}
 		if (_sprite.complete) {
 			_width = _sprite.width;
 			_height = _sprite.height;
@@ -69,7 +76,7 @@ class Mob extends Entity {
 	void render(CanvasRenderingContext2D context) {}
 	void update(final double delta) {}
 
-	void setSprite(Sprite sprite) {
+	void set sprite(Sprite sprite) {
 		this._sprite = sprite;
 		if (_sprite.complete) {
 			_width = _sprite.width;
@@ -79,11 +86,18 @@ class Mob extends Entity {
 			_height = _sprite.height;
 		});
 	}
+
+	void remove() {
+		_removed = true;
+	}
+
+	bool isRemoved() {
+		return _removed;
+	}
 }
 
 class Asteroid extends Mob {
 	double speed = 50.0;
-	bool _removed;
 
 	Mob _target;
 	double _life = 0.0;
@@ -120,7 +134,7 @@ class Asteroid extends Mob {
 		}
 		texture += 1;
 		// log.info("using texture game.enities.metor.${type}.${texture}");
-		this.setSprite(ResourceManager.getSprite("game.enities.metor.${type}.${texture}"));
+		this.sprite = ResourceManager.getSprite("game.enities.metor.${type}.${texture}");
 
 		speed += random.nextInt(20) - 5;
 	}
@@ -155,40 +169,63 @@ class Asteroid extends Mob {
 			position = goal;
 			remove();
 		}
-		setX(position.x.round());
-		setY(position.y.round());
-	}
-
-	void remove() {
-		_removed = true;
-	}
-
-	bool isRemoved() {
-		return _removed;
+		vector2 = position;
 	}
 }
 
 class Shape extends Mob {
 
-	double _time = 0.0;
+	double _time = 0.0, speed = 50.0;
 	double _fX, _fY;
-	int _width = 40, _height = 40;
+
+	int _dirrection = 0, _rotSpeed;
+
+	Vector2 _target;
 
 	// TODO Create Shape Class
-	Shape() : super(ResourceManager.getSprite("null")) {
+	// - In progress
+	Shape() : super(ResourceManager.getSprite("null"), width: 40, height: 40) {
 		this._fX = this._fY = 0.0;
+
+		Random rand = new Random();
+		_dirrection = rand.nextInt(2) - 1;
+		if (_dirrection == 0) _dirrection = -1;
+		_rotSpeed = rand.nextInt(80) + 100;
 	}
 
 	void render(CanvasRenderingContext2D context) {
 		context..save()
 		..translate(x + _fX, y + _fY)
-		..rotate(_time * PI / 180)
-		..setFillColorRgb(10, 20, 30)..fillRect(-_width / 2, -_height / 2, _width, _height)
+		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
+		..setFillColorRgb(10, 20, 30)
+		..fillRect(-(width / 2), -(height / 2), width, height)
 		..restore();
 	}
 
 	void update(final double delta) {
 		_time += delta;
+
+		double x1 = this.x + 0.0;
+		double x2 = _target.x;
+		double y1 = this.y + 0.0;
+		double y2 = _target.y;
+
+		Vector2 position = new Vector2(x1, y1);
+		Vector2 center = new Vector2(width / 2, height / 2);
+		position += center;
+		Vector2 goal = new Vector2(x2, y2);
+
+		Vector2 norm = goal - position;
+		Vector2 direction = (goal - position).normalizeInto(norm);
+
+		position += direction * speed * delta;
+
+		position -= center;
+		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(width, height) || _time >= 60) {
+			position = goal;
+			remove();
+		}
+		vector2 = position;
 
 		_applyFloat();
 	}
@@ -199,6 +236,11 @@ class Shape extends Mob {
 		_fY = sin(_time);
 	}
 
+	Vector2 get target => _target;
+
+	void set target(Vector2 t) {
+		_target = t;
+	}
 }
 
 class SpaceStation extends Mob {

@@ -24,7 +24,7 @@ import 'package:json_object/json_object.dart';
 
 import 'toolbox.dart';
 
-final Logger logDatabase = Util.createdLogger('project');
+final Logger logDatabase = Util.createdLogger('database');
 
 void main() {
 	DataBaseConnection db = new DataBaseConnection();
