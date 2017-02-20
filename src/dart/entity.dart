@@ -19,7 +19,7 @@ abstract class Entity  {
 	PointSmart _position = new PointSmart(0, 0);
 	Sprite _sprite;
 
-	void init();
+	void init([CanvasElement canvas]);
 
 	void setX(int x) {
 		_position.setX(x);
@@ -41,25 +41,42 @@ abstract class Entity  {
 	Sprite get sprite => _sprite;
 }
 
+enum MobAction {
+	remove, click
+}
+
 class Mob extends Entity {
+
+	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("MobAction");
+
 	int _width, _height;
 	bool _removed;
+	String _uuid;
 
-	Mob(Sprite sprite, {int width, int height}) {
+	Mob(Sprite sprite, {int width, int height, CanvasElement canvas}) {
 		this.sprite = sprite;
 		init();
 		if (width != null) _width = width;
 		if (height != null) _height = height;
 	}
 
-	void init() {}
+	void init([CanvasElement canvas]) {
+		_uuid = Util.generateUuid();
+		if (canvas != null) {
+			canvas.onClick.listen((e) {
+				if (!isRemoved() && Mouse.inCanvas()) {
+					if (bounds.containsPoint(Mouse.point)) {
+						sendEvent(MobAction.click);
+					}
+				}
+			});
+		}
+	}
 
 	int get width => _width;
 	int get height => _height;
 
-	Rectangle getBounds() {
-		return new Rectangle(x, y, this._width, this._height);
-	}
+	Rectangle get bounds =>	new Rectangle(x, y, this._width, this._height);
 
 	void render(CanvasRenderingContext2D context) {}
 	void update(final double delta) {}
@@ -79,8 +96,28 @@ class Mob extends Entity {
 		});
 	}
 
+	void action(Function action) {
+		_esp.forTarget(window).listen((e) {
+			if (e.detail['uuid'] == _uuid) {
+				action(e);
+			}
+		});
+	}
+
 	void remove() {
+		sendEvent(MobAction.remove);
 		_removed = true;
+	}
+
+	void sendEvent(MobAction action) {
+		var event = new CustomEvent("MobAction", canBubble: false, cancelable: false, detail: {
+			"type": this.runtimeType,
+			"action": action,
+			"x": x,
+			"y": y,
+			"uuid": _uuid
+		});
+		window.dispatchEvent(event);
 	}
 
 	bool isRemoved() {
@@ -139,6 +176,7 @@ class Asteroid extends Mob {
 
 	// See http://gamedev.stackexchange.com/a/28337 for refrence
 	void update(final double delta) {
+		super.update(delta);
 		_life += delta;
 
 		double x1 = this.x + 0.0;
@@ -175,7 +213,7 @@ class Shape extends Mob {
 
 	// TODO Create Shape Class
 	// - In progress
-	Shape() : super(null, width: 40, height: 40) {
+	Shape(CanvasElement canvas) : super(null, width: 40, height: 40, canvas: canvas) {
 		Random rand = new Random();
 		_dirrection = rand.nextInt(2) - 1;
 		if (_dirrection == 0) _dirrection = -1;
@@ -192,6 +230,7 @@ class Shape extends Mob {
 	}
 
 	void update(final double delta) {
+		super.update(delta);
 		_time += delta;
 
 		double x1 = this.x + 0.0;
@@ -250,6 +289,7 @@ class SpaceStation extends Mob {
 	}
 
 	void update(final double delta) {
+		super.update(delta);
 		if (_shieldTime >= 0) {
 			_shieldTime += delta;
 			_sXOff = (1.5 * sin(50 * _shieldTime)).round();

@@ -16,8 +16,8 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class GameLevel {
-    static GameLevel newLevel([UserData data]) {
-        GameLevel level = new GameLevel();
+    static GameLevel newLevel(CanvasElement canvas, [UserData data]) {
+        GameLevel level = new GameLevel(canvas);
         if (data != null) level._setUser(data);
         return level;
     }
@@ -41,7 +41,7 @@ class GameLevel {
     double _spawnTime = 2.3;
     int _level = 0;
 
-    GameLevel() {
+    GameLevel(CanvasElement canvas) {
         _baseStation = new SpaceStation();
         _score = 0;
 
@@ -53,7 +53,7 @@ class GameLevel {
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
         _shapes = new EntityHandler<Shape>(5.0, () {
-            Shape shape = new Shape();
+            Shape shape = new Shape(canvas);
             int spawnSide = _random.nextInt(4), oppositeSide = -1;
             shape.vector2 = genericSpawnLocation(side: spawnSide);
             if (spawnSide == 0) oppositeSide = 2;
@@ -61,6 +61,12 @@ class GameLevel {
             if (spawnSide == 2) oppositeSide = 0;
             if (spawnSide == 3) oppositeSide = 1;
             shape.target = genericSpawnLocation(side: oppositeSide);
+            shape.action((e) {
+                if (e.detail.action == MobAction.click) {
+                    _freeze = true;
+                    // TODO Show the rotation properties
+                }
+            });
             return shape;
         });
 

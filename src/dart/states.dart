@@ -249,8 +249,8 @@ class StateGame extends State {
 
 	void onVisibilityChange() {
 		if (visible) {
-			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.host.userManagement.currentUser);
-			else _level = GameLevel.newLevel();
+			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.currentUser);
+			else _level = GameLevel.newLevel(_manager.canvas);
 
 			//ResourceManager.listenForStringFinsh((e) {
 				Queue<String> queue = new Queue<String>();
