@@ -34,6 +34,10 @@ abstract class Entity  {
 
 	Vector2 get vector2 => _position.vector2;
 
+	void set vector2(Vector2 pos) {
+		_position.set(pos.x.round(), pos.y.round());
+	}
+
 	Sprite get sprite => _sprite;
 }
 
@@ -176,7 +180,11 @@ class Shape extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context..setFillColorRgb(10, 20, 30)..fillRect(x + _fX, y + _fY, _width, _height);
+		context..save()
+		..translate(x + _fX, y + _fY)
+		..rotate(_time * PI / 180)
+		..setFillColorRgb(10, 20, 30)..fillRect(-_width / 2, -_height / 2, _width, _height)
+		..restore();
 	}
 
 	void update(final double delta) {

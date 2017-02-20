@@ -29,6 +29,7 @@ class GameLevel {
     SpaceStation _baseStation;
 
     EntityHandler<Asteroid> _asteroids;
+    EntityHandler<Shape> _shapes;
 
     UserData _userData;
 
@@ -42,29 +43,16 @@ class GameLevel {
 
         _asteroids = new EntityHandler<Asteroid>(2.0, () {
             Asteroid asteroid = new Asteroid(_baseStation);
-            int side = _random.nextInt(3);
-            int x, y;
-            int margins = 200;
-            if (side % 2 == 0) y = _random.nextInt(GameHost.height - margins);
-            else {
-                int xP = _random.nextInt(margins);
-                if (_random.nextInt(2) == 0) x = xP;
-                else x = GameHost.width - margins + xP;
-            }
-
-            int offset = 50;
-            if (side == 0) x = -offset;
-            if (side == 1) y = -offset;
-            if (side == 2) x = GameHost.width + offset;
-            // if (side == 3) y = GameHost.height + offset;
-
-            asteroid.setX(x);
-            asteroid.setY(y);
+            asteroid.vector2 = genericSpawnLocation();
             return asteroid;
         });
-
-
         _asteroids.delay = _spawnTime - (_level * 0.5);
+
+        _shapes = new EntityHandler<Shape>(2.0, () {
+            Shape shape = new Shape();
+            shape.vector2 = genericSpawnLocation();
+            return shape;
+        });
     }
 
     /// Renders the Level
@@ -114,6 +102,26 @@ class GameLevel {
 
     void _setUser(UserData data) {
         this._userData = data;
+    }
+
+    Vector2 genericSpawnLocation() {
+        int side = _random.nextInt(3);
+        int x, y;
+        int margins = 200;
+        if (side % 2 == 0) y = _random.nextInt(GameHost.height - margins);
+        else {
+            int xP = _random.nextInt(margins);
+            if (_random.nextInt(2) == 0) x = xP;
+            else x = GameHost.width - margins + xP;
+        }
+
+        int offset = 50;
+        if (side == 0) x = -offset;
+        if (side == 1) y = -offset;
+        if (side == 2) x = GameHost.width + offset;
+        // if (side == 3) y = GameHost.height + offset;
+
+        return new Vector2(0.0 + x, 0.0 + y);
     }
 }
 
