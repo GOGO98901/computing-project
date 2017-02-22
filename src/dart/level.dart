@@ -28,6 +28,8 @@ class GameLevel {
 
     SpaceStation _baseStation;
 
+    GuiElement _currentProblemGui;
+
     EntityHandler<Asteroid> _asteroids;
     EntityHandler<Shape> _shapes;
     EntityHandler<Mob> _currentMob;
@@ -62,9 +64,11 @@ class GameLevel {
             if (spawnSide == 3) oppositeSide = 1;
             shape.target = genericSpawnLocation(side: oppositeSide);
             shape.action((e) {
-                if (e.detail['action']  == MobAction.click) {
+                if (e.detail['action'] == MobAction.click.index) {
                     _freeze = true;
                     // TODO Show the rotation properties
+
+                    _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, canvas);
                 }
             });
             return shape;
@@ -77,13 +81,16 @@ class GameLevel {
     void render(CanvasRenderingContext2D context) {
         _currentMob.render(context);
         _baseStation.render(context);
+        if (_currentProblemGui != null) _currentProblemGui.render(context);
     }
 
     /// Updates the Level
     void update(final double delta) {
-        if (!_freeze) _currentMob.update(delta);
-
-        _baseStation.update(delta);
+        if (!_freeze) {
+            _currentMob.update(delta);
+            _baseStation.update(delta);
+        }
+        if (_currentProblemGui != null) _currentProblemGui.update(delta);
     }
 
     Asteroid getNearestAsteroid() {

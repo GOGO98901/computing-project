@@ -55,7 +55,7 @@ class Mob extends Entity {
 
 	Mob(Sprite sprite, {int width, int height, CanvasElement canvas}) {
 		this.sprite = sprite;
-		init();
+		init(canvas);
 		if (width != null) _width = width;
 		if (height != null) _height = height;
 	}
@@ -76,7 +76,7 @@ class Mob extends Entity {
 	int get width => _width;
 	int get height => _height;
 
-	Rectangle get bounds =>	new Rectangle(x, y, this._width, this._height);
+	Rectangle get bounds =>	new Rectangle(x, y, width, height);
 
 	void render(CanvasRenderingContext2D context) {}
 	void update(final double delta) {}
@@ -96,10 +96,10 @@ class Mob extends Entity {
 		});
 	}
 
-	void action(Function action) {
+	void action(Function actionF) {
 		_esp.forTarget(window).listen((e) {
 			if (e.detail['uuid'] == _uuid) {
-				action(e);
+				actionF(e);
 			}
 		});
 	}
@@ -112,7 +112,7 @@ class Mob extends Entity {
 	void sendEvent(MobAction action) {
 		var event = new CustomEvent("MobAction", canBubble: false, cancelable: false, detail: {
 			"type": this.runtimeType,
-			"action": action,
+			"action": action.index,
 			"x": x,
 			"y": y,
 			"uuid": _uuid
@@ -221,8 +221,8 @@ class Shape extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context..save()
-		..translate(x, y)
+		context..setFillColorRgb(0, 255, 0)..fillRect(x, y, width, height)..save()
+		..translate(x + (width / 2), y + (height / 2))
 		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
 		..setFillColorRgb(10, 20, 30) // TODO load images
 		..fillRect(-(width / 2), -(height / 2), width, height)

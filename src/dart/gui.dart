@@ -38,6 +38,10 @@ abstract class GuiElement {
 	/// Abstrcat update method
 	void update(final double delta);
 
+	void setSize(int width, height) {
+		bounds = new Rectangle(x, y, width, height);
+	}
+
 	void setPosition(int x, int y) {
 		bounds = new Rectangle(x, y, _bounds.width, _bounds.height);
 	}
@@ -49,6 +53,8 @@ abstract class GuiElement {
 
 	int get x => _bounds.left;
 	int get y => _bounds.top;
+	int get width => _bounds.width;
+	int get height => _bounds.height;
 
 	bool get visible => _parentVisible;
 	void set visible(bool vis) {
@@ -66,8 +72,8 @@ abstract class GuiElement {
 
 class GuiButtonElement extends GuiElement {
 
-	static final int width = 190, height =  45, offset = 4;
-	int _longWidth = width;
+	static final int fWidth = 190, fHeight =  45, offset = 4;
+	int _longWidth = fWidth;
 
 	int _x, _y, _offset;
 	String _text;
@@ -76,7 +82,7 @@ class GuiButtonElement extends GuiElement {
 
 	Sprite _up, _down, _current;
 
-	GuiButtonElement(CanvasElement canvas, int x, int y, [String text, bool long]) : super(new Rectangle(x, y, width, height), canvas) {
+	GuiButtonElement(CanvasElement canvas, int x, int y, [String text, bool long]) : super(new Rectangle(x, y, fWidth, fHeight), canvas) {
 		this._x = x;
 		this._y = y;
 		this._offset = 0;
@@ -269,7 +275,6 @@ class GuiTextMessage extends GuiText {
 	}
 
 	void onVisibilityChange() {
-		// _close.setParentVisible(visible);
 		if (anim != null) {
 			if (this.visible) anim.start();
 			else anim.stop();
@@ -315,7 +320,7 @@ class GuiTextMessage extends GuiText {
 			}
 
 			if (anim != null) {
-				context.font = "18pt KenVector Future";
+				context..setFillColorRgb(255, 255, 255)..font = "18pt KenVector Future";
 
 				List<String> words = anim.output.split(" ");
 				String output = "";
@@ -369,11 +374,8 @@ class GuiTextMessage extends GuiText {
 }
 
 class GuiQuestionElement extends GuiElement {
-	static final int width = 200, height = 500;
 
-	GuiQuestionElement(int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, width, height), canvas) {
-
-	}
+	GuiQuestionElement(int x, int y, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 50), canvas);
 
 	void _init([CanvasElement canvas]) {}
 
@@ -385,15 +387,45 @@ class GuiQuestionElement extends GuiElement {
 }
 
 class GuiTypeSelector extends GuiElement {
-	static final int width = 500, height = 200;
 
-	GuiTypeSelector(int x, int y, [CanvasElement canvas]) :super(new Rectangle(x, y, width, height), canvas);
+	Sprite _container;
+	int _slots = 0;
 
-	void _init([CanvasElement canvas]) {}
+	GuiTypeSelector(int x, int y, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas);
 
-	void render(CanvasRenderingContext2D context) {}
+	void _init([CanvasElement canvas]) {
+		_slots = 4;
+		_container = ResourceManager.getSprite('ui.glass.tr');
+		if (_container.complete) _setUpImage(_container.texture);
+		else _container.texture.onLoad.listen((e) {
+			_setUpImage(_container.texture);
+		});
+	}
+
+	void _setUpImage(ImageElement img) {
+		this.setSize(GameHost.width - (x * 2), img.height);
+		//_imgWidth = img.width;
+		//_imgHeight = img.height;
+		// _imgStep = (_imgWidth / 3).ceil();
+		// _bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
+	}
+
+	void render(CanvasRenderingContext2D context) {
+		for (int i = 0; i < slots; i++) {
+			context..drawImageToRect(_container.texture, getRectFromIndex(i));
+		}
+	}
 
 	void update(final double delta) {}
 
 	void listen(CanvasElement canvas, Function function) {}
+
+	Rectangle getRectFromIndex(int index) {
+		int x = this.x, y = this.y, width = this.width, height = this.height;
+		int iWidth = _container.width;
+		double space = width / slots;
+		return new Rectangle(x + (space * index) + ((space / 2) - (iWidth / 2)), y, iWidth, height);
+	}
+
+	int get slots => _slots;
 }
