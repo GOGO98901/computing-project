@@ -388,13 +388,20 @@ class GuiQuestionElement extends GuiElement {
 
 class GuiTypeSelector extends GuiElement {
 
+	List<Sprite> _icons;
+
 	Sprite _container;
 	int _slots = 0;
 
-	GuiTypeSelector(int x, int y, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas);
+	GuiTypeSelector(int x, int y, List<String> sIons, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas) {
+		_icons  = new List<Sprite>();
+		for (int i = 0; i < sIons.length; i++) {
+			_icons.add(ResourceManager.getSprite(sIons[i]));
+		}
+		_slots = _icons.length;
+	}
 
 	void _init([CanvasElement canvas]) {
-		_slots = 4;
 		_container = ResourceManager.getSprite('ui.glass.tr');
 		if (_container.complete) _setUpImage(_container.texture);
 		else _container.texture.onLoad.listen((e) {
@@ -412,7 +419,14 @@ class GuiTypeSelector extends GuiElement {
 
 	void render(CanvasRenderingContext2D context) {
 		for (int i = 0; i < slots; i++) {
-			context..drawImageToRect(_container.texture, getRectFromIndex(i));
+			Rectangle bounds = getRectFromIndex(i);
+			context.drawImageToRect(_container.texture, bounds);
+			if (_icons[i] != null) {
+				Sprite icon = _icons[i];
+				int xOff = (bounds.width - icon.width) / 2;
+				int yOff = (bounds.width - icon.width) / 2;
+				context.drawImage(icon.texture, bounds.left + xOff, bounds.top + yOff);
+			}
 		}
 	}
 
