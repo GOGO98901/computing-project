@@ -391,7 +391,7 @@ class GuiTypeSelector extends GuiElement {
 	List<Sprite> _icons;
 
 	Sprite _container;
-	int _slots = 0;
+	int _slots = 0, _hover = -1, _hoverOffset = 2;
 
 	GuiTypeSelector(int x, int y, List<String> sIons, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas) {
 		_icons  = new List<Sprite>();
@@ -407,32 +407,70 @@ class GuiTypeSelector extends GuiElement {
 		else _container.texture.onLoad.listen((e) {
 			_setUpImage(_container.texture);
 		});
+		if (canvas != null) canvas.onClick.listen((e) {
+			if (Mouse.inCanvas() && _bounds.containsPoint(Mouse.point)) {
+				if (_hover >= 0) {
+					var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail:  {
+						"type": "typesSelector",
+						"x": y,
+						"y": x,
+						"selected": _hover,
+						"uuid": uuid
+					});
+					canvas.dispatchEvent(event);
+				}
+			}
+		});
 	}
 
 	void _setUpImage(ImageElement img) {
 		this.setSize(GameHost.width - (x * 2), img.height);
-		//_imgWidth = img.width;
-		//_imgHeight = img.height;
-		// _imgStep = (_imgWidth / 3).ceil();
-		// _bounds = new Rectangle(x, y, _guiWidth, _imgHeight);
 	}
 
 	void render(CanvasRenderingContext2D context) {
 		for (int i = 0; i < slots; i++) {
 			Rectangle bounds = getRectFromIndex(i);
+			if (_hover == i) {
+				int x = bounds.left + _hoverOffset;
+				int y = bounds.top + _hoverOffset;
+				int width = bounds.width - (_hoverOffset * 2);
+				int height = bounds.height - (_hoverOffset * 2);
+				bounds = new Rectangle(x, y, width, height);
+			}
 			context.drawImageToRect(_container.texture, bounds);
-			if (_icons[i] != null) {
+			if (i < _icons.length) if (_icons[i] != null) {
 				Sprite icon = _icons[i];
 				int xOff = (bounds.width - icon.width) / 2;
 				int yOff = (bounds.width - icon.width) / 2;
-				context.drawImage(icon.texture, bounds.left + xOff, bounds.top + yOff);
+				if (_hover == i) context.drawImageScaled(icon.texture, bounds.left + xOff - _hoverOffset, bounds.top + yOff - _hoverOffset, icon.width + (_hoverOffset * 2), icon.height + (_hoverOffset * 2));
+				else context.drawImage(icon.texture, bounds.left + xOff, bounds.top + yOff);
 			}
 		}
 	}
 
-	void update(final double delta) {}
+	void update(final double delta) {
+		if (Mouse.inCanvas())  {
+			if (_bounds.containsPoint(Mouse.point)) {
+				for (int i = 0; i < _slots; i++) {
+					_hover = -1;
+					if (getRectFromIndex(i).containsPoint(Mouse.point)){
+						_hover = i;
+						break;
+					}
+				}
+			} else _hover = -1;
+		} else _hover = -1;
+	}
 
-	void listen(CanvasElement canvas, Function function) {}
+	void listen(CanvasElement canvas, Function function) {
+		_esp.forTarget(canvas).listen((e) {
+			if (this.visible) {
+				if (e.detail['uuid'] == uuid) {
+					function(e, e.detail['selected']);
+				}
+			}
+		});
+	}
 
 	Rectangle getRectFromIndex(int index) {
 		int x = this.x, y = this.y, width = this.width, height = this.height;

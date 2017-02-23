@@ -68,7 +68,11 @@ class GameLevel {
                     _freeze = true;
                     // TODO Show the rotation properties
 
-                    _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, ['game.enities.metor.small.1', 'game.enities.metor.small.2', 'game.enities.metor.small.1', 'game.enities.metor.small.2']);
+                    _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, ['game.enities.metor.small.1', 'game.enities.metor.small.2', 'game.enities.metor.small.1', 'game.enities.metor.small.2', 'game.enities.metor.med.1'], canvas);
+                    _currentProblemGui.visible = true;
+                    _currentProblemGui.listen(canvas, (e, i) {
+                        log.info("$i has been clicked");
+                    });
                 }
             });
             return shape;
