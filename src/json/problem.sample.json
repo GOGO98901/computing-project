@@ -16,6 +16,13 @@
         }
     }],
     "typeProblems": [{
-        "options": ["an option", "antoher"]
+        "question": "What is this test question?",
+        "options": ["game.enities.metor.small.1", "game.enities.metor.small.1"],
+        "answer": [0]
+    },
+    {
+        "question": "What is this other test question?",
+        "options": ["game.enities.metor.small.1", "game.enities.metor.med.1", "game.enities.metor.small.1"],
+        "answer": [1, 2]
     }]
 }
