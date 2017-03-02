@@ -14,5 +14,8 @@
           "answer" : 1,
           "options": ["An option", "Antother Option", "And another one!"]
         }
-      }]
+    }],
+    "typeProblems": [{
+        "options": ["an option", "antoher"]
+    }]
 }
