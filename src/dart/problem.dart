@@ -16,6 +16,8 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class ProblemManager {
+    Random _random = new Random();
+
     JsonFile _dataFile;
 
     HashMap<int, List<ProblemItem>> _problems;
@@ -51,12 +53,28 @@ class ProblemManager {
     void loadTypeProblems(JsonList list) {
         for (JsonObject problem in list) {
             String question = problem.question;
-            List<int> answers = problem.answers;
-            List<String> options = problem.data.options;
+            List<int> answers = problem.answer;
+            List<String> options = problem.options;
 
             _typeProblems.add(new ProblemTypeItem(question, options, answers));
         }
     }
+
+    ProblemTypeItem get randomProblemType {
+        ProblemTypeItem item = null;
+        int index = -1;
+        for (int i = 0; i < 3; i++) {
+            index = _random.nextInt(typeProblmes.length);
+            item = typeProblmes[index];
+            if (!item.used) break;
+        }
+        item.used = true;
+        typeProblmes[index] = item;
+        return item;
+    }
+
+    HashMap<int, List<ProblemItem>> get problems => _problems;
+    List<ProblemTypeItem> get typeProblmes => _typeProblems;
 }
 
 class ProblemItem {
@@ -86,13 +104,19 @@ class ProblemTypeItem {
     String _question;
     List<String> _options;
     List<int> _answers;
+    bool _used;
 
     ProblemTypeItem(this._question, this._options, this._answers);
 
     String get question => _question;
 
-    List<String> get questions => _options;
+    List<String> get options => _options;
     List<int> get answers => _answers;
+
+    bool get used => _used;
+    void set used(bool used) {
+        this._used = used;
+    }
 
     String toString() {
         return {

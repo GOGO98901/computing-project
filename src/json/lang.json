@@ -15,7 +15,10 @@
             }
         },
         "problem": {
-            "type": "What is this fraction?"
+            "answer": {
+                "correct": "Congratulations you got that right!",
+                "wrong" : "Incorrect, Better luck next time"
+            }
         }
     }
 }

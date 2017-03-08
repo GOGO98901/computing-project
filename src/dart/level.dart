@@ -16,8 +16,8 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class GameLevel {
-    static GameLevel newLevel(CanvasElement canvas, [UserData data]) {
-        GameLevel level = new GameLevel(canvas);
+    static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, [UserData data]) {
+        GameLevel level = new GameLevel(problems, canvas);
         if (data != null) level._setUser(data);
         return level;
     }
@@ -28,7 +28,7 @@ class GameLevel {
 
     SpaceStation _baseStation;
 
-    GuiElement _currentProblemGui;
+    GuiTypeSelector _currentProblemGui;
 
     EntityHandler<Asteroid> _asteroids;
     EntityHandler<Shape> _shapes;
@@ -43,7 +43,7 @@ class GameLevel {
     double _spawnTime = 2.3;
     int _level = 0;
 
-    GameLevel(CanvasElement canvas) {
+    GameLevel(ProblemManager problems, CanvasElement canvas) {
         _baseStation = new SpaceStation();
         _score = 0;
 
@@ -65,14 +65,25 @@ class GameLevel {
             shape.target = genericSpawnLocation(side: oppositeSide);
             shape.action((e) {
                 if (e.detail['action'] == MobAction.click.index) {
-                    _freeze = true;
-                    // TODO Show the rotation properties
-
-                    _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, ['game.enities.metor.small.1', 'game.enities.metor.small.2', 'game.enities.metor.small.1', 'game.enities.metor.small.2', 'game.enities.metor.med.1'], canvas);
-                    _currentProblemGui.visible = true;
-                    _currentProblemGui.listen(canvas, (e, i) {
-                        log.info("$i has been clicked");
-                    });
+                    if (!_freeze && _currentProblemGui == null) {
+                        _freeze = true;
+                        ProblemTypeItem item = problems.randomProblemType;
+                        _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, item.question, item.options, canvas);
+                        _currentProblemGui.visible = true;
+                        _currentProblemGui.listen(canvas, (e, i) {
+                            log.info("$i has been clicked");
+                            _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
+                            if (item.answers.contains(i)) {
+                            _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
+                                addPoints(200);
+                            }
+                            new Future.delayed(const Duration(seconds: 2), () {
+                                _currentProblemGui.visible = false;
+                                _currentProblemGui = null;
+                                _freeze = false;
+                            });
+                        });
+                    }
                 }
             });
             return shape;
@@ -124,6 +135,10 @@ class GameLevel {
     double getDistanceFromEntity(Entity goal, [Entity start]) {
         if (start == null) start = _baseStation;
         return start.vector2.distanceTo(goal.vector2);
+    }
+
+    void addPoints(int points) {
+        this._score += points;
     }
 
     int get score => _score;

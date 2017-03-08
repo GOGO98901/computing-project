@@ -249,8 +249,8 @@ class StateGame extends State {
 
 	void onVisibilityChange() {
 		if (visible) {
-			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.currentUser);
-			else _level = GameLevel.newLevel(_manager.canvas);
+			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems, _manager.host.userManagement.currentUser);
+			else _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems);
 
 			//ResourceManager.listenForStringFinsh((e) {
 				Queue<String> queue = new Queue<String>();
@@ -268,7 +268,7 @@ class StateGame extends State {
 
 	void update(final double delta) {
 		if (_level != null) {
-			_level.update(delta);
+			if (!_gui['welcome'].visible) _level.update(delta);
 			(_gui['score'] as GuiText).text = _level.formattedScore;
 		}
 	}

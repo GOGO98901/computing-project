@@ -195,7 +195,7 @@ class GuiText extends GuiElement {
 	void _init([CanvasElement canvas]) {}
 
 	void render(CanvasRenderingContext2D context) {
-		context.fillText(_text, _bounds.left, _bounds.top);
+		context..setFillColorRgb(255, 255, 255)..fillText(_text, _bounds.left, _bounds.top);
 	}
 
 	void update(final double delta) {}
@@ -389,11 +389,12 @@ class GuiQuestionElement extends GuiElement {
 class GuiTypeSelector extends GuiElement {
 
 	List<Sprite> _icons;
+	String _question;
 
 	Sprite _container;
 	int _slots = 0, _hover = -1, _hoverOffset = 2;
 
-	GuiTypeSelector(int x, int y, List<String> sIons, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas) {
+	GuiTypeSelector(int x, int y, this._question, List<String> sIons, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas) {
 		_icons  = new List<Sprite>();
 		for (int i = 0; i < sIons.length; i++) {
 			_icons.add(ResourceManager.getSprite(sIons[i]));
@@ -446,6 +447,7 @@ class GuiTypeSelector extends GuiElement {
 				else context.drawImage(icon.texture, bounds.left + xOff, bounds.top + yOff);
 			}
 		}
+		context..setFillColorRgb(255, 255, 255)..fillText(_question, (GameHost.width - Util.getTextMetrics(context, _question, context.font).width.round()) / 2, GameHost.height / 2);
 	}
 
 	void update(final double delta) {
@@ -477,6 +479,11 @@ class GuiTypeSelector extends GuiElement {
 		int iWidth = _container.width;
 		double space = width / slots;
 		return new Rectangle(x + (space * index) + ((space / 2) - (iWidth / 2)), y, iWidth, height);
+	}
+
+	String get text => _question;
+	void set text(String text) {
+		this._question = text;
 	}
 
 	int get slots => _slots;

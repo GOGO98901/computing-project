@@ -221,7 +221,7 @@ class Shape extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context..setFillColorRgb(0, 255, 0)..fillRect(x, y, width, height)..save()
+		context..setFillColorRgb(0, 255, 0)..save()
 		..translate(x + (width / 2), y + (height / 2))
 		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
 		..setFillColorRgb(10, 20, 30) // TODO load images
