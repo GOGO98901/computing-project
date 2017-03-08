@@ -78,7 +78,7 @@ class GameLevel {
                                 addPoints(200);
                             }
                             new Future.delayed(const Duration(seconds: 2), () {
-                                _currentProblemGui.visible = false;
+                                if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                 _currentProblemGui = null;
                                 _freeze = false;
                             });
