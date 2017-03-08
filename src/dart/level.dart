@@ -54,7 +54,7 @@ class GameLevel {
         });
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
-        _shapes = new EntityHandler<Shape>(5.0, () {
+        _shapes = new EntityHandler<Shape>(3.5, () {
             Shape shape = new Shape(canvas);
             Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
             shape.vector2 = genericSpawnLocation(side: spawnSide);
@@ -72,7 +72,7 @@ class GameLevel {
                         _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, item.question, item.options, canvas);
                         _currentProblemGui.visible = true;
                         _currentProblemGui.listen(canvas, (e, i) {
-                            log.info("$i has been clicked");
+                            if (!Util.isLive()) log.info("$i has been clicked");
                             _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
                             if (item.answers.contains(i)) {
                             _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
@@ -82,6 +82,7 @@ class GameLevel {
                                 if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                 _currentProblemGui = null;
                                 _freeze = false;
+                                shape.remove();
                             });
                         });
                     }
@@ -109,7 +110,7 @@ class GameLevel {
         if (_currentProblemGui != null) _currentProblemGui.update(delta);
     }
 
-    Asteroid getNearestAsteroid() {
+    Asteroid get nearestAsteroid {
         Asteroid nearest;
         double distance = 0.0;
         _asteroids.entities.forEach((asteroid) {
@@ -122,7 +123,7 @@ class GameLevel {
         return nearest;
     }
 
-    double getNearestAsteroidDistance() {
+    double get nearestAsteroidDistance {
         double distance = 0.0;
         _asteroids.entities.forEach((asteroid) {
             double d = getDistanceFromEntity(asteroid);
@@ -166,7 +167,7 @@ class GameLevel {
         if (side == Direction.EAST) x = GameHost.width + offset;
         if (side == Direction.SOUTH) y = GameHost.height + offset;
 
-        return new Vector2(0.0 + x, 0.0 + y);
+        return new Vector2(x.toDouble(), y.toDouble());
     }
 }
 
