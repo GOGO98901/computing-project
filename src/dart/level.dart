@@ -56,12 +56,13 @@ class GameLevel {
 
         _shapes = new EntityHandler<Shape>(5.0, () {
             Shape shape = new Shape(canvas);
-            int spawnSide = _random.nextInt(4), oppositeSide = -1;
+            Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
             shape.vector2 = genericSpawnLocation(side: spawnSide);
-            if (spawnSide == 0) oppositeSide = 2;
-            if (spawnSide == 1) oppositeSide = 3;
-            if (spawnSide == 2) oppositeSide = 0;
-            if (spawnSide == 3) oppositeSide = 1;
+
+            if (spawnSide == Direction.NORTH) oppositeSide = Direction.SOUTH;
+            if (spawnSide == Direction.SOUTH) oppositeSide = Direction.NORTH;
+            if (spawnSide == Direction.WEST) oppositeSide = Direction.EAST;
+            if (spawnSide == Direction.EAST) oppositeSide = Direction.WEST;
             shape.target = genericSpawnLocation(side: oppositeSide);
             shape.action((e) {
                 if (e.detail['action'] == MobAction.click.index) {
@@ -148,11 +149,11 @@ class GameLevel {
         this._userData = data;
     }
 
-    Vector2 genericSpawnLocation({int side}) {
-        if (side == null) side = _random.nextInt(4);
+    Vector2 genericSpawnLocation({Direction side}) {
+        if (side == null) side = Direction.values[_random.nextInt(4)];
         int x, y;
         int margins = 200;
-        if (side % 2 == 0) y = _random.nextInt(GameHost.height - margins);
+        if (side.index % 2 == 0) y = _random.nextInt(GameHost.height - margins);
         else {
             int xP = _random.nextInt(margins);
             if (_random.nextInt(2) == 0) x = xP;
@@ -160,10 +161,10 @@ class GameLevel {
         }
 
         int offset = 50;
-        if (side == 0) x = -offset;
-        if (side == 1) y = -offset;
-        if (side == 2) x = GameHost.width + offset;
-        if (side == 3) y = GameHost.height + offset;
+        if (side == Direction.WEST) x = -offset;
+        if (side == Direction.NORTH) y = -offset;
+        if (side == Direction.EAST) x = GameHost.width + offset;
+        if (side == Direction.SOUTH) y = GameHost.height + offset;
 
         return new Vector2(0.0 + x, 0.0 + y);
     }
@@ -189,7 +190,7 @@ class EntityHandler<T> {
             Entity entity = _spawn();
             if (entity is T) {
                 _entities.add(entity as T);
-                log.info("Spawned new $T");
+                if (!Util.isLive()) log.info("Spawned new $T");
             } else log.warning('Entity is not type $T');
         } else log.severe("Spawn is null!");
     }

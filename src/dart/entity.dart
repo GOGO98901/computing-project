@@ -15,6 +15,10 @@ limitations under the License.
 */
 part of Computer_Science_Project;
 
+enum Direction {
+	WEST, NORTH, EAST, SOUTH
+}
+
 abstract class Entity  {
 	PointSmart _position = new PointSmart(0, 0);
 	Sprite _sprite;
