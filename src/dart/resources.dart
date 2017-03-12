@@ -300,7 +300,7 @@ class Audio extends BaseResource {
 	String _source;
 	AudioBuffer _buffer;
 
-	AudioBufferSourceNode _bufferSource;
+	List<AudioBufferSourceNode> _bufferList = new List<AudioBufferSourceNode>();
 
 	Audio(this._source);
 
@@ -321,15 +321,18 @@ class Audio extends BaseResource {
 	}
 
 	void play() {
-		_bufferSource = ResourceManager.audioContext.createBufferSource();
-		_bufferSource.buffer = _buffer;
-		_bufferSource.connectNode(ResourceManager.audioContext.destination);
-		_bufferSource.start(ResourceManager.audioContext.currentTime);
+		AudioBufferSourceNode source = ResourceManager.audioContext.createBufferSource();
+		source.buffer = _buffer;
+		source.connectNode(ResourceManager.audioContext.destination);
+		source.start(0);
+		source.onEnded.listen((e) => _bufferList.remove(source));
+		_bufferList.add(source);
+		log.info(_bufferList.length);
 	}
 
 	void stop() {
-		if (_bufferSource != null) _bufferSource.stop(0);
-		_bufferSource = null;
+		_bufferList.forEach((s) => s.stop(0));
+		_bufferList.clear();
 	}
 
 	/// Returns the source that was entered when created
