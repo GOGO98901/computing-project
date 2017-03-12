@@ -19,12 +19,13 @@ class GameLevel {
     static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, [UserData data]) {
         GameLevel level = new GameLevel(problems, canvas);
         if (data != null) level._setUser(data);
+        // At this point I could also set the number of shapes needed
         return level;
     }
 
     Random _random = new Random();
 
-    int _score;
+    int _score, _shapesCollected, _shapesNeeded = 5;
 
     SpaceStation _baseStation;
 
@@ -46,6 +47,7 @@ class GameLevel {
     GameLevel(ProblemManager problems, CanvasElement canvas) {
         _baseStation = new SpaceStation();
         _score = 0;
+        _shapesCollected = 0;
 
         _asteroids = new EntityHandler<Asteroid>(2.0, () {
             Asteroid asteroid = new Asteroid(_baseStation);
@@ -66,17 +68,22 @@ class GameLevel {
             shape.target = genericSpawnLocation(side: oppositeSide);
             shape.action((e) {
                 if (e.detail['action'] == MobAction.click.index) {
+					ResourceManager.playAudio("game.ui.click.3");
                     if (!_freeze && _currentProblemGui == null) {
                         _freeze = true;
                         ProblemTypeItem item = problems.randomProblemType;
                         _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, item.question, item.options, canvas);
                         _currentProblemGui.visible = true;
+                        bool called = false;
                         _currentProblemGui.listen(canvas, (e, i) {
+        					ResourceManager.playAudio("game.ui.click.3");
                             if (!Util.isLive()) log.info("$i has been clicked");
                             _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
-                            if (item.answers.contains(i)) {
-                            _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
+                            if (item.answers.contains(i) && !called) {
+                                _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
                                 addPoints(200);
+                                _shapesCollected += 1;
+                                called = true;
                             }
                             new Future.delayed(const Duration(seconds: 2), () {
                                 if (_currentProblemGui != null) _currentProblemGui.visible = false;
@@ -144,7 +151,9 @@ class GameLevel {
     }
 
     int get score => _score;
+    int get collectedShapes => _shapesCollected;
     String get formattedScore => _score.toString().padLeft(5, '0');
+    String get formattedCollectedSahpes => ResourceManager.getString("game.word.shapes") + " $_shapesCollected/$_shapesNeeded";
 
     void _setUser(UserData data) {
         this._userData = data;

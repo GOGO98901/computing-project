@@ -86,9 +86,15 @@ class Util {
 
 	static TextMetrics getTextMetrics(CanvasRenderingContext2D context, String text, [String font]) {
 		if (text == null) text = "";
-		if (font == null) font = "30pt KenVector Future";
+		if (font == null) font = resetFont();
 		context.font = font;
 		return context.measureText(text);
+	}
+
+	static String resetFont([CanvasRenderingContext2D context]) {
+		String font = "24pt KenVector Future";
+		if (context != null) context.font = font;
+		return font;
 	}
 
 	static String generateUuid() {

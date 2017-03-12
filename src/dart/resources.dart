@@ -19,9 +19,14 @@ class ResourceManager {
 
 	static EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("resourceSafety");
 
+	static final AudioContext audioContext = new AudioContext();
+
 	static HashMap<String, Sprite> _sprites;
 
 	static HashMap<String, String> _strings;
+
+	static HashMap<String, Audio> _audio;
+
 	static JsonFile _lang;
 
 	static JsonFile sample;
@@ -29,6 +34,7 @@ class ResourceManager {
 	ResourceManager() {
 		_sprites = new HashMap<String, Sprite>();
 		_strings = new HashMap<String, String>();
+		_audio = new HashMap<String, Audio>();
 
 		_lang = _loadJsonFile('lang.json');
 		_lang.onLoad.then((data) {
@@ -37,6 +43,7 @@ class ResourceManager {
 			window.dispatchEvent(event);
 		});
 		_initSprites();
+		_initAudio();
 
 		sample = _loadJsonFile('problem.sample.json');
 	}
@@ -76,6 +83,10 @@ class ResourceManager {
 		_sprites['game.enities.metor.tiny.2'] = _loadSprite('game/entities/kenney/meteorBrown_tiny2.png');
 	}
 
+	void _initAudio() {
+		_audio['game.ui.click.3'] = _loadAudio('kenney/click3.ogg');
+	}
+
 	/// Recursive function that goes though every level of a json file
 	/// When the function finds a `String` the string is put in to a hashmap with a key of all the levels it is from
 	void _addStringsInMap(Map map, [String key]) {
@@ -103,6 +114,12 @@ class ResourceManager {
 			else return new JsonFile("${dir}/${name}");
 	}
 
+	/// Simple function to create a `Audio` instance from [name] and [dir]
+	Audio _loadAudio(String name, {String dir}) {
+		if (dir == null) return new Audio("${getAssetsDir()}/audio/${name}");
+		else return new Audio("${dir}/${name}");
+	}
+
 	/// Fucntion to get a `String` from the strings array
 	/// If key does not exist then the function will return "missing" rather than `null`
 	static String getString(String key) {
@@ -117,6 +134,24 @@ class ResourceManager {
 		if (_sprites.containsKey(key)) return _sprites[key];
 		log.warning("Key [$key] not found in sprites array. May still be loading or missing");
 		return null;
+	}
+
+	/// Gets the audio from the hash map with the corresponding [key]
+	/// If key does not exist then the function will return `null`
+	static Audio getAudio(String key) {
+		if (_audio.containsKey(key)) return _audio[key];
+		log.warning("Key [$key] not found in audio array. May still be loading or missing");
+		return null;
+	}
+
+	static void playAudio(String key) {
+		Audio audio = getAudio(key);
+		if (audio != null) audio.play();
+	}
+
+	static void stopAudio(String key) {
+		Audio audio = getAudio(key);
+		if (audio != null) audio.stop();
 	}
 
 	/// Event funtion allowing for execuation when the strings array has been loaded
@@ -136,6 +171,9 @@ class ResourceManager {
 		if (!_lang.ended) return false;
 		_sprites.values.forEach((s) {
 			if (!s.ended) return false;
+		});
+		_audio.values.forEach((a) {
+			if (!a.ended) return false;
 		});
 		return true;
 	}
@@ -255,4 +293,48 @@ class JsonFile extends BaseResource {
 
 	/// Returns Json file contents
 	JsonObject get data => _data;
+}
+
+class Audio extends BaseResource {
+
+	String _source;
+	AudioBuffer _buffer;
+
+	AudioBufferSourceNode _bufferSource;
+
+	Audio(this._source);
+
+	void _start() {
+		_status = Status.started;
+		HttpRequest.request(_source, responseType: "arraybuffer").then((HttpRequest request) {
+			return ResourceManager.audioContext.decodeAudioData(request.response).then((AudioBuffer buffer) {
+				_buffer = buffer;
+				_status = Status.complete;
+			}).catchError((e) {
+				log.warning("Failed to decode audio $_source");
+				_status = Status.failed;
+			});
+		}).catchError((e) {
+			log.warning("Failed to load audio $_source");
+			_status = Status.failed;
+		});
+	}
+
+	void play() {
+		_bufferSource = ResourceManager.audioContext.createBufferSource();
+		_bufferSource.buffer = _buffer;
+		_bufferSource.connectNode(ResourceManager.audioContext.destination);
+		_bufferSource.start(ResourceManager.audioContext.currentTime);
+	}
+
+	void stop() {
+		if (_bufferSource != null) _bufferSource.stop(0);
+		_bufferSource = null;
+	}
+
+	/// Returns the source that was entered when created
+	String get source => _source;
+
+	/// Returns Json file contents
+	AudioBuffer get buffer => _buffer;
 }

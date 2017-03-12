@@ -17,6 +17,7 @@ library Computer_Science_Project;
 
 import 'dart:html';
 import 'dart:async';
+import 'dart:web_audio';
 import 'dart:math';
 import 'dart:collection';
 import 'dart:convert';

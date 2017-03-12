@@ -94,6 +94,7 @@ class GuiButtonElement extends GuiElement {
 		if (canvas != null) canvas.onClick.listen((e) {
 			if (visible && !_disabled) {
 				if (_hover) {
+				ResourceManager.playAudio("game.ui.click.3");
 					var detail = {
 						"type": "button",
 						"x": _x,
@@ -195,6 +196,7 @@ class GuiText extends GuiElement {
 	void _init([CanvasElement canvas]) {}
 
 	void render(CanvasRenderingContext2D context) {
+		context.font = Util.resetFont();
 		context..setFillColorRgb(255, 255, 255)..fillText(_text, _bounds.left, _bounds.top);
 	}
 
@@ -269,6 +271,7 @@ class GuiTextMessage extends GuiText {
 							visible = false;
 						} else next();
 					}
+		            ResourceManager.playAudio("game.ui.click.3");
 				}
 			}
 		});
@@ -394,6 +397,8 @@ class GuiTypeSelector extends GuiElement {
 	Sprite _container;
 	int _slots = 0, _hover = -1, _hoverOffset = 2;
 
+	bool _optionsVisible = true;
+
 	GuiTypeSelector(int x, int y, this._question, List<String> sIons, [CanvasElement canvas]) : super(new Rectangle(x, y, 500, 200), canvas) {
 		_icons  = new List<Sprite>();
 		for (int i = 0; i < sIons.length; i++) {
@@ -429,7 +434,7 @@ class GuiTypeSelector extends GuiElement {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		for (int i = 0; i < slots; i++) {
+		if (optionsVisible) for (int i = 0; i < slots; i++) {
 			Rectangle bounds = getRectFromIndex(i);
 			if (_hover == i) {
 				int x = bounds.left + _hoverOffset;
@@ -447,13 +452,15 @@ class GuiTypeSelector extends GuiElement {
 				else context.drawImage(icon.texture, bounds.left + xOff, bounds.top + yOff);
 			}
 		}
+		context.font = "45pt";
 		context..setFillColorRgb(255, 255, 255)..fillText(_question, (GameHost.width - Util.getTextMetrics(context, _question, context.font).width.round()) / 2, GameHost.height / 2);
+		Util.resetFont(context);
 	}
 
 	void update(final double delta) {
 		if (Mouse.inCanvas())  {
 			if (_bounds.containsPoint(Mouse.point)) {
-				for (int i = 0; i < _slots; i++) {
+				if (optionsVisible) for (int i = 0; i < _slots; i++) {
 					_hover = -1;
 					if (getRectFromIndex(i).containsPoint(Mouse.point)){
 						_hover = i;
@@ -472,6 +479,11 @@ class GuiTypeSelector extends GuiElement {
 				}
 			}
 		});
+	}
+
+	bool get optionsVisible => _optionsVisible;
+	void set optionsVisible(bool visible) {
+		this._optionsVisible = visible;
 	}
 
 	Rectangle getRectFromIndex(int index) {

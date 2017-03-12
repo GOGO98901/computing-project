@@ -245,6 +245,7 @@ class StateGame extends State {
 
 	void init(CanvasElement canvas) {
 		_gui['score'] = new GuiText("0000", 20, 20 + 25);
+		_gui['shapes'] = new GuiText("", 20, 20 + (25 * 2) + 5);
 	}
 
 	void onVisibilityChange() {
@@ -252,13 +253,12 @@ class StateGame extends State {
 			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems, _manager.host.userManagement.currentUser);
 			else _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems);
 
-			//ResourceManager.listenForStringFinsh((e) {
-				Queue<String> queue = new Queue<String>();
-				queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
-				queue.add(ResourceManager.getString('game.msg.intro.2'));
-				_gui['welcome'] = new GuiTextMessage(null, 50, GameHost.height - 140, queue, _manager.canvas);
-				_gui['welcome'].visible = visible;
-			//});
+			Queue<String> queue = new Queue<String>();
+			queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));
+			queue.add(ResourceManager.getString('game.msg.intro.2'));
+
+			_gui['welcome'] = new GuiTextMessage(null, 50, GameHost.height - 140, queue, _manager.canvas);
+			_gui['welcome'].visible = visible;
 		}
 	}
 
@@ -270,6 +270,7 @@ class StateGame extends State {
 		if (_level != null) {
 			if (!_gui['welcome'].visible) _level.update(delta);
 			(_gui['score'] as GuiText).text = _level.formattedScore;
+			(_gui['shapes'] as GuiText).text = _level.formattedCollectedSahpes;
 		}
 	}
 }
