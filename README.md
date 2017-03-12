@@ -125,6 +125,7 @@ Copyright 2016 Marcelo Dolce
 #### [Kenney *Assets*](http://kenney.nl/assets)
 - `./src/images/game/ui/kenney/`
 - `./src/images/game/background/kenney/`
+- `./src/audio/kenney/`
 
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
