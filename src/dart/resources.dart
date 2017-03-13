@@ -341,6 +341,7 @@ class JsonFile extends BaseResource {
 
 class Audio extends BaseResource {
 
+	// TODO volume
 	String _source;
 	AudioBuffer _buffer;
 
