@@ -104,6 +104,11 @@ class ResourceManager {
 		_audio['game.event.points'] = _loadAudio('completetask_0.ogg');
 		_audio['game.event.failed'] = _loadAudio('kenney/phaserDown3.ogg');
 		_audio['game.music.1'] = _loadAudio('ObservingTheStar.ogg');
+		_audio['game.entity.trash.1'] = _loadAudio('kenney/spaceTrash1.ogg');
+		_audio['game.entity.trash.2'] = _loadAudio('kenney/spaceTrash2.ogg');
+		_audio['game.entity.trash.3'] = _loadAudio('kenney/spaceTrash3.ogg');
+		_audio['game.entity.trash.4'] = _loadAudio('kenney/spaceTrash4.ogg');
+		_audio['game.entity.trash.5'] = _loadAudio('kenney/spaceTrash5.ogg');
 	}
 
 	/// Recursive function that goes though every level of a json file

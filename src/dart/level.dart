@@ -32,7 +32,7 @@ class GameLevel {
     GuiTypeSelector _currentProblemGui;
 
     EntityHandler<Asteroid> _asteroids;
-    EntityHandler<Shape> _shapes;
+    EntityHandler<SpaceTrash> _shapes;
     EntityHandler<Mob> _currentMob;
 
     // ignore: unused_field
@@ -56,19 +56,20 @@ class GameLevel {
         });
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
-        _shapes = new EntityHandler<Shape>(3.5, () {
-            Shape shape = new Shape(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'), _baseStation);
+        _shapes = new EntityHandler<SpaceTrash>(3.5, () {
+            SpaceTrash trash = new SpaceTrash(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'), _baseStation);
             Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
-            shape.vector2 = genericSpawnLocation(side: spawnSide);
+            trash.vector2 = genericSpawnLocation(side: spawnSide);
 
             if (spawnSide == Direction.NORTH) oppositeSide = Direction.SOUTH;
             if (spawnSide == Direction.SOUTH) oppositeSide = Direction.NORTH;
             if (spawnSide == Direction.WEST) oppositeSide = Direction.EAST;
             if (spawnSide == Direction.EAST) oppositeSide = Direction.WEST;
-            shape.target = genericSpawnLocation(side: oppositeSide);
-            shape.action((e) {
+
+            trash.target = genericSpawnLocation(side: oppositeSide);
+            trash.action((e) {
                 if (e.detail['action'] == MobAction.click.index) {
-					ResourceManager.playAudio("game.ui.click.3");
+					ResourceManager.playAudio("game.entity.trash.${_random.nextInt(5) + 1}");
                     if (!_freeze && _currentProblemGui == null) {
                         _freeze = true;
                         ProblemTypeItem item = problems.randomProblemType;
@@ -90,7 +91,7 @@ class GameLevel {
                                     if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                     _currentProblemGui = null;
                                     _freeze = false;
-                                    shape.remove();
+                                    trash.remove();
                                 });
                             }
                             called = true;
@@ -98,7 +99,7 @@ class GameLevel {
                     }
                 }
             });
-            return shape;
+            return trash;
         });
 
         _currentMob = _shapes;
@@ -167,12 +168,8 @@ class GameLevel {
         if (side == null) side = Direction.values[_random.nextInt(4)];
         int x, y;
         int margins = 200;
-        if (side.index % 2 == 0) y = _random.nextInt(GameHost.height - margins);
-        else {
-            int xP = _random.nextInt(margins);
-            if (_random.nextInt(2) == 0) x = xP;
-            else x = GameHost.width - margins + xP;
-        }
+        if (side == Direction.WEST || side == Direction.EAST) y = _random.nextInt(GameHost.height - margins);
+        if (side == Direction.NORTH || side == Direction.SOUTH) x = _random.nextInt(GameHost.width - margins);
 
         int offset = 50;
         if (side == Direction.WEST) x = -offset;
@@ -210,9 +207,7 @@ class EntityHandler<T> {
     }
 
     void render(CanvasRenderingContext2D context) {
-        _entities.forEach((entity) {
-            entity.render(context);
-        });
+        _entities.forEach((entity) => entity.render(context));
     }
 
     void update(final double delta) {

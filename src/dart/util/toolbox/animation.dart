@@ -32,16 +32,19 @@ abstract class Animation {
 		this._uuid = Util.generateUuid();
 	}
 
+	/// Changes stage to running and sends an `AnimationStageUpdate`
 	void start() {
 		_stage = AnimationStage.running;
 		sendEvent();
 	}
 
+	/// Changes stage to stopped and sends an `AnimationStageUpdate`
 	void stop() {
 		_stage = AnimationStage.stopped;
 		sendEvent();
 	}
 
+	/// Sends an `AnimationStageUpdate` on window
 	void sendEvent() {
 		var detail = { "uuid": uuid, "source": _source, "output": _output };
 		var event = new CustomEvent("AnimationStageUpdate", canBubble: false, cancelable: false, detail: detail);
@@ -77,7 +80,6 @@ class TextAnimation extends Animation {
 
 	void update(final double delta) {
 		if (stage == AnimationStage.running) {
-
 			_time += delta;
 			if (_time > _interval) {
 				_char++;
