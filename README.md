@@ -133,9 +133,12 @@ Copyright 2016 Marcelo Dolce
 
 #### [OpenGameArt.org *Assets*](http://opengameart.org/)
 
-Audio taken from this site has been converted ([See audio readme](src/audio/readme.md)).
+Audio taken from this source has been converted ([See audio readme](src/audio/readme.md)).
 
-[CC0 3.0 Unported](https://creativecommons.org/licenses/by/3.0/)
+Files taken from this source are under individual licenses (listed bellow)
+
+- [CC0 3.0 Unported](https://creativecommons.org/licenses/by/3.0/)
+- [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
 
 #### [Kenney *Assets*](http://kenney.nl/assets)
 

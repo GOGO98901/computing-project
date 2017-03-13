@@ -103,6 +103,7 @@ class ResourceManager {
 		_audio['game.ui.click.3'] = _loadAudio('kenney/click3.ogg');
 		_audio['game.event.points'] = _loadAudio('completetask_0.ogg');
 		_audio['game.event.failed'] = _loadAudio('kenney/phaserDown3.ogg');
+		_audio['game.music.1'] = _loadAudio('ObservingTheStar.ogg');
 	}
 
 	/// Recursive function that goes though every level of a json file
@@ -163,9 +164,10 @@ class ResourceManager {
 	}
 
 	/// Plays the audio based of the key
-	static void playAudio(String key) {
+	static void playAudio(String key, [bool loop]) {
+		log.info(key);
 		Audio audio = getAudio(key);
-		if (audio != null) audio.play();
+		if (audio != null) audio.play(loop);
 	}
 
 	/// Stops all instances of the sound based of the key
@@ -352,6 +354,7 @@ class Audio extends BaseResource {
 			return ResourceManager.audioContext.decodeAudioData(request.response).then((AudioBuffer buffer) {
 				_buffer = buffer;
 				_status = Status.complete;
+				window.dispatchEvent(new CustomEvent("audioLoad", canBubble: false, cancelable: false, detail: this));
 			}).catchError((e) {
 				log.warning("Failed to decode audio $_source");
 				_status = Status.failed;
@@ -362,18 +365,36 @@ class Audio extends BaseResource {
 		});
 	}
 
+	Future<Audio> get onLoad {
+		Completer<Audio> completer = new Completer<Audio>();
+		if (this.complete) completer.complete(this);
+		else {
+			EventStreamProvider eventStreamProvider = new EventStreamProvider<CustomEvent>("audioLoad");
+			eventStreamProvider.forTarget(window).listen((e) {
+				if (e.detail.source == _source) {
+					completer.complete(this);
+				}
+			});
+		}
+		return completer.future;
+	}
+
 	/// Creates a new instance of this sound and plays it
 	// Also adds sound to the buffer list
-	void play() {
+	void play([bool loop]) {
+		if (!complete) {
+			log.warning('Audio unable to play $this');
+			return;
+		}
 		AudioBufferSourceNode source = ResourceManager.audioContext.createBufferSource();
 		source.buffer = _buffer;
 		source.connectNode(ResourceManager.audioContext.destination);
+		if (loop != null) if (!loop) source.loop = true;
 		source.start(0);
 
 		// Acording to the API this should work however I'm not 100% sure it does
 		source.onEnded.listen((e) => _bufferList.remove(source));
 		_bufferList.add(source);
-		log.info(_bufferList.length);
 	}
 
 	/// Stops all instances of this shound being played
@@ -386,7 +407,7 @@ class Audio extends BaseResource {
 	/// Returns the source that was entered when created
 	String get source => _source;
 
-	/// Returns Json file contents
+	/// Returns AudioBuffer contents
 	AudioBuffer get buffer => _buffer;
 
 	String toString() {

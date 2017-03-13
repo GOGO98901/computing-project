@@ -235,6 +235,15 @@ class StateLogin extends State {
 		_hover += delta;
 		if (_hover > 360) _hover = 0.0;
 	}
+
+
+	void onVisibilityChange() {
+		if (visible) {
+			ResourceManager.getAudio('game.music.1').onLoad.then((e) {
+				if (e.complete) e.play(true);
+			});
+		}
+	}
 }
 
 class StateGame extends State {
@@ -244,7 +253,7 @@ class StateGame extends State {
 	StateGame(StateManager _manager) : super(_manager);
 
 	void init(CanvasElement canvas) {
-		_gui['score'] = new GuiText("0000", 20, 20 + 25);
+		_gui['score'] = new GuiText("00000", 20, 20 + 25);
 		_gui['shapes'] = new GuiText("", 20, 20 + (25 * 2) + 5);
 	}
 
