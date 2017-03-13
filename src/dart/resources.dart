@@ -404,8 +404,8 @@ class Audio extends BaseResource {
 		// Acording to the API this should work however I'm not 100% sure it does
 		source.onEnded.listen((e) => _bufferList.remove(source));
 
+		if (loop != null) source.loop = loop;
 		source.start(0);
-		if (loop != null) if (!loop) source.loop = true;
 
 		_bufferList.add(source);
 	}

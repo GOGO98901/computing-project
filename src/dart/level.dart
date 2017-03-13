@@ -41,7 +41,7 @@ class GameLevel {
     bool _freeze = false;
 
     double _time = 0.0;
-    double _spawnTime = 2.3;
+    double _spawnTime = 3.5;
     int _level = 0;
 
     GameLevel(ProblemManager problems, CanvasElement canvas) {
@@ -56,7 +56,7 @@ class GameLevel {
         });
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
-        _shapes = new EntityHandler<SpaceTrash>(3.5, () {
+        _shapes = new EntityHandler<SpaceTrash>(_spawnTime, () {
             SpaceTrash trash = new SpaceTrash(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'), _baseStation);
             Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
             trash.vector2 = genericSpawnLocation(side: spawnSide);
@@ -87,6 +87,9 @@ class GameLevel {
                                     _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
                                     ResourceManager.playAudio("game.event.failed");
                                 }
+                                double delay = _spawnTime - (_shapesCollected / 2);
+                                if (delay < 2.0) delay = 2.0;
+                                _shapes.delay = delay;
                                 new Future.delayed(const Duration(seconds: 2), () {
                                     if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                     _currentProblemGui = null;

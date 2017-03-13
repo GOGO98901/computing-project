@@ -42,6 +42,7 @@ abstract class Entity  {
 	}
 
 	double distanceTo(Entity start, [Vector2 offset]) {
+		if (offset == null) offset = new Vector2(0.0, 0.0);
         return vector2.distanceTo(start.vector2 + offset);
     }
 
@@ -215,9 +216,9 @@ class SpaceTrash extends Mob {
 
 	SpaceStation _station;
 
-	double _time = 0.0, speed = 50.0;
+	double _time = 0.0, _speed = 50.0, _rotSpeed = 0.0;
 
-	int _dirrection = 0, _rotSpeed;
+	int _dirrection = 0;
 
 	Vector2 _target;
 
@@ -225,7 +226,7 @@ class SpaceTrash extends Mob {
 		Random rand = new Random();
 		_dirrection = rand.nextInt(2);
 		if (_dirrection == 0) _dirrection = -1;
-		_rotSpeed = rand.nextInt(80) + 100;
+		_rotSpeed = 1.5 + rand.nextDouble() * 10;
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -234,7 +235,7 @@ class SpaceTrash extends Mob {
 		}
 		context..save()
 		..translate(x + (width / 2), y + (height / 2))
-		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
+		..rotate((_time * _rotSpeed * _dirrection) * PI / 180)
 		..drawImageScaled(sprite.texture, -(width / 2), -(height / 2), width, height)
 		..restore()..globalAlpha = 1;
 	}
@@ -256,7 +257,7 @@ class SpaceTrash extends Mob {
 		Vector2 norm = goal - position;
 		Vector2 direction = (goal - position).normalizeInto(norm);
 
-		position += direction * speed * delta;
+		position += direction * _speed * delta;
 
 		position -= center;
 		if ((direction.dot((goal - position)) + 1).abs() < 1 * max(width, height) || _time >= 60) {
