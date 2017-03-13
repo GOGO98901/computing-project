@@ -1,4 +1,5 @@
 # Computing Project (2016-2017)
+
 This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advanced_Level_(United_Kingdom)) [Computer Science](http://www.aqa.org.uk/subjects/computer-science-and-it/as-and-a-level) project.
 
 |title|institution|development period|language|license|
@@ -12,11 +13,13 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
+
 The dart code can be found in the directory [`src/dart`](src/dart).
 
 ## Licenses
 
 ##### [Source Code](https://github.com/GOGO98901/computing-project/) `./`
+
 ```
 Copyright 2016-2017 Rory Claasen
 
@@ -34,6 +37,7 @@ limitations under the License.
 ```
 
 ##### [bootswatch](http://bootswatch.com) `./public/assets/styles/_variables.scss`
+
 ```
 The MIT License (MIT)
 
@@ -57,7 +61,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+
 #### [js-cookie](https://github.com/js-cookie/) `./src/javascript/js.cookie.js`
+
 ```
 Copyright 2014 Klaus Hartl
 
@@ -80,7 +86,9 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
+
 #### [compress](http://jch.penibelst.de/) `./public/_layouts/compress.html`
+
 ```
 The MIT License (MIT)
 
@@ -106,6 +114,7 @@ SOFTWARE.
 ```
 
 #### [iziToast](https://github.com/dolce/iziToast) `./public/assets/iziToast`
+
 ```
 Copyright 2016 Marcelo Dolce
 
@@ -122,7 +131,14 @@ Copyright 2016 Marcelo Dolce
    limitations under the License.
 ```
 
+#### [OpenGameArt.org *Assets*](http://opengameart.org/)
+
+[CC0 3.0 Unported](https://creativecommons.org/licenses/by/3.0/)
+
+Audio taken from this site has been converted ([See audio readme](src/audio/readme.md)).
+
 #### [Kenney *Assets*](http://kenney.nl/assets)
+
 - `./src/images/game/ui/kenney/`
 - `./src/images/game/background/kenney/`
 - `./src/audio/kenney/`

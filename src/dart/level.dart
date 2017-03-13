@@ -76,21 +76,24 @@ class GameLevel {
                         _currentProblemGui.visible = true;
                         bool called = false;
                         _currentProblemGui.listen(canvas, (e, i) {
-        					ResourceManager.playAudio("game.ui.click.3");
                             if (!Util.isLive()) log.info("$i has been clicked");
-                            _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
-                            if (item.answers.contains(i) && !called) {
-                                _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
-                                addPoints(200);
-                                _shapesCollected += 1;
+                            if (!called) {
+                                if (item.answers.contains(i)) {
+                                    _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
+                                    addPoints(200);
+                                    _shapesCollected += 1;
+                                } else {
+                                    _currentProblemGui.text = ResourceManager.getString("game.problem.answer.wrong");
+                                    ResourceManager.playAudio("game.event.failed");
+                                }
+                                new Future.delayed(const Duration(seconds: 2), () {
+                                    if (_currentProblemGui != null) _currentProblemGui.visible = false;
+                                    _currentProblemGui = null;
+                                    _freeze = false;
+                                    shape.remove();
+                                });
                             }
                             called = true;
-                            new Future.delayed(const Duration(seconds: 2), () {
-                                if (_currentProblemGui != null) _currentProblemGui.visible = false;
-                                _currentProblemGui = null;
-                                _freeze = false;
-                                shape.remove();
-                            });
                         });
                     }
                 }
@@ -148,6 +151,7 @@ class GameLevel {
 
     void addPoints(int points) {
         this._score += points;
+        ResourceManager.playAudio("game.event.points");
     }
 
     int get score => _score;

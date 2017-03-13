@@ -101,6 +101,8 @@ class ResourceManager {
 
 	void _initAudio() {
 		_audio['game.ui.click.3'] = _loadAudio('kenney/click3.ogg');
+		_audio['game.event.points'] = _loadAudio('completetask_0.ogg');
+		_audio['game.event.failed'] = _loadAudio('kenney/phaserDown3.ogg');
 	}
 
 	/// Recursive function that goes though every level of a json file

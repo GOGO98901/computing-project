@@ -72,6 +72,7 @@ nav#navigation {
 }
 footer {
 	margin-top: 1.5em;
+	@include noSelect();
 	pre {
 		white-space: pre-line;
 		padding-bottom: 0;
@@ -106,6 +107,7 @@ footer {
 		// min-width: $screen-md-min;
 		// min-height: 720px;
 		background-color: $gray;
+		@include noSelect();
 	}
 	.user-cards {
 		list-style: none;
