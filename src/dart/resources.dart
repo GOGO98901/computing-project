@@ -55,22 +55,25 @@ class ResourceManager {
 		_sprites['logo.roryclaasen.white'] = _loadSprite('project white.png');
 		_sprites['logo.roryclaasen.black'] = _loadSprite('project black.png');
 
+		// User interface
 		_sprites['ui.button.up.blue'] = _loadSprite('game/ui/kenney/blue_button02.png');
 		_sprites['ui.button.down.blue'] = _loadSprite('game/ui/kenney/blue_button03.png');
-
 		_sprites['ui.glass.tr'] = _loadSprite('game/ui/kenney/glassPanel_cornerTL.png');
 
+		// Backgrounds
 		_sprites['background.black'] = _loadSprite('game/background/kenney/black.png');
 		_sprites['background.blue'] = _loadSprite('game/background/kenney/blue.png');
 		_sprites['background.purple'] = _loadSprite('game/background/kenney/purple.png');
 		_sprites['background.purple.dark'] = _loadSprite('game/background/kenney/darkPurple.png');
 
+		// Stations
 		_sprites['game.enities.station'] = _loadSprite('game/entities/kenney/spaceStation_017.png');
 		_sprites['game.enities.station.one'] = _loadSprite('game/entities/kenney/spaceStation_020.png');
 		_sprites['game.enities.station.one.shield'] = _loadSprite('game/entities/spaceStation_020_shield.png');
 		_sprites['game.enities.station.two'] = _loadSprite('game/entities/kenney/spaceStation_021.png');
 		_sprites['game.enities.station.three'] = _loadSprite('game/entities/kenney/spaceStation_024.png');
 
+		// Meteors
 		_sprites['game.enities.metor.big.1'] = _loadSprite('game/entities/kenney/meteorBrown_big1.png');
 		_sprites['game.enities.metor.big.2'] = _loadSprite('game/entities/kenney/meteorBrown_big2.png');
 		_sprites['game.enities.metor.big.3'] = _loadSprite('game/entities/kenney/meteorBrown_big3.png');
@@ -81,6 +84,19 @@ class ResourceManager {
 		_sprites['game.enities.metor.small.2'] = _loadSprite('game/entities/kenney/meteorBrown_small2.png');
 		_sprites['game.enities.metor.tiny.1'] = _loadSprite('game/entities/kenney/meteorBrown_tiny1.png');
 		_sprites['game.enities.metor.tiny.2'] = _loadSprite('game/entities/kenney/meteorBrown_tiny2.png');
+
+		// Floating parts
+		_sprites['game.enities.parts.1'] = _loadSprite('game/entities/kenney/parts/spaceStation_005.png');
+		_sprites['game.enities.parts.2'] = _loadSprite('game/entities/kenney/parts/spaceStation_011.png');
+		_sprites['game.enities.parts.3'] = _loadSprite('game/entities/kenney/parts/spaceStation_014.png');
+		_sprites['game.enities.parts.4'] = _loadSprite('game/entities/kenney/parts/spaceStation_030.png');
+		_sprites['game.enities.parts.5'] = _loadSprite('game/entities/kenney/parts/spaceParts_003.png');
+		_sprites['game.enities.parts.6'] = _loadSprite('game/entities/kenney/parts/spaceParts_015.png');
+		_sprites['game.enities.parts.7'] = _loadSprite('game/entities/kenney/parts/spaceParts_020.png');
+		_sprites['game.enities.parts.8'] = _loadSprite('game/entities/kenney/parts/spaceParts_034.png');
+		_sprites['game.enities.parts.9'] = _loadSprite('game/entities/kenney/parts/spaceParts_043.png');
+		_sprites['game.enities.parts.10'] = _loadSprite('game/entities/kenney/parts/spaceParts_044.png');
+		_sprites['game.enities.parts.11'] = _loadSprite('game/entities/kenney/parts/spaceParts_055.png');
 	}
 
 	void _initAudio() {
@@ -144,11 +160,13 @@ class ResourceManager {
 		return null;
 	}
 
+	/// Plays the audio based of the key
 	static void playAudio(String key) {
 		Audio audio = getAudio(key);
 		if (audio != null) audio.play();
 	}
 
+	/// Stops all instances of the sound based of the key
 	static void stopAudio(String key) {
 		Audio audio = getAudio(key);
 		if (audio != null) audio.stop();
@@ -212,6 +230,12 @@ abstract class BaseResource {
 
 	/// Set to `true` when either status is equal to [complete] or [failed]
 	bool get ended => complete || failed;
+
+	String toString() {
+		return {
+			"status": status
+		}.toString();
+	}
 }
 
 
@@ -250,6 +274,14 @@ class Sprite extends BaseResource {
 
 	/// Returns the source that was entered when created
 	String get source => _source;
+
+	String toString() {
+        return {
+			"status": status,
+            "source": source,
+            "texture": texture
+        }.toString();
+    }
 }
 
 class JsonFile extends BaseResource {
@@ -293,6 +325,14 @@ class JsonFile extends BaseResource {
 
 	/// Returns Json file contents
 	JsonObject get data => _data;
+
+	String toString() {
+        return {
+			"status": status,
+            "source": source,
+            "object": data
+        }.toString();
+    }
 }
 
 class Audio extends BaseResource {
@@ -320,16 +360,22 @@ class Audio extends BaseResource {
 		});
 	}
 
+	/// Creates a new instance of this sound and plays it
+	// Also adds sound to the buffer list
 	void play() {
 		AudioBufferSourceNode source = ResourceManager.audioContext.createBufferSource();
 		source.buffer = _buffer;
 		source.connectNode(ResourceManager.audioContext.destination);
 		source.start(0);
+
+		// Acording to the API this should work however I'm not 100% sure it does
 		source.onEnded.listen((e) => _bufferList.remove(source));
 		_bufferList.add(source);
 		log.info(_bufferList.length);
 	}
 
+	/// Stops all instances of this shound being played
+	// Then clears the buffer list
 	void stop() {
 		_bufferList.forEach((s) => s.stop(0));
 		_bufferList.clear();
@@ -340,4 +386,12 @@ class Audio extends BaseResource {
 
 	/// Returns Json file contents
 	AudioBuffer get buffer => _buffer;
+
+	String toString() {
+        return {
+			"status": status,
+            "source": source,
+            "buffer": buffer
+        }.toString();
+    }
 }

@@ -57,8 +57,8 @@ class Mob extends Entity {
 	bool _removed;
 	String _uuid;
 
-	Mob(Sprite sprite, {int width, int height, CanvasElement canvas}) {
-		this.sprite = sprite;
+	Mob(Sprite texture, {int width, int height, CanvasElement canvas}) {
+		sprite = texture;
 		init(canvas);
 		if (width != null) _width = width;
 		if (height != null) _height = height;
@@ -86,8 +86,9 @@ class Mob extends Entity {
 	void update(final double delta) {}
 
 	void set sprite(Sprite sprite) {
-		if (_sprite == null) {
+		if (sprite == null) {
 			_width = _height = 0;
+			_sprite = null;
 			return;
 		}
 		this._sprite = sprite;
@@ -215,9 +216,7 @@ class Shape extends Mob {
 
 	Vector2 _target;
 
-	// TODO Create Shape Class
-	// - In progress
-	Shape(CanvasElement canvas) : super(null, width: 40, height: 40, canvas: canvas) {
+	Shape(CanvasElement canvas, Sprite sprite) : super(sprite, width: 40, height: 40, canvas: canvas) {
 		Random rand = new Random();
 		_dirrection = rand.nextInt(2) - 1;
 		if (_dirrection == 0) _dirrection = -1;
@@ -225,11 +224,10 @@ class Shape extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
-		context..setFillColorRgb(0, 255, 0)..save()
+		context..save()
 		..translate(x + (width / 2), y + (height / 2))
 		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
-		..setFillColorRgb(10, 20, 30) // TODO load images
-		..fillRect(-(width / 2), -(height / 2), width, height)
+		..drawImageScaled(sprite.texture, -(width / 2), -(height / 2), width, height)
 		..restore();
 	}
 
@@ -276,7 +274,7 @@ class SpaceStation extends Mob {
 
 	SpaceStation() : super(ResourceManager.getSprite("game.enities.station.one")) {
 		setX(((GameHost.width - _width) / 2).round());
-		setY(((GameHost.height - _height) / 4).round());
+		setY((GameHost.height - (_height / 2)).round());
 	}
 
 	void render(CanvasRenderingContext2D context) {

@@ -57,7 +57,7 @@ class GameLevel {
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
         _shapes = new EntityHandler<Shape>(3.5, () {
-            Shape shape = new Shape(canvas);
+            Shape shape = new Shape(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'));
             Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
             shape.vector2 = genericSpawnLocation(side: spawnSide);
 
@@ -83,8 +83,8 @@ class GameLevel {
                                 _currentProblemGui.text = ResourceManager.getString("game.problem.answer.correct");
                                 addPoints(200);
                                 _shapesCollected += 1;
-                                called = true;
                             }
+                            called = true;
                             new Future.delayed(const Duration(seconds: 2), () {
                                 if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                 _currentProblemGui = null;
