@@ -31,8 +31,6 @@ class ProblemManager {
         _dataFile.onLoad.then((e) {
             loadProblems(new JsonList.fromString(e['problems'].toString()));
             loadTypeProblems(new JsonList.fromString(e['typeProblems'].toString()));
-
-            // log.info(_problems);
         });
     }
 

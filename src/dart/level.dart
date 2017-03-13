@@ -90,6 +90,7 @@ class GameLevel {
                                 double delay = _spawnTime - (_shapesCollected / 2);
                                 if (delay < 2.0) delay = 2.0;
                                 _shapes.delay = delay;
+                                if (_currentProblemGui != null) _currentProblemGui.removeListeners();
                                 new Future.delayed(const Duration(seconds: 2), () {
                                     if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                     _currentProblemGui = null;

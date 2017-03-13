@@ -17,6 +17,7 @@ part of Computer_Science_Project;
 
 abstract class GuiElement {
 
+	List<StreamSubscription> _listeners = new List<StreamSubscription>();
 	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("GuiEvent");
 	Rectangle _bounds;
 
@@ -66,6 +67,8 @@ abstract class GuiElement {
 
 	void listen(CanvasElement canvas, Function function);
 
+	void removeListeners() => _listeners.forEach((l) => l.cancel());
+
 
 	String get uuid => _uuid;
 }
@@ -91,7 +94,7 @@ class GuiButtonElement extends GuiElement {
 	}
 
 	void _init([CanvasElement canvas]) {
-		if (canvas != null) canvas.onClick.listen((e) {
+		if (canvas != null) _listeners.add(canvas.onClick.listen((e) {
 			if (visible && !_disabled) {
 				if (_hover) {
 				ResourceManager.playAudio("game.ui.click.3");
@@ -106,7 +109,7 @@ class GuiButtonElement extends GuiElement {
 					canvas.dispatchEvent(event);
 				}
 			}
-		});
+		}));
 
 		_up = ResourceManager.getSprite('ui.button.up.blue');
 		_down = ResourceManager.getSprite('ui.button.down.blue');
@@ -115,13 +118,13 @@ class GuiButtonElement extends GuiElement {
 	}
 
 	void listen(CanvasElement canvas, Function function, [GuiElement source]) {
-		_esp.forTarget(canvas).listen((e) {
+		_listeners.add(_esp.forTarget(canvas).listen((e) {
 			if (this.visible) {
 				if (e.detail['uuid'] == uuid) {
 					function(e, source ?? this);
 				}
 			}
-		});
+		}));
 	}
 
 	void render(CanvasRenderingContext2D context) {
@@ -248,7 +251,7 @@ class GuiTextMessage extends GuiText {
 		_exitMsg = ResourceManager.getString('game.msg.help.skip');
 		if (_queue != null) if (_queue.length == 1) _exitMsg = ResourceManager.getString('game.msg.help.close');
 
-		if (canvas != null) canvas.onClick.listen((e) {
+		if (canvas != null) _listeners.add(canvas.onClick.listen((e) {
 			if (visible) {
 				if (_hover) {
 					if (anim.stage == AnimationStage.running) {
@@ -274,7 +277,7 @@ class GuiTextMessage extends GuiText {
 		            ResourceManager.playAudio("game.ui.click.3");
 				}
 			}
-		});
+		}));
 	}
 
 	void onVisibilityChange() {
@@ -355,13 +358,13 @@ class GuiTextMessage extends GuiText {
 	}
 
 	void listen(CanvasElement canvas, Function function) {
-		_esp.forTarget(canvas).listen((e) {
+		_listeners.add(_esp.forTarget(canvas).listen((e) {
 			if (this.visible) {
 				if (e.detail['uuid'] == uuid) {
 					function(e, this);
 				}
 			}
-		});
+		}));
 	}
 
 	void update(final double delta) {
@@ -413,7 +416,7 @@ class GuiTypeSelector extends GuiElement {
 		else _container.texture.onLoad.listen((e) {
 			_setUpImage(_container.texture);
 		});
-		if (canvas != null) canvas.onClick.listen((e) {
+		if (canvas != null) _listeners.add(canvas.onClick.listen((e) {
 			if (Mouse.inCanvas() && _bounds.containsPoint(Mouse.point)) {
 				if (_hover >= 0) {
 					var event = new CustomEvent("GuiEvent", canBubble: false, cancelable: false, detail:  {
@@ -426,7 +429,7 @@ class GuiTypeSelector extends GuiElement {
 					canvas.dispatchEvent(event);
 				}
 			}
-		});
+		}));
 	}
 
 	void _setUpImage(ImageElement img) {

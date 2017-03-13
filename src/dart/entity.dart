@@ -55,6 +55,7 @@ enum MobAction {
 
 class Mob extends Entity {
 
+	List<StreamSubscription> _listeners = new List<StreamSubscription>();
 	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("MobAction");
 
 	int _width, _height;
@@ -71,13 +72,13 @@ class Mob extends Entity {
 	void init([CanvasElement canvas]) {
 		_uuid = Util.generateUuid();
 		if (canvas != null) {
-			canvas.onClick.listen((e) {
+			_listeners.add(canvas.onClick.listen((e) {
 				if (!isRemoved() && Mouse.inCanvas()) {
 					if (bounds.containsPoint(Mouse.point)) {
 						sendEvent(MobAction.click);
 					}
 				}
-			});
+			}));
 		}
 	}
 
@@ -99,22 +100,26 @@ class Mob extends Entity {
 		if (_sprite.complete) {
 			_width = _sprite.width;
 			_height = _sprite.height;
-		} else 	_sprite.texture.onLoad.listen((e) {
+		} else _listeners.add(_sprite.texture.onLoad.listen((e) {
 			_width = _sprite.width;
 			_height = _sprite.height;
-		});
+		}));
 	}
 
 	void action(Function actionF) {
-		_esp.forTarget(window).listen((e) {
+		_listeners.add(_esp.forTarget(window).listen((e) {
 			if (e.detail['uuid'] == _uuid) {
 				actionF(e);
 			}
-		});
+		}));
 	}
 
+	void removeListeners() => _listeners.forEach((l) => l.cancel());
+
 	void remove() {
+		// This event may not be recived due to the fact that all the listeners are being removed
 		sendEvent(MobAction.remove);
+		removeListeners();
 		_removed = true;
 	}
 

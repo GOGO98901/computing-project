@@ -26,6 +26,7 @@ abstract class Animation {
 
 	String _uuid;
 
+	List<StreamSubscription> _listeners = new List<StreamSubscription>();
 	EventStreamProvider _esp = new EventStreamProvider<CustomEvent>("AnimationStageUpdate");
 
 	Animation(this._source) {
@@ -52,10 +53,12 @@ abstract class Animation {
 	}
 
 	void listen(Function function) {
-		_esp.forTarget(window).listen((e) {
+		_listeners.add(_esp.forTarget(window).listen((e) {
 			if (e.detail['uuid'] == uuid) function(e, _stage);
-		});
+		}));
 	}
+
+	void removeListeners() => _listeners.forEach((l) => l.cancel());
 
 	void update(final double delta);
 
