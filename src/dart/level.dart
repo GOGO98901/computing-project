@@ -57,7 +57,7 @@ class GameLevel {
         _asteroids.delay = _spawnTime - (_level * 0.5);
 
         _shapes = new EntityHandler<Shape>(3.5, () {
-            Shape shape = new Shape(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'));
+            Shape shape = new Shape(canvas, ResourceManager.getSprite('game.enities.parts.${_random.nextInt(11) + 1}'), _baseStation);
             Direction spawnSide = Direction.values[_random.nextInt(4)], oppositeSide;
             shape.vector2 = genericSpawnLocation(side: spawnSide);
 

@@ -42,6 +42,10 @@ abstract class Entity  {
 		_position.set(pos.x.round(), pos.y.round());
 	}
 
+	double distanceTo(Entity start, [Vector2 offset]) {
+        return vector2.distanceTo(start.vector2 + offset);
+    }
+
 	Sprite get sprite => _sprite;
 }
 
@@ -210,13 +214,15 @@ class Asteroid extends Mob {
 
 class Shape extends Mob {
 
+	SpaceStation _station;
+
 	double _time = 0.0, speed = 50.0;
 
 	int _dirrection = 0, _rotSpeed;
 
 	Vector2 _target;
 
-	Shape(CanvasElement canvas, Sprite sprite) : super(sprite, width: 40, height: 40, canvas: canvas) {
+	Shape(CanvasElement canvas, Sprite sprite, this._station) : super(sprite, width: 40, height: 40, canvas: canvas) {
 		Random rand = new Random();
 		_dirrection = rand.nextInt(2) - 1;
 		if (_dirrection == 0) _dirrection = -1;
@@ -224,11 +230,14 @@ class Shape extends Mob {
 	}
 
 	void render(CanvasRenderingContext2D context) {
+		if (distanceTo(_station, new Vector2(_station.width / 2, _station.height / 4)) <= 150) {
+			context.globalAlpha = (distanceTo(_station).toDouble() / 2.75) / 150.0;
+		}
 		context..save()
 		..translate(x + (width / 2), y + (height / 2))
 		..rotate((_time * _dirrection) * PI / (180 - _rotSpeed))
 		..drawImageScaled(sprite.texture, -(width / 2), -(height / 2), width, height)
-		..restore();
+		..restore()..globalAlpha = 1;
 	}
 
 	void update(final double delta) {

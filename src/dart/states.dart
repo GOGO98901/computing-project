@@ -180,6 +180,8 @@ class StateLogin extends State {
 	int _xPadding = 75;
 	double _hover = 0.0;
 
+	bool _playingMusic = false;
+
 	StateLogin(StateManager _manager) : super(_manager);
 
 	Sprite _station = ResourceManager.getSprite("game.enities.station");
@@ -238,9 +240,12 @@ class StateLogin extends State {
 
 
 	void onVisibilityChange() {
-		if (visible) {
+		if (visible && !_playingMusic) {
 			ResourceManager.getAudio('game.music.1').onLoad.then((e) {
-				if (e.complete) e.play(true);
+				if (e.complete) {
+					e.play(true, 500);
+					_playingMusic = true;
+				}
 			});
 		}
 	}

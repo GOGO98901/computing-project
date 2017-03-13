@@ -164,10 +164,9 @@ class ResourceManager {
 	}
 
 	/// Plays the audio based of the key
-	static void playAudio(String key, [bool loop]) {
-		log.info(key);
+	static void playAudio(String key, [bool loop, int volume]) {
 		Audio audio = getAudio(key);
-		if (audio != null) audio.play(loop);
+		if (audio != null) audio.play(loop, volume);
 	}
 
 	/// Stops all instances of the sound based of the key
@@ -341,7 +340,6 @@ class JsonFile extends BaseResource {
 
 class Audio extends BaseResource {
 
-	// TODO volume
 	String _source;
 	AudioBuffer _buffer;
 
@@ -382,19 +380,28 @@ class Audio extends BaseResource {
 
 	/// Creates a new instance of this sound and plays it
 	// Also adds sound to the buffer list
-	void play([bool loop]) {
+	void play([bool loop, int volume]) {
 		if (!complete) {
 			log.warning('Audio unable to play $this');
 			return;
 		}
 		AudioBufferSourceNode source = ResourceManager.audioContext.createBufferSource();
 		source.buffer = _buffer;
+
+		if (volume != null) {
+	        BiquadFilterNode filter = ResourceManager.audioContext.createBiquadFilter();
+	        filter.frequency.value = volume;
+			// filter.gain.value = volume;
+	        source.connectNode(filter);
+		}
 		source.connectNode(ResourceManager.audioContext.destination);
-		if (loop != null) if (!loop) source.loop = true;
-		source.start(0);
 
 		// Acording to the API this should work however I'm not 100% sure it does
 		source.onEnded.listen((e) => _bufferList.remove(source));
+
+		source.start(0);
+		if (loop != null) if (!loop) source.loop = true;
+
 		_bufferList.add(source);
 	}
 
