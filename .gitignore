@@ -5,6 +5,8 @@ _site
 Thumbs.db
 src/dart/packages
 src/dart/util/packages
+*.mp3
+*.wav
 
 # See https://www.dartlang.org/tools/private-files.html
 
