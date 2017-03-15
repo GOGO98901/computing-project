@@ -4,12 +4,12 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 
 |title|institution|development period|language|license|
 |:----:|:---------:|:----------------:|:------:|:------:|
-|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![alt text][license]](LICENSE)|
+|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![license][https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square]](LICENSE)|
 
 |branch|status|
 |:----:|:----:|
-|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![alt text][branch-prototype]](http://travis-ci.org/GOGO98901/computing-project/branches)|
-|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![alt text][branch-project]](http://travis-ci.org/GOGO98901/computing-project/branches)[![alt text][project-deps]](pubspec.yaml)|
+|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![Buis Status][https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square]](http://travis-ci.org/GOGO98901/computing-project/branches)|
+|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![Build Status][https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square]](http://travis-ci.org/GOGO98901/computing-project/branches)[![alt text][project-deps]](pubspec.yaml)|
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Dart Code
@@ -147,8 +147,3 @@ Files taken from this source are under individual licenses (listed bellow)
 - `./src/audio/kenney/`
 
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
-
-[branch-prototype]: https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square "Build Status"
-[branch-project]: https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square "Build Status"
-[project-deps]: https://img.shields.io/librariesio/github/GOGO98901/computing-project.svg?style=flat-square "Dependencies"
-[license]: https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square "license"
