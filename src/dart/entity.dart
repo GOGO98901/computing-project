@@ -106,10 +106,10 @@ class Mob extends Entity {
 		}));
 	}
 
-	void action(Function actionF) {
+	void action(Function action) {
 		_listeners.add(_esp.forTarget(window).listen((e) {
 			if (e.detail['uuid'] == _uuid) {
-				actionF(e);
+				action(e);
 			}
 		}));
 	}
