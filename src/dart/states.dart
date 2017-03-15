@@ -114,6 +114,7 @@ abstract class State {
 		_gui.values.forEach((element) => element.update(delta));
 	}
 
+	/// Moves the background offset, produces a scrolling effect
 	void updateBackground(final double delta) {
 		if (_background != null) {
 			_starOffset += delta * 5;
@@ -238,7 +239,6 @@ class StateLogin extends State {
 		if (_hover > 360) _hover = 0.0;
 	}
 
-
 	void onVisibilityChange() {
 		if (visible && !_playingMusic) {
 			ResourceManager.getAudio('game.music.1').onLoad.then((e) {
@@ -264,8 +264,7 @@ class StateGame extends State {
 
 	void onVisibilityChange() {
 		if (visible) {
-			if (_manager.host.userManagement.loggedIn) _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems, _manager.host.userManagement.currentUser);
-			else _level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems);
+			_level = GameLevel.newLevel(_manager.canvas, _manager.host.userManagement.problems, _manager.host.userManagement);
 
 			Queue<String> queue = new Queue<String>();
 			queue.add(Util.regex.replaceFirst(ResourceManager.getString('game.msg.intro.1'), _manager.host.userManagement.playerName, Util.regex.vars));

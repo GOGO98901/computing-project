@@ -16,16 +16,15 @@ limitations under the License.
 part of Computer_Science_Project;
 
 class GameLevel {
-    static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, [UserData data]) {
-        GameLevel level = new GameLevel(problems, canvas);
-        if (data != null) level._setUser(data);
+    static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, UserManagement managemnt) {
+        GameLevel level = new GameLevel(problems, canvas, managemnt);
         // At this point I could also set the number of shapes needed
         return level;
     }
 
     Random _random = new Random();
 
-    int _score, _shapesCollected, _shapesNeeded = 5;
+    int _score, _shapesCollected, _shapesNeeded = 10;
 
     SpaceStation _baseStation;
 
@@ -36,7 +35,7 @@ class GameLevel {
     EntityHandler<Mob> _currentMob;
 
     // ignore: unused_field
-    UserData _userData;
+    UserManagement _userManagement;
 
     bool _freeze = false;
 
@@ -44,7 +43,7 @@ class GameLevel {
     double _spawnTime = 3.5;
     int _level = 0;
 
-    GameLevel(ProblemManager problems, CanvasElement canvas) {
+    GameLevel(ProblemManager problems, CanvasElement canvas, this._userManagement) {
         _baseStation = new SpaceStation();
         _score = 0;
         _shapesCollected = 0;
@@ -91,7 +90,7 @@ class GameLevel {
                                 if (delay < 2.0) delay = 2.0;
                                 _shapes.delay = delay;
                                 if (_currentProblemGui != null) _currentProblemGui.removeListeners();
-                                new Future.delayed(const Duration(seconds: 2), () {
+                                new Future.delayed(const Duration(seconds: 1, milliseconds: 750), () {
                                     if (_currentProblemGui != null) _currentProblemGui.visible = false;
                                     _currentProblemGui = null;
                                     _freeze = false;
@@ -164,23 +163,31 @@ class GameLevel {
     String get formattedScore => _score.toString().padLeft(5, '0');
     String get formattedCollectedSahpes => ResourceManager.getString("game.word.shapes") + " $_shapesCollected/$_shapesNeeded";
 
-    void _setUser(UserData data) {
-        this._userData = data;
-    }
-
     Vector2 genericSpawnLocation({Direction side}) {
         if (side == null) side = Direction.values[_random.nextInt(4)];
-        int x, y;
-        int margins = 200;
-        if (side == Direction.WEST || side == Direction.EAST) y = _random.nextInt(GameHost.height - margins);
-        if (side == Direction.NORTH || side == Direction.SOUTH) x = _random.nextInt(GameHost.width - margins);
-
-        int offset = 50;
-        if (side == Direction.WEST) x = -offset;
-        if (side == Direction.NORTH) y = -offset;
-        if (side == Direction.EAST) x = GameHost.width + offset;
-        if (side == Direction.SOUTH) y = GameHost.height + offset;
-
+        int x = 0, y = 0, margins = 200, offset = 50;
+        switch (side) {
+            case Direction.WEST: {
+                x = -offset;
+                y = _random.nextInt(GameHost.height - margins);
+                break;
+            }
+            case Direction.NORTH: {
+                x = _random.nextInt(GameHost.width - margins);
+                y = -offset;
+                break;
+            }
+            case Direction.EAST: {
+                 x = GameHost.width + offset;
+                 y = _random.nextInt(GameHost.height - margins);
+                break;
+            }
+            case Direction.SOUTH: {
+                x = _random.nextInt(GameHost.width - margins);
+                y = GameHost.height + offset;
+                break;
+            }
+        }
         return new Vector2(x.toDouble(), y.toDouble());
     }
 }
