@@ -12,9 +12,45 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 |[project](https://github.com/GOGO98901/computing-project/tree/project)|[![Build Status][https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square]](http://travis-ci.org/GOGO98901/computing-project/branches)[![alt text][project-deps]](pubspec.yaml)|
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
-### Dart Code
+### Usage
 
-The dart code can be found in the directory [`src/dart`](src/dart).
+My project is being build to [github pages](http://gogo98901.github.io/computing-project) already in a playable state. If you want to build and run it yourself follow the instructions bellow.
+
+#### Requirements
+
+- Dart ([latest](https://www.dartlang.org/))
+- Jekyll ([latest](https://jekyllrb.com/))
+    - Requires [Ruby](https://www.ruby-lang.org/en/) [Gems](https://rubygems.org/)
+
+#### Instructions
+
+1. Clone repository and pull submodules
+```shell
+git clone https://github.com/GOGO98901/computing-project.git
+git submodule update --recursive --remote
+```
+
+2. Any Changes to code should happen here.
+
+    Example Changes may include:
+    - Changes the database URL
+    - Change/Addition/Remove of assets
+    - And many more
+
+3. Build Jekyll
+```shell
+jekyll build ./_site
+```
+
+4. Build dart to JavaScript
+```shell
+pub build
+pub build ./_site --mode=release
+```
+
+5. Ready for deployment
+
+    The built project now sits in the `build/_site` directory
 
 ## Licenses
 

@@ -43,10 +43,6 @@ final Logger log =  Util.createdLogger('project');
 
 CanvasElement _canvas;
 
-ScreenHandler screenHandler;
-
-int oldWidth, oldHeight;
-
 /// Entry point for the dart code
 void main() {
 	if (_init()) {
