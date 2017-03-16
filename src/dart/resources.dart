@@ -186,9 +186,7 @@ class ResourceManager {
 		// Try not to call this when  they are loaded as _langLoaded does not seam to work
 		// if (_langLoaded) function(_lang);
 
-		_esp.forTarget(window).listen((e) {
-			function(e);
-		});
+		_esp.forTarget(window).listen((e) => function(e));
 	}
 
 	/// Checks that all resources are loaded or have errored
@@ -304,12 +302,10 @@ class JsonFile extends BaseResource {
 			_data = new JsonObject.fromJsonString(dataString);
 			_status = Status.complete;
 
-			var detail = {
+			window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: {
 				"source": _source,
 				"data": _data
-			};
-
-			window.dispatchEvent(new CustomEvent("jsonLoad", canBubble: false, cancelable: false, detail: detail));
+			}));
 		}).catchError((Error error) {
 			_data = new JsonObject();
 			_status = Status.failed;

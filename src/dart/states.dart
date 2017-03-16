@@ -197,9 +197,6 @@ class StateLogin extends State {
 		(_gui['play'] as GuiButtonElement).listen(canvas, (e, s) {
 			_manager.changeState('game');
 		});
-		//(_gui['fullscreen'] as GuiButtonElement).onClick(canvas, (e, s) {
-		//		screenHandler.setFullScreen(!screenHandler.isFullScreen());
-		//});
 
 		querySelector('#gameLogin').onClick.listen((event) {
 			InputElement input = querySelector('#gameToken') as InputElement;
