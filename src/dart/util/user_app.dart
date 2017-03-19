@@ -13,21 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-library Computer_Science_Project_database;
+library Computer_Science_Project_user;
 
 import 'dart:html';
-import 'dart:math';
 import 'package:logging/logging.dart';
-import 'dart:async';
 import 'dart:js' as js;
 import 'package:json_object/json_object.dart';
 
 import 'toolbox.dart';
+import 'database/database.dart';
 
-part 'database/main.dart';
-part 'database/game.dart';
-
-final Logger logDatabase = Util.createdLogger('database');
+final Logger log = Util.createdLogger('user');
 
 void main() {
 	DataBaseConnection db = new DataBaseConnection();
@@ -93,7 +89,7 @@ void main() {
 	querySelector('#removeStudentConfirm').onClick.listen((event) {
 		var name = rmSelector.item(rmSelector.selectedIndex).attributes['name'];
 		db.removeUser(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
-			logDatabase.info(json);
+			log.info(json);
 			js.context.callMethod(r'$', ['#modelUserRemove']).callMethod('modal', ['hide']);
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['hide']);
 

@@ -27,7 +27,7 @@ import 'package:vector_math/vector_math.dart';
 import 'dart:js' as js;
 
 import 'util/toolbox.dart';
-import 'util/database.dart';
+import 'util/database/database.dart';
 
 part 'entity.dart';
 part 'game.dart';
