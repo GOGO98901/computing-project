@@ -24,6 +24,7 @@ import 'package:json_object/json_object.dart';
 import '../toolbox.dart';
 
 part 'functions.dart';
+part 'game.dart';
 
 final Logger logDatabase = Util.createdLogger('database');
 
@@ -112,6 +113,38 @@ class DataBaseConnection {
 				logDatabase.warning(error);
 			}
 			completer.complete(id);
+		});
+		return completer.future;
+	}
+
+	Future<List> get gameTasks {
+		Completer<List> completer = new Completer();
+		query.getQueryList("SELECT * FROM `cs_task` WHERE 1").then((list) {
+			List<Task> taskList = new List<Task>();
+			list.forEach((item) => taskList.add(Task.fromItem(item)));
+			completer.complete(taskList);
+		});
+		return completer.future;
+	}
+
+	Future<List> createNewGame(int studentId) {
+		Completer<List> completer = new Completer();
+		gameTasks.then((tasks) {
+			int size = tasks.length;
+			List<Task> game = new List<Task>();
+			for (int i = 0; i < 5; i++) {
+				Task t = null;
+				for (int a = 0; a < 3; a++) {
+					int index = _random.nextInt(size);
+					Task t = tasks[index];
+					if (!t.used) break;
+				}
+				if (t != null) {
+					t.used = true;
+					game.add(t);
+				}
+			}
+			completer.complete(game);
 		});
 		return completer.future;
 	}

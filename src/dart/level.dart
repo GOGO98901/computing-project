@@ -18,7 +18,7 @@ part of Computer_Science_Project;
 class GameLevel {
     static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, UserManagement managemnt) {
         GameLevel level = new GameLevel(problems, canvas, managemnt);
-        // At this point I could also set the number of shapes needed
+        managemnt.database.createNewGame(0).then((game) => level.gameTasks = game);
         return level;
     }
 
@@ -33,6 +33,8 @@ class GameLevel {
     EntityHandler<Asteroid> _asteroids;
     EntityHandler<SpaceTrash> _shapes;
     EntityHandler<Mob> _currentMob;
+
+    List<Task> _gameTasks;
 
     // ignore: unused_field
     UserManagement _userManagement;
@@ -156,6 +158,12 @@ class GameLevel {
     void addPoints(int points) {
         this._score += points;
         ResourceManager.playAudio("game.event.points");
+    }
+
+    List<Task> get gameTasks => _gameTasks;
+    void set gameTasks(List<Task> tasks) {
+        _gameTasks.clear();
+        _gameTasks = tasks;
     }
 
     int get score => _score;

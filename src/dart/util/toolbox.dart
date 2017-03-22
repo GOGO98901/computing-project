@@ -93,7 +93,7 @@ class Util {
 
 	static String resetFont([CanvasRenderingContext2D context]) {
 		String font = "24pt KenVector Future";
-		font = "Coda";
+		font = "24pt Coda";
 		if (context != null) context.font = font;
 		return font;
 	}

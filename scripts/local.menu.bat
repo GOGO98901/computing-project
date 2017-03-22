@@ -45,6 +45,7 @@ if %option%==5 (
 )
 if %option%==6 (
 	rd /s /q "_site/assets/images"
+	rd /s /q "_site/assets/audio"
 	rd /s /q "_site/assets/problems"
 	rd /s /q "_site/assets/script/dart"
 	rd /s /q "_site/assets/script/javascript"
