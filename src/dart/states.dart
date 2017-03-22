@@ -225,7 +225,7 @@ class StateLogin extends State {
 		if (_station.complete) {
 			context..save()
     		..translate((GameHost.width / 1.4) + (4 * sin(5 + _hover)), (GameHost.height / 2) + (12 * sin(_hover * 1.5)))
-   			..rotate(45 * PI / 180)
+   			..rotate((45 + (1.5 * sin(_hover * 0.75))) * PI / 180)
    			..drawImage(_station.texture, -_station.width / 2, -_station.height / 2)
    			..restore();
 		}
