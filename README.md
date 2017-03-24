@@ -4,12 +4,12 @@ This is the source code for my [A Level](https://en.wikipedia.org/wiki/GCE_Advan
 
 |title|institution|development period|language|license|
 |:----:|:---------:|:----------------:|:------:|:------:|
-|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![license][https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square]](LICENSE)|
+|To be determined|[Godalming College](http://www.godalming.ac.uk/)|Autumn 2016 - ongoing|[dart](https://www.dartlang.org/)|[![license](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](LICENSE)|
 
 |branch|status|
 |:----:|:----:|
-|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![Buis Status][https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square]](http://travis-ci.org/GOGO98901/computing-project/branches)|
-|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![Build Status][https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square]](http://travis-ci.org/GOGO98901/computing-project/branches)[![alt text][project-deps]](pubspec.yaml)|
+|[prototype](https://github.com/GOGO98901/computing-project/tree/prototype)|[![Build Status](https://img.shields.io/travis/GOGO98901/computing-project/prototype.svg?style=flat-square)](http://travis-ci.org/GOGO98901/computing-project/branches)|
+|[project](https://github.com/GOGO98901/computing-project/tree/project)|[![Build Status](https://img.shields.io/travis/GOGO98901/computing-project/project.svg?style=flat-square)](http://travis-ci.org/GOGO98901/computing-project/branches)|
 |[gh-pages](https://github.com/GOGO98901/computing-project/tree/gh-pages)|building from project|
 
 ### Usage
@@ -20,7 +20,7 @@ My project is being build to [github pages](http://gogo98901.github.io/computing
 
 - Dart ([latest](https://www.dartlang.org/))
 - Jekyll ([latest](https://jekyllrb.com/))
-    - Requires [Ruby](https://www.ruby-lang.org/en/) [Gems](https://rubygems.org/)
+- Requires [Ruby](https://www.ruby-lang.org/en/) [Gems](https://rubygems.org/)
 
 #### Instructions
 
@@ -31,8 +31,7 @@ git submodule update --recursive --remote
 ```
 
 2. Any Changes to code should happen here.
-
-    Example Changes may include:
+    <br>Example Changes may include:
     - Changes the database URL
     - Change/Addition/Remove of assets
     - And many more
@@ -49,14 +48,13 @@ pub build ./_site --mode=release
 ```
 
 5. Ready for deployment
-
-    The built project now sits in the `build/_site` directory
+    <br>The built project now sits in the `build/_site` directory
 
 ## Licenses
 
 ##### [Source Code](https://github.com/GOGO98901/computing-project/) `./`
 
-```
+```markup
 Copyright 2016-2017 Rory Claasen
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -74,7 +72,7 @@ limitations under the License.
 
 ##### [bootswatch](http://bootswatch.com) `./public/assets/styles/_variables.scss`
 
-```
+```markup
 The MIT License (MIT)
 
 Copyright (c) 2013 Thomas Park
@@ -100,7 +98,7 @@ THE SOFTWARE.
 
 #### [js-cookie](https://github.com/js-cookie/) `./src/javascript/js.cookie.js`
 
-```
+```markup
 Copyright 2014 Klaus Hartl
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -125,7 +123,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #### [compress](http://jch.penibelst.de/) `./public/_layouts/compress.html`
 
-```
+```markup
 The MIT License (MIT)
 
 Copyright (c) 2014 Anatol Broder
@@ -151,20 +149,20 @@ SOFTWARE.
 
 #### [iziToast](https://github.com/dolce/iziToast) `./public/assets/iziToast`
 
-```
+```markup
 Copyright 2016 Marcelo Dolce
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
 
 #### [OpenGameArt.org *Assets*](http://opengameart.org/)

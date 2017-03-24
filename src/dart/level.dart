@@ -162,7 +162,7 @@ class GameLevel {
 
     List<Task> get gameTasks => _gameTasks;
     void set gameTasks(List<Task> tasks) {
-        _gameTasks.clear();
+        if (_gameTasks != null) _gameTasks.clear();
         _gameTasks = tasks;
     }
 
