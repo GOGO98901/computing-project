@@ -76,7 +76,7 @@ class DataBaseConnection {
 	/// Gets the user with the [token] from the database
 	Future<JsonObject> getStudentFromToken(String token) {
 		Completer<JsonObject> completer = new Completer();
-		query.getQueryList("SELECT * FROM `cp_students` WHERE login = '${token}'").then((list) => completer.complete(_getUserFromList(list)));
+		query.getQueryList("SELECT * FROM `cs_students` WHERE login = '${token}'").then((list) => completer.complete(_getUserFromList(list)));
 		return completer.future;
 	}
 
