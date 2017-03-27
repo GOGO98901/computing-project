@@ -103,17 +103,19 @@ class DataBaseConnection {
 
 	/// Gets the next id from the table [cp_students] from the database
 	Future<int> getNextId({String table}) {
-		if (table == null) table = 'cs_students';
 		Completer<int> completer = new Completer();
-		query.getQueryList("SHOW TABLE STATUS LIKE '$table'").then((list) {
-			int id = 0;
-			try  {
-				id = int.parse(list[0].Auto_increment);
-			} catch(error) {
-				logDatabase.warning(error);
-			}
-			completer.complete(id);
-		});
+		if (table == null) completer.complete(-1);
+		else {
+			query.getQueryList("SHOW TABLE STATUS LIKE '$table'").then((list) {
+				int id = 0;
+				try  {
+					id = int.parse(list[0].Auto_increment);
+				} catch(error) {
+					logDatabase.warning(error);
+				}
+				completer.complete(id);
+			});
+		}
 		return completer.future;
 	}
 
@@ -134,9 +136,11 @@ class DataBaseConnection {
 			List<Task> game = new List<Task>();
 			for (int i = 0; i < 5; i++) {
 				Task t = null;
+				// Tries to find a task that it hasen't used yet
+				// Then gives up after 3 attempts
 				for (int a = 0; a < 3; a++) {
 					int index = _random.nextInt(size);
-					Task t = tasks[index];
+					t = tasks[index];
 					if (!t.used) break;
 				}
 				if (t != null) {
@@ -144,6 +148,13 @@ class DataBaseConnection {
 					game.add(t);
 				}
 			}
+			query.sendQuery("INSERT INTO `cs_game`(`student_id`, `date`) VALUES ('$studentId', '${new DateTime.now()}')").then((result) {
+				getNextId(table: 'cs_game').then((id) {
+					game.forEach((t) {
+						query.sendQuery("INSERT INTO `cs_game_tasks`(`game_id`, `task_id`, `score`) VALUES (${id - 1}, ${t.id}, 0)");
+					});
+				});
+			});
 			completer.complete(game);
 		});
 		return completer.future;
