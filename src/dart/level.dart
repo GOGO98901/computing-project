@@ -18,7 +18,8 @@ part of Computer_Science_Project;
 class GameLevel {
     static GameLevel newLevel(CanvasElement canvas, ProblemManager problems, UserManagement managemnt) {
         GameLevel level = new GameLevel(problems, canvas, managemnt);
-        managemnt.database.createNewGame(0).then((game) => level.gameTasks = game);
+        if (managemnt.loggedIn) managemnt.database.createNewGame(managemnt.currentUser.id).then((game) => level.gameTasks = game);
+        else managemnt.database.createNewGame(0).then((game) => level.gameTasks = game);
         return level;
     }
 
@@ -73,6 +74,7 @@ class GameLevel {
 					ResourceManager.playAudio("game.entity.trash.${_random.nextInt(5) + 1}");
                     if (!_freeze && _currentProblemGui == null) {
                         _freeze = true;
+                        // TODO Change to use TASK not problem
                         ProblemTypeItem item = problems.randomProblemType;
                         _currentProblemGui = new GuiTypeSelector(50, GameHost.height - 140, item.question, item.options, canvas);
                         _currentProblemGui.visible = true;

@@ -152,6 +152,7 @@ class DataBaseConnection {
 				getNextId(table: 'cs_game').then((id) {
 					game.forEach((t) {
 						query.sendQuery("INSERT INTO `cs_game_tasks`(`game_id`, `task_id`, `score`) VALUES (${id - 1}, ${t.id}, 0)");
+						t.used = false;
 					});
 				});
 			});
