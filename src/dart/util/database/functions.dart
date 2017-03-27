@@ -27,7 +27,7 @@ class QueryManager {
     /// Carries out the query then returns the result as a `JsonList`
     Future<JsonList> getQueryList(String query) {
         Completer<JsonList> completer = new Completer();
-        getQuery(query).then((json) {
+        runQuery(query).then((json) {
             JsonList list = null;
             try {
                 list = new JsonList.fromString(json.output.toString());
@@ -40,16 +40,20 @@ class QueryManager {
     }
 
     /// Carries out the query then returns the result as a `JsonObject`
-    Future<JsonObject> getQuery(String query) {
+    Future<JsonObject> runQuery(String query) {
         Completer<JsonObject> completer = new Completer();
-        sendQuery(query).then((response) {
-            completer.complete(new JsonObject.fromJsonString(response));
+        _sendQuery(query).then((response) {
+            JsonObject obj = new JsonObject.fromJsonString(response);
+            if (obj['error'] != null) {
+                Notify.error("SQL Error", obj.error);
+            }
+            completer.complete(obj);
         });
         return completer.future;
     }
 
     /// Carries out the query then returns the result as a `String` formatted like Json
-    Future<String> sendQuery(String query) {
+    Future<String> _sendQuery(String query) {
         logDatabase.info('Sending query "' + query + '"');
         Completer<String> completer = new Completer();
         HttpRequest req = new HttpRequest();
@@ -58,6 +62,7 @@ class QueryManager {
             if(req.status == 200 || req.status == 0) {
                 completer.complete(req.response as String);
             } else {
+                Notify.error("Can\'t load url $querySite.", "Response type $req.status");
                 completer.complete('{"error": "Can\'t load url ${querySite}. Response type ${req.status}"}');
             }
         });

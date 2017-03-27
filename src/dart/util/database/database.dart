@@ -48,7 +48,7 @@ class DataBaseConnection {
 		getNextId(table: 'cs_students').then((id) {
 			String token = _randomLogin(id);
 			logDatabase.info("New login token " + token);
-			query.getQuery("INSERT INTO `cs_students`(`token`, `name`) VALUES ('$token', '$name')").then((json) {
+			query.runQuery("INSERT INTO `cs_students`(`token`, `name`) VALUES ('$token', '$name')").then((json) {
 				json.isExtendable = true;
 				json.name = name;
 				json.token = token;
@@ -62,7 +62,7 @@ class DataBaseConnection {
 	/// Removes the user with the [id] from the database
 	Future<JsonObject> removeUser(int id) {
 		Completer<JsonObject> completer = new Completer();
-		query.getQuery("DELETE FROM `cs_students` WHERE `id` = ${id}").then((json) =>	completer.complete(json));
+		query.runQuery("DELETE FROM `cs_students` WHERE `id` = ${id}").then((json) =>	completer.complete(json));
 		return completer.future;
 	}
 
@@ -148,10 +148,10 @@ class DataBaseConnection {
 					game.add(t);
 				}
 			}
-			query.sendQuery("INSERT INTO `cs_game`(`student_id`, `date`) VALUES ('$studentId', '${new DateTime.now()}')").then((result) {
+			query.runQuery("INSERT INTO `cs_game`(`student_id`, `date`) VALUES ('$studentId', '${new DateTime.now()}')").then((result) {
 				getNextId(table: 'cs_game').then((id) {
 					game.forEach((t) {
-						query.sendQuery("INSERT INTO `cs_game_tasks`(`game_id`, `task_id`, `score`) VALUES (${id - 1}, ${t.id}, 0)");
+						query.runQuery("INSERT INTO `cs_game_tasks`(`game_id`, `task_id`, `score`) VALUES (${id - 1}, ${t.id}, 0)");
 						t.used = false;
 					});
 				});
