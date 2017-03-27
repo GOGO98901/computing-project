@@ -39,8 +39,14 @@ class UserManagement {
 				completer.complete(false);
 			} else {
 				log.info("Found user attempting to log in. ${json}");
-				currentUser = new UserData(json.token, json.id, json.name, json['class']);
-				completer.complete(true);
+				try {
+					currentUser = new UserData(json.token, json.id, json.name, json['class']);
+					completer.complete(true);
+				} catch (e) {
+					log.warning(e);
+					currentUser = null;
+					completer.complete(false);
+				}
 			}
 		});
 		return completer.future;
