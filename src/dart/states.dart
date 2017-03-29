@@ -148,7 +148,7 @@ class StateIntro extends State {
 		_logo = ResourceManager.getSprite('logo.roryclaasen.white');
 		_gui['skip'] = new GuiButtonElement(canvas, GameHost.width - GuiButtonElement.fWidth - 20, GameHost.height - GuiButtonElement.fHeight - 20, "skip");
 		(_gui['skip'] as GuiButtonElement).disabled = false;
-		(_gui['skip'] as GuiButtonElement)..listen(canvas, (e, s) {
+		(_gui['skip'] as GuiButtonElement).listen(canvas, (e, s) {
 			_manager.changeState('login');
 		});
 	}
