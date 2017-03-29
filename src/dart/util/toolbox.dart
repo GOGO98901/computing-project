@@ -173,7 +173,7 @@ class Spec {
 					logUtil.info("[${name}] ${version}#${build}");
 				}
 			});
-		} else logUtil.warning("skiped loading pubspec due to runnign local host");
+		} else logUtil.warning("skiped loading pubspec due to running local host");
 	}
 
 	String get name => _get('name');

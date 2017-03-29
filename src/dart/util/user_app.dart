@@ -81,7 +81,7 @@ void main() {
 		if (rmSelector.selectedIndex > 0) {
 			db.getStudent(int.parse(rmSelector.item(rmSelector.selectedIndex).attributes['id'])).then((json) {
 				querySelector('#userRemoveConfirmName').text = json.name;
-				querySelector('#userRemoveConfirmToken').text = json.login;
+				querySelector('#userRemoveConfirmToken').text = json.token;
 			});
 			js.context.callMethod(r'$', ['#modelUserRemoveConfirm']).callMethod('modal', ['show']);
 		}
