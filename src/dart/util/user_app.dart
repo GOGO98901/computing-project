@@ -67,10 +67,10 @@ void main() {
 			element.children.add(option);
 			for (JsonObject json in list) {
 				OptionElement option = new OptionElement();
-				option.text = json.name + " (" + json.login + ")";
+				option.text = json.name + " (" + json.token + ")";
 				option.attributes['id'] = json.id;
 				option.attributes['name'] = json.name;
-				option.attributes['login'] = json.login;
+				option.attributes['token'] = json.token;
 				element.children.add(option);
 			}
 		});
