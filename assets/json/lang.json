@@ -1,0 +1,27 @@
+{
+    "game": {
+        "misc": {
+            "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit quam a augue congue sollicitudin. Fusce massa lectus, mollis non imperdiet vitae, posuere et augue."
+        },
+        "msg" :{
+            "help": {
+                "continue": "Tap to continue",
+                "close": "Tap to close",
+                "skip": "Tap to skip"
+            },
+            "intro": {
+                "1":"Welcome $1, you have been stranded in space",
+                "2": "You must collect the 'Space Trash' to rebuild and defend your station.\nGood Luck"
+            }
+        },
+        "word": {
+            "shapes": "Shapes"
+        },
+        "problem": {
+            "answer": {
+                "correct": "Congratulations you got that right!",
+                "wrong" : "Incorrect, Better luck next time"
+            }
+        }
+    }
+}

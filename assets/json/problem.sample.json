@@ -1,0 +1,38 @@
+{
+  "problems": [{
+      "level": 0,
+      "data" :{
+        "question": "A sample?",
+        "answer" : 0,
+        "options": ["An option", "Antother Option", "And another one!"]
+      }
+    },
+    {
+        "level": 0,
+        "data" :{
+          "question": "A sample? but is it new?",
+          "answer" : 1,
+          "options": ["An option", "Antother Option", "And another one!"]
+        }
+    }],
+    "typeProblems": [{
+        "question": "What is this test question?",
+        "options": ["game.enities.metor.small.1", "game.enities.metor.small.1"],
+        "answer": [0]
+    },
+    {
+        "question": "What is this other test question?",
+        "options": ["game.enities.metor.small.1", "game.enities.metor.med.1", "game.enities.metor.small.1"],
+        "answer": [1]
+    },
+    {
+        "question": "I am a copy!",
+        "options": ["game.enities.metor.small.1", "game.enities.metor.med.1", "game.enities.metor.small.1"],
+        "answer": [2]
+    },
+    {
+        "question": "4 answers?",
+        "options": ["game.enities.metor.med.1", "game.enities.metor.small.1", "game.enities.metor.big.1", "game.enities.metor.small.1"],
+        "answer": [0, 3]
+    }]
+}
